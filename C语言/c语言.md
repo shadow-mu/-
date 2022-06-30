@@ -2370,3 +2370,251 @@ int main(int argv,char const *argv[])
 
 argv[0]是命令本身
 当使用Unix的符号链接时，反映符号链接的名字
+
+##### 函数
+
+**putchar**
+
+```c
+int putchar(int c);
+//向标准输出写一个字符
+//返回写了几个字符，EOF（-1)表示写失败
+```
+
+**getchar**
+
+```c
+int getchar(void);
+//从标准输入读入一个字符
+//返回类型是int是为了返EOF（-1)
+	//windows->Ctrl-Z
+	//Unix->Ctrl-D
+```
+
+```c
+#include <stdio.h>
+int main(int argc,char const *argv[]){
+	int ch;
+	while((ch=getchar())!=EOF){
+		putchar(ch);
+	} 
+	printf("EOF\n");
+	return 0;
+} 
+```
+
+
+
+**字符串函数 string.h**
+
+```c
+strlen
+strcmp
+strcpy
+strcat
+strchr
+strstr
+```
+
+**strlen**
+
+```c
+size_t strlen(const char *s);
+//返回s的字符串长度（不包括结尾的0）
+```
+
+```c
+#include <stdio.h>
+#include <string.h>
+int mylen(const char*s){
+	int index=0;
+	while(s[index] != '\0'){
+		index++;
+	}
+	return index;
+}
+int main(int argc,char const *argv[]){
+	char line[]="hello";
+	printf("strlen=%lu\n",strlen(line));
+	printf("sizeof=%lu\n",sizeof(line));
+	printf("mylen=%lu\n",mylen(line));
+	return 0;
+} 
+```
+
+**strcmp**
+
+```c
+int strcmp(const char *s1,const char *s2);
+//比较两个字符串，返回：
+	// 0 :  S1==S2
+	// 1 :  s1>s2
+	//-1 : 	s1<s2
+```
+
+```c
+#include <stdio.h>
+#include <string.h>
+int mycnp(const char *s1,const char *s2){
+//	int index=0;
+//	while(s1[index]==s2[index]&&s1[index]!='\0'){
+//		index++;
+//	}
+//	return s1[index]-s2[index];
+	while(*s1==*s2&&*s1!='\0'){
+		s1++;
+		s2++;
+	}
+	return *s1 -*s2;
+}
+int main(int argc,char const *argv[]){
+	char s1[]="abc";
+	char s2[]="abc";
+	char s3[]="bbc";
+	char s6[]="Abc";
+	printf("%d\n",strcmp(s1,s2));
+	printf("%d\n",strcmp(s1,s3));
+	printf("%d\n",strcmp(s1,s6));
+	printf("%d\n",mycnp(s1,s2));
+	printf("%d\n",mycnp(s1,s3));
+	printf("%d\n",mycnp(s1,s6));
+	return 0;
+} 
+```
+
+**strcpy**
+
+```c
+char * strcpy(char *restrict dst,const char *restrict src);
+//把src的字符串拷贝到dst
+	//restrict表明src和dst不重叠(C99)
+//返回dst
+	//为了能链起代码来
+```
+
+复制一个字符串
+
+```c
+char *dst =(char*)malloc(strlen(src)+1);
+strcpy(dst,src);
+```
+
+```c
+#include <stdio.h>
+#include <string.h>
+int mycnp(char *dat,const char *src){
+//	int idx=0; //数组写法 
+//	while(src[idx]){
+//		dat[idx]=src[idx];
+//		idx++;
+//	}
+//	dat[idx]='\0';
+	
+	char* ret=dst;
+	while(*dat++ =*src++;){ //指针写法 
+	} 
+	*dat = '\0';
+	return ret;
+}
+int main(int argc,char const *argv[]){
+	char s1[]="abc";
+	char s2[]="abc";
+	strcpy(s1,s2);
+	//printf("%d\n",mycnp(s1,s6));
+	return 0;
+} 
+
+```
+
+**strcat**
+
+```c
+char strcat(char *restrict s1,const char *restrict s2);
+//把s2拷贝到s1的后面，接成一个长的字符串
+//返回s1
+//s1必须具有足够的空间
+```
+
+安全问题
+
+strcpy和strcat都可能出现安全问题
+如果目的地没有足够的空间？
+
+安全版本
+
+```c
+char*strncpy(char *restrict dst,const char *restrict src,size_t n);
+char*strncat(char *restrict s1,const char *restrict s2,size_t n);
+int strncmp(const char *s1,const char *s2,size_t n);
+```
+
+size_t n 表示大小
+
+**字符串中找字符**
+
+```c
+char *strchr(const char *s,int c);//左边第一次出现的位置返回指针
+char *strrchr(const char *s,int c);//右边第一次出现的位置返回指针
+//返回NULL表示没有找到
+```
+
+
+如何寻找第2个？
+
+```c
+#include <stdio.h>
+#include <string.h>
+int main(int argc,char const *argv[]){
+	char s[]="hello";
+	char *p=strchr(s,'l');
+	p=strchr(p+1,'l');
+	printf("%s\n",p);
+	return 0;
+} 
+
+```
+
+找到后想要后面的内容
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int main(int argc,char const *argv[]){
+	char s[]="hello";
+	char *p=strchr(s,'l');
+	char *t=(char*)malloc(strlen(p)+1);
+	strcpy(t,p);
+	printf("%s\n",t);
+	free(t); 
+	return 0;
+} 
+```
+
+找到后想要前面的内容
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int main(int argc,char const *argv[]){
+	char s[]="hello";
+	char *p=strchr(s,'l');
+	char c=*p;
+	*p='\0';
+	char *t=(char*)malloc(strlen(s)+1);
+	strcpy(t,s);
+	printf("%s\n",t);
+	free(t); 
+	return 0;
+} 
+
+```
+
+**字符串中找字符串**
+
+```c
+char *strstr(const char *s1,const char *s2);//寻找一个字符串的
+char *strcasestr(const char *s1,const char *s2);//忽略大小写
+```
+
