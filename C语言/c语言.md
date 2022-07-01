@@ -2618,3 +2618,166 @@ char *strstr(const char *s1,const char *s2);//寻找一个字符串的
 char *strcasestr(const char *s1,const char *s2);//忽略大小写
 ```
 
+### 10.结构
+
+##### 枚举
+
+```c
+#include <stdio.h>
+enum COLOR {RED , YELLOW ,GREEN};
+int main (int argc, char const *argv[]){
+	int color=-1;
+	char *colorName=NULL;
+	printf("输入你喜欢的颜色代码");
+	scanf("%d",&color);
+	switch(color){
+		case RED:colorName="red";break;
+		case YELLOW:colorName="yellow";break;
+		case GREEN:colorName="green";break;
+		default:colorName="unknown";break;
+	} 
+	printf("你喜欢的颜色是%s\n",colorName);
+} 
+```
+
+用枚举而不是定义独立的const int变量
+
+**枚举是什么**
+
+枚举是一种用户定义的数据类型，它用关键字 enum 以如下语法来声明：
+
+```c
+enum 枚举类型名字 {名字0,…,名字n};
+```
+
+枚举类型名字通常并不真的使用，要用的是在大括号里的名字，因为它们就是就是常量符号，它们的类型是int，值则依次从0到n。如:
+
+```c
+enum colors{ red, yellow,green } ;
+```
+
+就创建了三个常量，red的值是0，yellow是1，而green是2。
+当需要一些可以排列起来的常量值时，定义枚举的意义就是给了这些常量值名字。
+
+
+
+```c
+#include <stdio.h>
+enum color {red , yellow ,green};
+void f(enum color c);
+int main(void){
+	enum color t =red;
+	scanf("%d",&t);
+	f(t);
+	return 0;
+} 
+void f(enum color c){
+	printf("%d\n",c);
+}
+
+```
+
+1. 枚举量可以作为值
+2. 枚举类型可以跟上enum作为类型
+3. 但是实际上是以整数来做内部计算和外部输入输出的
+
+**小套路**
+
+<img src="img/image-20220701140544453.png" alt="image-20220701140544453" style="zoom:67%;" />
+
+这样需要遍历所有的枚举量或者需要建立一个用枚举量做下标的数组的时候就很方便了
+
+**枚举量**
+
+声明枚举量的时候可以指定值
+
+```c
+enum COLOR { RED=1,YELLOW,GREEN = 5};
+```
+
+![image-20220701141618881](img/image-20220701141618881.png)
+
+**枚举只是int**
+
+![image-20220701141705650](img/image-20220701141705650.png)
+
+即使给枚举类型的变量赋不存在的整数值也没有任何warning或error
+
+1. 虽然枚举类型可以当作类型使用，但是实际上很(bu)少(hao)用
+2. 如果有意义上排比的名字，用枚举比const int方便
+3. 枚举比宏（macro）好，因为枚举有int类型
+
+##### 结构
+
+**声明结构类型**
+
+```c
+#include <stdio.h>
+int main (int argc, char const *argv[]){
+	struct date{
+		int month;
+		int day;
+		int year;
+	};
+	struct date today;
+	today.month=07;
+	today.day=1;
+	today.year=2022;
+	
+	printf("今天是 %i-%i-%i.\n",today.year,today.month,today.day);
+	return 0;
+} 
+```
+
+**在函数内/外？**
+
+1. 和本地变量一样，在函数内部声明的结构类型只能在函数内部使用<img src="img/image-20220701143416569.png" alt="image-20220701143416569" style="zoom:50%;" />
+2. 所以通常在函数外部声明结构类型，这样就可以被多个函数所使用了
+
+**声明结构的形式**
+
+<img src="img/image-20220701143536015.png" alt="image-20220701143536015" style="zoom: 67%;" /><img src="img/image-20220701143637178.png" alt="image-20220701143637178" style="zoom:67%;" /><img src="img/image-20220701143719861.png" alt="image-20220701143719861" style="zoom:67%;" />
+
+对于第一和第三种形式都声明 结构point 但是没有声明point . 只是定义 两个变量
+
+**结构变量**
+
+<img src="img/image-20220701143939216.png" alt="image-20220701143939216" style="zoom:67%;" /><img src="img/image-20220701143956283.png" alt="image-20220701143956283" style="zoom:67%;" />
+
+**结构的初始化**
+
+<img src="img/image-20220701144137347.png" alt="image-20220701144137347" style="zoom:67%;" />
+
+给的值填进去没赋值填0
+
+**结构成员**
+
+1. 结构和数组有点像
+
+2. 数组用[ ]运算符和下标访问其成员
+
+   ```
+   a[0] = I0;
+   ```
+
+3. 结构用 运算符和名字访问其成员
+
+   ```
+   today.day
+   student.firstName
+   pl.x
+   pl.y
+   ```
+
+**结构运算**
+
+1. 要访问整个结构，直接用结构变量的名字
+
+2. 对于整个结构，可以做赋值、取地址，也可以传递给函数参数
+
+   ```c
+   pl = (struct point){5,10}; //相当于pl.x = 5;pl.y = 10;
+   pl=p2;//相当于plx=p2.x;pl.y = p2.y;
+   ```
+
+   
