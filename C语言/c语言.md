@@ -2826,4 +2826,7 @@ int numberofDays(struct date d)
 
 ![image-20220701172132274](img/image-20220701172132274.png)![image-20220701172140610](img/image-20220701172140610.png)
 
-指向结构的指针
+**指向结构的指针**
+
+<img src="img/image-20220701172329210.png" alt="image-20220701172329210" style="zoom:67%;" /> <>用-/>表示指针所指的结构变量中的成员
+
