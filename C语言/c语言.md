@@ -385,6 +385,105 @@ return 0;
 
 3. a=b+=c++-d+--e/-f 
 
+##### 全局变量
+
+1. 定义在函数外面的变量是全局变量
+
+2. 全局变量具有全局的生存期和作用域
+
+   它们与任何函数都无关
+
+   在任何函数内部都可以使用它们
+
+   ```c
+   int gAll=12;
+   int main(int argc,char const *argv[]){
+   	printf("in %s gAll=%d\n",__func__,gAll);
+   	f();
+   	printf("agn in %s gAll=%d\n",__func__,gAll); 
+   	return 0;
+   }
+   int f(void){
+   	printf("in %s gAll=%d\n",__func__,gAll);
+   	gAll+=2; 
+   	printf("agn in %s gAll=%d\n",__func__,gAll); 
+   	return gAll;
+   }
+   ```
+
+   __func__表示在哪个位置
+
+##### 全局变量初始化
+
+1. 没有做初始化的全局变量会得到0值
+
+   指针会得到NULL值
+
+2. 只能用编译时刻已知的值来初始化全局变量
+
+3. 它们的初始化发生在main函数之前
+
+   ```c
+   #include <stdio.h>
+   int f(void);
+   int gAll;
+   int main(int argc,char const *argv[]){
+   	printf("in %s gAll=%d\n",__func__,gAll);
+   	f();
+   	printf("agn in %s gAll=%d\n",__func__,gAll); 
+   	return 0;
+   }
+   int f(void){
+   	printf("in %s gAll=%d\n",__func__,gAll);
+   	gAll+=2; 
+   	printf("agn in %s gAll=%d\n",__func__,gAll); 
+   	return gAll;
+   }
+   ```
+
+**被隐藏的全局变量**
+
+如果函数内部存在与全局变量同名的变量，则全局变量被隐藏
+
+##### 静态本地变量
+
+1. 在本地变量定义时加上static修饰符就成为静态本地变量
+
+2. 当函数离开的时候，静态本地变量会继续存在并保持其值
+
+3. 静态本地变量的初始化只会在第一次进入这个函数时做，以后进入函数时会保持上次离开时的值
+
+   ```c
+   #include <stdio.h>
+   int f(void);
+   int gAll=12;
+   int main(int argc,char const *argv[]){
+   	f(); 
+   	f();
+   	f();  
+   	return 0;
+   }
+   int f(void){
+   	static int all =1;
+   	printf("in %s gAll=%d\n",__func__,all);
+   	all+=2; 
+   	printf("agn in %s gAll=%d\n",__func__,all); 
+   	return all;
+   }
+   ```
+
+   ![image-20220702170455454](img/image-20220702170455454.png)
+
+   
+
+   1. 静态本地变量实际上是特殊的全局变量
+
+   2. 它们位于相同的内存区域
+
+   3. 静态本地变量具有全局的生存期，函数内的局部作用域
+
+      static在这里的意思是局部作用域（本地可访问）
+
 ### 3.判断
 
 ##### if条件判断
@@ -2829,4 +2928,73 @@ int numberofDays(struct date d)
 **指向结构的指针**
 
 <img src="img/image-20220701172329210.png" alt="image-20220701172329210" style="zoom:67%;" /> <>用-/>表示指针所指的结构变量中的成员
+
+
+
+##### 结构中的结构
+
+**结构数组**
+
+```c
+struct date dates[100];
+struct date dates[] ={{4,5,2005},{2,4,2005}};
+```
+
+**结构中的结构**
+
+```c
+struct dateAndTime{
+struct date sdate;
+struct time stime;
+}
+```
+
+**嵌套的结构**
+
+<img src="img/image-20220702145755966.png" alt="image-20220702145755966" style="zoom:67%;" /><img src="img/image-20220702145812033.png" alt="image-20220702145812033" style="zoom: 67%;" />
+
+##### 类型定义
+
+**自定义数据类型(typedef)**
+
+C语言提供了一个叫做typedef的功能来声明一个已有的数据类型的新名字。比如:
+
+```c
+typedef int Length;
+```
+
+使得 Length 成为 int 类型的别名。
+
+这样，Length 这个名字就可以代替int出现在变量定义和参数声明的地方了：
+
+```c
+Length  a, b,len ;
+Length  numbers[10] ;
+```
+
+**typedef**
+
+声明新的类型的名字
+新的名字是某种类型的别名
+改善了程序的可读性
+
+<img src="img/image-20220702153040805.png" alt="image-20220702153040805" style="zoom:80%;" />
+
+<img src="img/image-20220702153203160.png" alt="image-20220702153203160" style="zoom:80%;" />
+
+##### 联合 union
+
+**union的用处**
+
+1. 存储
+
+   所有的成员共享一个空间
+
+   同一时间只有一个成员是有效的
+
+   union的大小是其最大的成员
+
+2. 初始化
+
+   对第一个成员做初始化
 
