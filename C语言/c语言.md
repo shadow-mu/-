@@ -484,6 +484,8 @@ return 0;
 
       static在这里的意思是局部作用域（本地可访问）
 
+
+
 ### 3.判断
 
 ##### if条件判断
@@ -3277,3 +3279,181 @@ int main()
 - 运用条件编译和宏，保证这个头文件在一个编译单元中只会被#include一次
 - #pragma once也能起到相同的作用，但是不是所有的编译器都支持
 
+### 13文件操作
+
+##### 格式化的输入输出
+
+```c
+printf
+%[flags][width][.prec][hlL]type
+```
+
+**flags的含义**
+
+<img src="img/image-20220703192846876.png" alt="image-20220703192846876" style="zoom: 67%;" />
+
+```c
+#include <stdio.h>
+
+int main()
+{
+	printf("%09d\n",123);
+	printf("%+-9d\n",123);
+	return 0;
+}
+```
+
+**width或prec的含义**
+
+<img src="img/image-20220703193328664.png" alt="image-20220703193328664" style="zoom:67%;" />
+
+```c
+#include <stdio.h>
+
+int main()
+{
+	printf("%9.2f\n",123.0);
+	printf("%*d\n",6,123);
+	return 0;
+}
+```
+
+**hlL含义**
+
+<img src="img/image-20220703193702639.png" alt="image-20220703193702639" style="zoom:67%;" />
+
+**类型type**
+
+<img src="img/image-20220703193924007.png" alt="image-20220703193924007" style="zoom:67%;" />
+
+**scanf**
+
+```
+scanf
+%[flag]type
+```
+
+<img src="img/image-20220703194207254.png" alt="image-20220703194207254" style="zoom:67%;" />
+
+<img src="img/image-20220703194356094.png" alt="image-20220703194356094" style="zoom:67%;" />
+
+##### printf和scanf的返回值
+
+1. scanf读入的项目数
+2. printf输出的字符数
+3. 在要求严格的程序中，应该判断每次调用scanf或printf的返回值，从而了解程序运行中是否存在问题
+
+##### FILE
+
+```c
+FILE* fopen(const char * restrict path, const char *restrict mode);
+int fclose(FILE *stream);
+fscanf(FILE*,..)
+fprintf(FILE*,...)
+```
+
+##### 打开文件的标准代码
+
+```c
+FILE* fp = fopen("file","r");
+if(fp){
+fscanf(fp,...);
+fclose(fp);
+} else {
+	...
+}
+```
+
+例子
+
+```C
+#include <stdio.h>
+
+int main()
+{
+	FILE *fp=fopen("12.in","r");
+	if(fp){
+		int num;
+		fscanf(fp,"%d",&num);
+		printf("%%d\n",num);
+		fclose(fp);
+	} else{
+		printf("无法打开文件\n");
+	}
+	return 0;
+}
+```
+
+##### fopen
+
+<img src="img/image-20220703195837690.png" alt="image-20220703195837690" style="zoom:80%;" />
+
+##### 二进制文件
+
+- 其实所有的文件最终都是二进制的
+- 文本文件无非是用最简单的方式可以读写的文件
+- 而二进制文件是需要专门的程序来读写的文件
+- 文本文件的输入输出是格式化，可能经过转码
+
+##### 文本vs二进制
+
+1. Unix喜欢用文本文件来做数据存储和程序配置
+2. 交互式终端的出现使得人们喜欢用文本和计算机“talk”
+3. Unix的shell提供了一些读写文本的小程序
+4. Windows喜欢用二进制文件
+5. DOS是草根文化，并不继承和熟悉Unix文化
+6. PC刚开始的时候能力有限，DOS的能力更有限，二进制更接近底层
+
+**孰优孰劣**
+
+1. 文本的优势是方便人类读写，而且跨平台
+2. 文本的缺点是程序输入输出要经过格式化，开销大
+3. 二进制的缺点是人类读写困难，而且不跨平台
+4. int的大小不一致，大小端的问题...
+5. 二进制的优点是程序读写快
+
+##### 程序为什么要文件
+
+- 配置
+
+  Unix用文本，Windows用注册表
+
+- 数据
+
+  稍微有点量的数据都放数据库了
+
+- 媒体
+
+  这个只能是二进制的
+
+- 现实是，程序通过第三方库来读写文件，很少直接读写二进制文件了
+
+##### 二进制读写
+
+```c
+size_t fread(void *restrict ptr, size_t size, size_t nitems, FILE *restrict stream);
+size_t fwrite(const void *restrict ptr,size_t size,size_t nitems, FILE *restrict stream);
+```
+
+- 注意FILE指针是最后一个参数
+- 返回的是成功读写的字节数
+
+**为什么nitem?**
+
+- 因为二进制文件的读写一般都是通过对一个结构变量\的操作来进行的
+- 于是nitem就是用来说明这次读写几个结构变量！
+
+**在文件中定位**
+
+- long ftell(FILE *stream);
+- int fseek(FILE *stream,long offset, int whence);
+- SEEK_SET:从头开始
+- SEEK_CUR:从当前位置开始
+- SEEK_END：从尾开始（倒过来）
+
+**可移植性**
+
+- 这样的二进制文件不具有可移植性
+- 在int为32位的机器上写成的数据文件无法直接在int为64位的机器上正确读出
+- 解决方案之一是放弃使用int，而是typedef具有明确大小的类型
+- 更好的方案是用文本
