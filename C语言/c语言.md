@@ -3180,106 +3180,7 @@ int main()
 - error
 - ...
 
-
-
-#### 12其他
-
-##### 多个.c文件
-
-- main()里的代码太长了适合分成几个函数
-- 一个源代码文件太长了适合分成几个文件
-- 两个独立的源代码文件不能编译形成可执行程序
-
-##### 项目
-
-- 在Dev C++中新建一个项目，然后把几个源代码文件加入进去
-- 对于项目DevC++的编译会把一个项目中所有的源代码文件都编译后，链接起来
-- 有的IDE有分开的编译和构建两个按钮，前者是对单个源代码文件编译，后者是对整个项目做链接
-
-##### 编译单元
-
-- 一个.c文件是一个编译单元
-- 编译器每次编译只处理一个编译单元
-
-##### 头文件
-
-把函数原型放到一个头文件（以.h结尾）中，在需要调用这个函数的源代码文件（.c文件）中#include这个头文件，就能让编译器在编译的时候知道函数的原型
-
-1. 在使用和定义这个函数的地方都应该#include这个头文件
-2. 一般的做法就是任何.c都有对应的同名的.h，把所有对外公开的函数的原型和全局变量的声明都放进去
-
-##### #include
-
-1. #include是一个编译预处理指令，和宏一样，在编译之前就处理了
-2. 它把那个文件的全部文本内容原封不动地插入到它所在的地方
-3. 所以也不是一定要在.c文件的最前面#include![image-20220703154701099](img/image-20220703154701099.png)
-
-##### ""还是<>
-
-1. • #include有两种形式来指出要插入的文件
-
-   ""要求编译器首先在当前目录（.c文件所在的目录）寻找这个文件，如果没有，到编译器指定的目录去找
-
-   <>让编译器只在指定的目录去找
-
-2. 编译器自己知道自己的标准库的头文件在哪里
-
-3. 环境变量和编译器命令行参数也可以指定寻找头文件的目录
-
-##### #include的误区
-
--  #include不是用来引入库的
-- stdio.h里只有printf的原型，printf的代码在另外的地方，某个.lib(Windows)或.a(Unix)中
-- 现在的C语言编译器默认会引入所有的标准库
--  #include <stdio.h>只是为了让编译器知道printf函数的原型，保证你调用时给出的参数值正确的类型
-
-##### 不对外公开的函数
-
-1. 在函数前面加上static就使得它成为只能在所在的编译单元中被使用的函数
-2. 在全局变量前面加上static就使得它成为只能在所在的编译单元中被使用的全局变量
-
-##### 变量的声明
-
-1. int i;是变量的定义
-2. extern int i;是变量的声明
-3. extern int i;能让其他编译单元使用前提是需要#include
-
-##### 声明和定义
-
-1. 声明是不产生代码的东西
-
-   函数原型
-
-   变量声明
-
-   结构声明
-
-   宏声明
-
-   枚举声明
-
-   类型声明
-
-   inline函数
-
-2. 定义是产生代码的东西
-
-##### 重复声明
-
-1. 同一个编译单元里，同名的结构不能被重复声明
-2. 如果你的头文件里有结构的声明，很难这个头文件不会在一个编译单元里被#include多次
-3. 所以需要“标准头文件结构”
-
-![image-20220703160431447](img/image-20220703160431447.png)![image-20220703160441546](img/image-20220703160441546.png)
-
-##### 标准头文件结构
-
-<img src="img/image-20220703160628699.png" alt="image-20220703160628699" style="zoom:80%;" />
-
-- 运用条件编译和宏，保证这个头文件在一个编译单元中只会被#include一次
-- #pragma once也能起到相同的作用，但是不是所有的编译器都支持
-
-### 13文件操作
+### 12文件操作
 
 ##### 格式化的输入输出
 
@@ -3457,3 +3358,285 @@ size_t fwrite(const void *restrict ptr,size_t size,size_t nitems, FILE *restrict
 - 在int为32位的机器上写成的数据文件无法直接在int为64位的机器上正确读出
 - 解决方案之一是放弃使用int，而是typedef具有明确大小的类型
 - 更好的方案是用文本
+
+##### 按位运算
+
+C有这些按位运算的运算符：<img src="img/image-20220704101203447.png" alt="image-20220704101203447" style="zoom:80%;" />
+
+
+
+**按位与＆**
+
+- ![image-20220704101314378](img/image-20220704101314378.png)
+
+**按位或 1**
+
+- ![image-20220704101930973](img/image-20220704101930973.png)
+
+**按位取反～**
+
+- ![image-20220704102740625](img/image-20220704102740625.png)
+
+**逻辑运算vs按位运算**
+
+- ![image-20220704102813289](img/image-20220704102813289.png)
+
+**按位异或^**
+
+- ![image-20220704103011352](img/image-20220704103011352.png)
+
+**左移<<**
+
+- ![image-20220704103256082](img/image-20220704103256082.png)
+
+**右移>>**
+
+- ![image-20220704103541055](img/image-20220704103541055.png)
+
+**输出一个数的二进制**
+
+```c
+#include <stdio.h>
+int main(int argc,char const * argv[]){
+	int number;
+	scanf("%d",&number);
+	unsigned mask =1u<<31;
+	for(;mask;mask >>=1){
+		printf("%d",number&mask?1:0);
+	}
+	printf("\n");
+} 
+```
+
+**位段**
+
+- <img src="img/image-20220704105118992.png" alt="image-20220704105118992" style="zoom:80%;" />
+
+<img src="img/image-20220704105203479.png" alt="image-20220704105203479" style="zoom:67%;" />
+
+<img src="img/image-20220704105240750.png" alt="image-20220704105240750" style="zoom:80%;" />
+
+<img src="img/image-20220704105255502.png" alt="image-20220704105255502" style="zoom:80%;" />
+
+<img src="img/image-20220704105718936.png" alt="image-20220704105718936" style="zoom:67%;" />
+
+
+
+#### 13其他
+
+##### 多个.c文件
+
+- main()里的代码太长了适合分成几个函数
+- 一个源代码文件太长了适合分成几个文件
+- 两个独立的源代码文件不能编译形成可执行程序
+
+##### 项目
+
+- 在Dev C++中新建一个项目，然后把几个源代码文件加入进去
+- 对于项目DevC++的编译会把一个项目中所有的源代码文件都编译后，链接起来
+- 有的IDE有分开的编译和构建两个按钮，前者是对单个源代码文件编译，后者是对整个项目做链接
+
+##### 编译单元
+
+- 一个.c文件是一个编译单元
+- 编译器每次编译只处理一个编译单元
+
+##### 头文件
+
+把函数原型放到一个头文件（以.h结尾）中，在需要调用这个函数的源代码文件（.c文件）中#include这个头文件，就能让编译器在编译的时候知道函数的原型
+
+1. 在使用和定义这个函数的地方都应该#include这个头文件
+2. 一般的做法就是任何.c都有对应的同名的.h，把所有对外公开的函数的原型和全局变量的声明都放进去
+
+##### #include
+
+1. #include是一个编译预处理指令，和宏一样，在编译之前就处理了
+2. 它把那个文件的全部文本内容原封不动地插入到它所在的地方
+3. 所以也不是一定要在.c文件的最前面#include![image-20220703154701099](img/image-20220703154701099.png)
+
+##### ""还是<>
+
+1. • #include有两种形式来指出要插入的文件
+
+   ""要求编译器首先在当前目录（.c文件所在的目录）寻找这个文件，如果没有，到编译器指定的目录去找
+
+   <>让编译器只在指定的目录去找
+
+2. 编译器自己知道自己的标准库的头文件在哪里
+
+3. 环境变量和编译器命令行参数也可以指定寻找头文件的目录
+
+##### #include的误区
+
+-  #include不是用来引入库的
+-  stdio.h里只有printf的原型，printf的代码在另外的地方，某个.lib(Windows)或.a(Unix)中
+-  现在的C语言编译器默认会引入所有的标准库
+-  #include <stdio.h>只是为了让编译器知道printf函数的原型，保证你调用时给出的参数值正确的类型
+
+##### 不对外公开的函数
+
+1. 在函数前面加上static就使得它成为只能在所在的编译单元中被使用的函数
+2. 在全局变量前面加上static就使得它成为只能在所在的编译单元中被使用的全局变量
+
+##### 变量的声明
+
+1. int i;是变量的定义
+2. extern int i;是变量的声明
+3. extern int i;能让其他编译单元使用前提是需要#include
+
+##### 声明和定义
+
+1. 声明是不产生代码的东西
+
+   函数原型
+
+   变量声明
+
+   结构声明
+
+   宏声明
+
+   枚举声明
+
+   类型声明
+
+   inline函数
+
+2. 定义是产生代码的东西
+
+##### 重复声明
+
+1. 同一个编译单元里，同名的结构不能被重复声明
+2. 如果你的头文件里有结构的声明，很难这个头文件不会在一个编译单元里被#include多次
+3. 所以需要“标准头文件结构”
+
+![image-20220703160431447](img/image-20220703160431447.png)![image-20220703160441546](img/image-20220703160441546.png)
+
+##### 标准头文件结构
+
+<img src="img/image-20220703160628699.png" alt="image-20220703160628699" style="zoom:80%;" />
+
+- 运用条件编译和宏，保证这个头文件在一个编译单元中只会被#include一次
+- #pragma once也能起到相同的作用，但是不是所有的编译器都支持
+
+##### 可变数组
+
+array.h
+
+```c
+#ifndef _ARRAY_H_
+#define _ARRAY_H_
+
+typedef struct{
+	int *array;
+	int size;
+}Array;
+Array array_create(int init_size);
+void array_free(Array *a);
+int array_size(const Array *a);
+int * array_at(Array *a,int index);
+void array_inflate(Array *a,int more_size);
+ 
+#endif
+```
+
+array.c
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include "array.h"
+const BLOCK_SIZE = 20;
+Array array_create(int init_size){
+	Array a;
+	a.size=init_size;
+	a.array=(int*)malloc(sizeof(int)*a.size);
+	return a; 
+}
+void array_free(Array *a){
+	free(a->array);
+	a->array=NULL;
+	a->size=0;
+}
+//封装 
+int array_size(const Array *a){
+	return a->size;
+}
+int * array_at(Array *a,int index){
+	if ( index >= a->size ) {
+	array_inflate(a,(index/BLOCK_SIZE+1)*BL0CK_SIZE-a->size);
+	}
+	return &(a->array[index]);
+}
+int array_get(const Array *a, int index)
+{
+	return a->array[index];
+}
+void array_set(Array *a, int index, int value)
+{
+	a->array[index] = value;
+}
+void array_inflate(Array *a,int more_size){
+	int *p = (int*)malloc(sizeof(int)(a->size + more_size));
+	int i;
+	for ( i=0; i<a->size; i++ ) {
+		p[i] = a->array[i];
+	}
+	free(a->array);
+	a->array = p;
+	a->size += more_size;
+}
+ 
+
+int main(int argc,char const *argv[]){
+	Array a=array_create(100);
+	printf("%d\n", array_size(&a)；
+	*array_at(&a,0) =10;
+	printf("%d\n", *array_at(&a, 0));
+	int number =0;
+	int cnt = 0;
+	while (number != -1) {
+		scanf("%d", &number);
+		if ( number != -1 )
+			*array_at(&a, cnt++) = number;
+	}
+	array_free(&a);
+	return 0;
+}
+```
+
+
+
+##### 链表
+
+```
+#include "node.h"
+#include <stdio.h>
+
+int main(int argc, char const *argv[])
+{
+	Node * head = NULL;
+	int number;
+	do {
+	scanf("%d", &number);
+	if ( number != -1 ) {
+	// add to Linked-List
+	Node *p = (Node*)malloc(sizeof(Node));
+	p->value = number；
+	p->next = NULL;
+	// find the last
+	Node *last = head；
+	if ( last ) {
+		while ( last->next ) {
+		last = last->next；
+	}
+	//attach
+	last->next = p;
+	} else {
+	head = p;
+	}
+	} while ( number != -1 );
+	return 0;
+}
+```
+
