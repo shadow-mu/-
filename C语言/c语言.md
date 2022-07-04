@@ -3609,7 +3609,7 @@ int main(int argc,char const *argv[]){
 
 ##### 链表
 
-```
+```c
 #include "node.h"
 #include <stdio.h>
 
@@ -3639,4 +3639,6 @@ int main(int argc, char const *argv[])
 	return 0;
 }
 ```
+
+
 
