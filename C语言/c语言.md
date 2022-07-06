@@ -1,17 +1,12 @@
 # c语言
 
+
+
 ### 1.初识c语言
 
-##### 第一个程序
 
-```c
-#include <stdio.h>
-int main()
-{
-	printf("Hello World!\n");
-	return 0;
-}
-```
+
+##### 
 
 #####  程序框架
 
@@ -25,6 +20,19 @@ int main()
 
 1.所有的程序都需要这一段
 2.直到学函数之前，我们的代码都只是在这个框架中间
+
+**第一个程序**
+
+```c
+#include <stdio.h>
+int main()
+{
+	printf("Hello World!\n");
+	return 0;
+}
+```
+
+
 
 ##### 输出
 

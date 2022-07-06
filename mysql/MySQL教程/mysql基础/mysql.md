@@ -609,13 +609,442 @@ DQL英文全称是Data Query Language(数据查询语言)，数据查询语言�
   select  * from emp limit 10,10;
   ```
 
-  
+
+###### 案例
+
+```sql
+-- 1. 查询年龄为20,21,22,23岁的女性员工信息。
+select * from emp where gender='女' and age=20 or age=21 or age=22 or age=23;
+select * from emp where gender='女' and age in(20,21,22,23);
+-- 2. 查询性别为 男 ，并且年龄在 20-40 岁（含）以内的姓名为三个字的员工。
+select * from emp where gender='男' and age>=20 and age<=40 and name like '___';
+select * from emp where gender='男' and age between 20 and 40 and name like '___';
+-- 3．统计员工表中，年龄小于60岁的 ，男性员工和女性员工的人数。
+select gender ,count(*) from  emp where age<60 group by gender;
+-- 4. 查询所有年龄小于等于35岁员工的姓名和年龄，并对查询结果按年龄升序排序，如果年龄相同按入职时间降序持序。
+select * from emp where age<=35 order by age asc ,entrydate desc;
+-- 5．查询性别为男，且年龄在20-48 岁（含)以内的前5个员工信息，对查询的结果按年龄升字排序，年龄相同按入职时间升序排序。
+select * from emp where gender='男' and age between 20 and 48 order by age asc,entrydate asc limit 0,5;
+```
+
+###### 执行顺序
+
+![image-20220706111858628](img/image-20220706111858628.png)
+
+总结
+
+![image-20220706112715390](img/image-20220706112715390.png)
+
+
 
 ##### 6.DCL
 
+DCL英文全称是Dala Control Lanauaqe(数据控制语言)，用来管理数据库用户 控制数据库的访问 权限。
+
+###### 管理用户
+
+- 1.查询用户
+
+  ```sql
+  USE mysql;
+  SELECT * FROM user;
+  ```
+
+- 创建用户
+
+  ```sql
+  CREATE USER '用户名'@'主机名' IDENTIFIED BY '密码';
+  ```
+
+- 修改用户密码
+
+  ```sql
+  ALTER USER '用户名'@'主机名' IDENTIFIED WITH mysqt_native_password BY '新密码' ;
+  ```
+
+- 删除用户
+
+  ```sql
+  DROP USER '用户名'@'主机名';
+  ```
+
+- 注意
+  主机名可以使用％通配。
+  这类SQL开发人员操作的比较少，主要是DBA（Database Administrator 数据库管理员）使用。
+
+- 例子
+
+  ```sql
+  use mysql;
+  select * from user;
+  -- 创建用户 Atcast ，只能够在当前主机Localhost访问，密码123456；
+  create user 'itcast'@'localhost' identified by '123456';
+  -- 创建用户 heime ，可以在任意主机访问该数据库，密码123456 ;
+  create  user 'heime'@'%' identified by '123456';
+  -- 修改用户 heime 的访问密码为 1234 ;
+  alter user 'heime'@'%' identified with  mysql_native_password by '1234';
+  -- 则除itcast@LocaLhost用r
+  drop user 'itcast'@'localhost';
+  ```
+
+###### 权限控制
+
+- MySQL中定义了很多种权限，但是常用的就以下几种：
+
+  | 权限                | 说明               |
+  | ------------------- | ------------------ |
+  | ALL, ALL PRIVILEGES | 所有权限           |
+  | SELECT              | 查询数据           |
+  | INSERT              | 插入数据           |
+  | UPDATE              | 修改数据           |
+  | DELETE              | 删除数据           |
+  | ALTER               | 修改表             |
+  | DROP                | 删除数据库/表/视图 |
+  | CREATE              | 创建数据库/表      |
+
+- 查询权限
+
+  ```sql
+  SHOW GRANTS FOR '用户名'@'主机名';
+  ```
+
+  例子
+
+  ```sql
+  -- 查询
+  show grants  for 'heime'@'%';
+  ```
+
+- 授予权限
+
+  ```sql
+  GRANT 权限列表 ON 数据库名.表名 TO '用户名'@'主机名';
+  ```
+
+  例子
+
+  ```sql
+  -- 授予权限
+  grant all on itcast.* to 'heime'@'%';
+  grant all on *.* to 'heime'@'%';
+  -- *.* 表示所有数据库所有表的所有权限
+  ```
+
+- 撤销权限
+
+  ```sql
+  REVOKE 权限列表 ON 数据库名.表名 FROM '用户名'@'主机名';988888866
+  ```
+
+  例子
+
+  ```sql
+  -- 撤销权限
+  revoke all on itcast.*  from  'heime'@'%';
+  ```
+
+- 注意：
+  多个权限之间，使用逗号分隔
+  授权时，数据库名和表名可以使用* 进行通配，代表所有。
+
+
+
 ### 3.函数
 
+函数是指一段可以直接被另一段程序调用的程序或代码。 
+
+##### 字符串函数
+
+| 函数                       | 功能                                                      |
+| -------------------------- | --------------------------------------------------------- |
+| CONCAT(s1, s2, …, sn)      | 字符串拼接，将s1, s2, …, sn拼接成一个字符串               |
+| LOWER(str)                 | 将字符串全部转为小写                                      |
+| UPPER(str)                 | 将字符串全部转为大写                                      |
+| LPAD(str, n, pad)          | 左填充，用字符串pad对str的左边进行填充，达到n个字符串长度 |
+| RPAD(str, n, pad)          | 右填充，用字符串pad对str的右边进行填充，达到n个字符串长度 |
+| TRIM(str)                  | 去掉字符串头部和尾部的空格                                |
+| SUBSTRING(str, start, len) | 返回从字符串str从start位置起的 len个长度的字符串          |
+
+- 语法
+
+  ```sql
+  SELECT 函数(参数);
+  ```
+
+- 例子
+
+  ```sql
+  -- 拼接 CONCAT
+  select concat('hello ','mysql');
+  -- 小写 LOWER
+  select lower('Hello');
+  -- 大写 UPPER
+  select upper('hello');
+  -- 左填充 LPAD
+  select lpad('01',5,'-');
+  -- 右填充 RPAD
+  select rpad('01',5,'-');
+  -- 去除空格 TRIM
+  select  trim(' hello mysql ');
+  -- 切片（起始索引为1）SUBSTRING
+  select substring('hello mysql',1,5);
+  
+  -- 1．由于业务需求变更，企业员工的工号，统一为5位数，目前不足5位轻的全部在前面补0。 比如： 1号员工的工号应该为00001.
+  update emp set workno=lpad(workno,5,'0');
+  ```
+
+  
+
+##### 数值函数
+
+常见的数值函数如下：
+
+| 函数        | 功能                             |
+| ----------- | -------------------------------- |
+| CEIL(x)     | 向上取整                         |
+| FLOOR(x)    | 向下取整                         |
+| MOD(x, y)   | 返回x/y的余数                    |
+| RAND()      | 返回0~1内的随机数                |
+| ROUND(x, y) | 求参数x的四舍五入值，保留y位小数 |
+
+- 语法
+
+  ```sql
+  SELECT 函数(参数);
+  ```
+
+- 例子
+
+  ```sql
+  -- | CEIL(x)     | 向上取整
+  select ceil(1.5);
+  -- | FLOOR(x)    | 向下取整
+  select floor(1.9);
+  -- | MOD(x, y)   | 返回x/y的于数
+  select mod(3,1);
+  -- | RAND()      | 返回0~1内的随机数
+  select  rand();
+  -- | ROUND(x, y) | 求参数x的四舍五入值，保留y位小数
+  select round(2.399,2);
+  
+  -- 通过数据库的函数，生成一个六位数的随机验证码。
+  select lpad(round(rand()*1000000,0),6,'0');
+  ```
+
+  
+
+##### 日期函数
+
+常见的日期函数如下:
+
+| 函数                               | 功能                                              |
+| ---------------------------------- | ------------------------------------------------- |
+| CURDATE()                          | 返回当前日期                                      |
+| CURTIME()                          | 返回当前时间                                      |
+| NOW()                              | 返回当前日期和时间                                |
+| YEAR(date)                         | 获取指定date的年份                                |
+| MONTH(date)                        | 获取指定date的月份                                |
+| DAY(date)                          | 获取指定date的日期                                |
+| DATE_ADD(date, INTERVAL expr type) | 返回一个日期/时间值加上一个时间间隔expr后的时间值 |
+| DATEDIFF(date1, date2)             | 返回起始时间date1和结束时间date2之间的天数        |
+
+- 语法
+
+  ```sql
+  SELECT 函数(参数);
+  ```
+
+- 例子
+
+  ```sql
+  -- | CURDATE()                          | 返回当前日期
+  select curdate();
+  -- | CURTIME()                          | 返回当前时间
+  select curtime();
+  -- | NOW()                              | 返回当前日期和时间
+  select now();
+  -- | YEAR(date)                         | 获取指定date的年份
+  select  year(now());
+  -- | MONTH(date)                        | 获取指定date的月份
+  select month(now());
+  -- | DAY(date)                          | 获取指定date的日期
+  select day(now());
+  -- | DATE_ADD(date, INTERVAL expr type) | 返回一个日期/时间值加上一个时间间隔expr后的时间值
+  select date_add(now(),interval 70 day );
+  -- | DATEDIFF(date1, date2)             | 返回起始时间date1和结束时间date2之间的天数
+  select DATEDIFF(now(),'2021-12-01');
+  
+  -- 查询所有员工的入职天数，并根据入职天数倒序排序。
+  select name,datediff(now(),entrydate) as 'entrdays' from emp order by entrdays desc;
+  ```
+
+  
+
+##### 流程函数
+
+流程函数也是很常用的一类函数，可以在SQL语句中实现条件筛选，从而提高语句的效率。
+
+| 函数                                                         | 功能                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------- |
+| IF(value, t, f)                                              | 如果value为true，则返回t，否则返回f                     |
+| IFNULL(value1, value2)                                       | 如果value1不为空，返回value1，否则返回value2            |
+| CASE WHEN [ val1 ] THEN [ res1 ] … ELSE [ default ] END      | 如果val1为true，返回res1，… 否则返回default默认值       |
+| CASE [ expr ] WHEN [ val1 ] THEN [ res1 ] … ELSE [ default ] END | 如果expr的值等于val1，返回res1，… 否则返回default默认值 |
+
+- 语法
+
+  ```sql
+  SELECT 函数(参数);
+  ```
+
+- 例子
+
+  ```sql
+  -- | IF(value, t, f)                                              | 如果value为true，则返回t，否则返回f
+  select if(true,'ok','Error');
+  -- | IFNULL(value1, value2)                                       | 如果value1不为空，返回value1，否则返回value2
+  select ifnull('ok','default');
+  select ifnull(' ','default');
+  select ifnull(null,'default');
+  -- | CASE WHEN [ val1 ] THEN [ res1 ] … ELSE [ default ] END      | 如果val1为true，返回res1，… 否则返回default默认值
+  -- 案例：统计班级各个学员的成绩，展示的规则如下：
+  -- >= 85，展示优秀
+  -- >= 60，展示及格
+  -- 否则，展示不及格
+  select
+         id,
+         name,
+         (case  when math>=85 then '优秀' when math>=60 then '及格' else '不及格' end ),
+         (case  when english>=85 then '优秀' when english>=60 then '及格' else '不及格' end ),
+         (case  when chinese>=85 then '优秀' when chinese>=60 then '及格' else '不及格' end )
+  from score;
+  -- | CASE [ expr ] WHEN [ val1 ] THEN [ res1 ] … ELSE [ default ] END | 如果expr的值等于val1，返回res1，… 否则返回default默认值
+  -- 查询emp表的员工姓名和工作地址（北京/上海 ----> 线城市，其他-----> 二线城市）
+  select name ,
+         (case workaddress when '北京' then '一线城市' when '上海' then '一线城市' else '二线城市' end) as '工作地址'
+  from emp;
+  
+  ```
+
+  
+
 ### 4.约束
+
+###### 概述
+
+- 概念: 约束是作用于表中字段上的规则，用于限制存储在表中的数据。
+
+- 目的：保证数据库中数据的正确、有效性和完整性。
+
+- 分类
+
+  | 约束                    | 描述                                                     | 关键字      |
+  | ----------------------- | -------------------------------------------------------- | ----------- |
+  | 非空约束                | 限制该字段的数据不能为null                               | NOT NULL    |
+  | 唯一约束                | 保证该字段的所有数据都是唯一、不重复的                   | UNIQUE      |
+  | 主键约束                | 主键是一行数据的唯一标识，要求非空且唯一                 | PRIMARY KEY |
+  | 默认约束                | 保存数据时，如果未指定该字段的值，则采用默认值           | DEFAULT     |
+  | 检查约束（8.0.1版本后） | 保证字段值满足某一个条件                                 | CHECK       |
+  | 外键约束                | 用来让两张图的数据之间建立连接，保证数据的一致性和完整性 | FOREIGN KEY |
+
+- 注意: 约束是作用于表中字段上的，可以在创建表/修改表的时候添加约束。
+
+- 常用约束
+
+  | 约束条件 | 关键字         |
+  | -------- | -------------- |
+  | 主键     | PRIMARY KEY    |
+  | 自动增长 | AUTO_INCREMENT |
+  | 不为空   | NOT NULL       |
+  | 唯一     | UNIQUE         |
+  | 逻辑条件 | CHECK          |
+  | 默认值   | DEFAULT        |
+
+  
+
+###### 约束演示
+
+- 案例<img src="img/image-20220706161108464.png" alt="image-20220706161108464" style="zoom:67%;" />
+
+  ```sql
+  create table user(
+      id int primary key auto_increment comment '主键',
+      name varchar(10) not null unique comment '姓名',
+      age int check ( age>0 && user.age<=120 ) comment '年龄',
+      status char(1) default '1' comment '状态',
+      gender char(1) comment '性别'
+  )comment '用户表';
+  ```
+
+  
+
+###### 外键约束
+
+- 概念
+
+  外键用来让两张表的数据之间建立连接，从而保证数据的一致性和完整性。
+
+- ![image-20220706163400601](img/image-20220706163400601.png)
+
+- 注意：目前上述的两张表，在数据层面，并未建立外键关联，所以是无法保证数据的一致性和完整性的。
+
+- 语法
+
+  添加外键
+
+  ```sql
+  CREATE TABLE 表名(
+  字段名 数据类型,
+      ...
+  [CONSTRAINT][外键名称] FOREIGN KEY(外键字段名) REFERENCES 主表(主表列名)
+  );
+  
+  ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY(外键字段名) REFERENCES主表(主表列名)
+  ```
+
+- 例子
+
+  ```sql
+  -- 添加外键
+  alter  table emp add constraint fk_dept_id_id foreign key(dept_id) references dept(id);
+  ```
+
+- 删除外键
+
+  ```sql
+  ALTER TABLE 表名 DROP FOREIGN KEY 外键名称;
+  ```
+
+- 例子
+
+  ```sql
+  -- 删除外键
+  alter table emp drop foreign key  fk_dept_id_id;
+  ```
+
+**删除更新行为**
+
+| 行为        | 说明                                                         |
+| :---------- | :----------------------------------------------------------- |
+| NO ACTION   | 当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则不允许删除/更新（与RESTRICT一致） |
+| RESTRICT    | 当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则不允许删除/更新（与NO ACTION一致） |
+| CASCADE     | 当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则也删除/更新外键在子表中的记录 |
+| SET NULL    | 当在父表中删除/更新对应记录时，首先检查该记录是否有对应外键，如果有则设置子表中该外键值为null（要求该外键允许为null） |
+| SET DEFAULT | 父表有变更时，子表将外键设为一个默认值（Innodb不支持）       |
+
+##### 语法
+
+```sql
+ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY (外键字段) REFERENCES 主表名(主表字段名) ON UPDATE [行为] ON DELETE [行为];
+```
+
+例子 CASCADE
+
+```sql
+alter  table emp add constraint fk_dept_id_id foreign key(dept_id) references dept(id) on update cascade on delete cascade ;
+```
+
+
 
 ### 5.多表查询
 
