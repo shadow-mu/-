@@ -1115,17 +1115,348 @@ alter  table emp add constraint fk_dept_id_id foreign key(dept_id) references de
 
 ###### 多表查询概述
 
+- 概述:指从多张表中查询数据
+
+- 笛卡尔积：笛卡尔乘积是指在数字中， 两个集合A集合和B集合的所有组合情况。(在多表查询时，需要消除无效的笛卡尔积)
+
+- ![image-20220707104631514](img/image-20220707104631514.png)
+
+- 例子
+
+  ```sql
+  -- 多表查询 -- 笛卡尔积
+  select * from emp,dept where emp.dept_id = dept.id;
+  ```
+
+- 多表查询分类
+
+  - 连接查询
+
+    内连接：相当于查询A、B交集部分数据
+
+    外连接：
+
+    ​	左外连接：查询左表所有数据，以及两张表交集部分数据
+
+    ​	右外连接：查询右表所有数据，以及两张表交集部分数据
+
+    自连接：当前表与自身的连接查询，自连接必须使用表别名
+
+    ![image-20220707105847520](img/image-20220707105847520.png)
+
+  - 子查询
+
+  
+
 ###### 内连接
+
+- 内连接查询的是两张表交集的部分
+
+  ![image-20220707110457986](img/image-20220707110457986-16571643854241.png)
+
+- 内连接查询语法:
+  隐式内连接
+
+  ```SQL
+  SELECT 字段列表 FROM 表1,表2 WHERE 条件 ...;
+  ```
+
+  显式内连接
+
+  ```SQL
+  SELECT 字段列表 FROM 表1 [INNER] JOIN 表2 ON 连接条件 ...
+  ```
+
+- 例子
+
+  ```sql
+  -- 1. 查询每一个员工的姓名 ，及关联的部门的名称（隐式内连接实现）
+  select emp.name,dept.name from emp,dept where emp.dept_id=dept.id;
+  
+  -- 2. 查询每一个员工的姓名 ，及关联的部门的名称（显式内连接实现）
+  select emp.name ,dept.name from emp join dept on emp.dept_id=dept.id;
+  ```
+
+
 
 ###### 外连接
 
+- 外连接查询语法:
+  左外连接
+
+  ```sql
+  SELECT 字段列表 FROM 表1 LEFT [OUTER]JOIN 表2 ON条件…;
+  ```
+
+  相当于查询表1(左表)的所有数据包含表1和表2交集部分的数据
+  右外连接
+
+  ```sql
+  SELECT 字段列表 FROM 表1 RIGHT [OUTER]JOIN 表2 ON条件… ;
+  ```
+
+  相当于查询表2(右表)的所有数据包含表1和表2交集部分的数据
+
+  ![image-20220707110457986](img/image-20220707110457986-16571643854241.png)
+
+- 例子
+
+  ```sql
+  -- 外连接演示
+  -- 1. 查询emp表的所有数据，和对应的部门信息（左外连接）
+  select emp.*,dept.name from emp left outer join dept on emp.dept_id=dept.id;
+  select emp.*,dept.name from emp left join dept on emp.dept_id=dept.id;
+  -- 2. 查询dept表的所有数据，和对应的员工信息（右外连接）
+  select emp.* ,dept.* from emp right join dept on emp.dept_id=dept.id;
+  select emp.*,dept.* from dept left outer join emp on emp.dept_id=dept.id;
+  ```
+
+  
+
 ###### 自链接
+
+- 自连接查询语法:
+
+  ```sql
+  SELECT 字段列表 FROM 表A 别名A JOIN 表A 别名B ON条件…; 
+  ```
+
+  自连接查询，可以是内连接查询，也可以是外连接查询。
+
+  注意自连接必须器别名
+
+- 例子
+
+  ```sql
+  -- 自连接
+  -- 1．查询员工 及其 所属领导的名字
+  select e1.name,e2.name from emp e1 ,emp e2 where e1.managerid=e2.id;
+  select e1.name,e2.name from emp e1 join emp e2 on e1.managerid=e2.id;
+  -- 2. 查询所有员工 emp 及其领导的名字 emp ，如果员工没有领导， 也需要查询出来
+  select e1.name as '员工',e2.name as '领导' from emp e1 left join emp e2 on e1.managerid=e2.id;
+  ```
+
+###### 联合查询
+
+- 对于union查询，就是把多次查询的结果合并起来，形成一个新的查询结果集。
+
+- 语法
+
+  ```sql
+  SELECT字段列表 FROM 表A ...
+  UNION [ALL]
+  SELECT字段列表 FROM 表B ....;
+  ```
+
+  union all 是直接将查询结果合并
+
+  union  是直接将查询结果合并之后去重
+
+  对于联合查询的多张表的列数必须保持一致，字段类型也需要保持一致。
+
+- 例子
+
+  ```sql
+  -- union au , union
+  -- 1. 将薪资低于5000 的员工 和 年龄大于 50 岁的员工全部查询出来.
+  select * from emp where salary<5000
+  union all
+  select * from emp where age>50;
+  
+  select * from emp where salary<5000
+  union
+  select * from emp where age>50;
+  
+  -- 字段类型不同将无法执行
+  select * from emp where salary<5000
+  union
+  select name from emp where age>50;
+  ```
+
+
 
 ###### 子查询
 
+- 概念：SQL语句中嵌套SELECT语句，称为嵌套查询，又称子查询。
+
+- 语法
+
+  ```sql
+  SELECT * FROM t1 WHERE column1 = (SELECT column1 FROM t2 );
+  ```
+
+  子查询外部的语句可以是INSERT / UPDATE / DELETE / SELECT的任何一个。
+
+- 根据子查询结果不同，分为：
+
+  - 标量子查询（子查询结果为单个值）
+  - 列子查询(子查询结果为一列
+  - 行子查询(子查询结果为一行)
+  - 表子查询（子查询结果为多行多列)
+
+- 根据子查询位置，分为：WHERE之后、FROM之后、SELECT之后。
+
+**标量子查询**
+
+- 子查询返回的结果是单个值（数字、字符串、日期等），最简单的形式，这种子查询成为标量子查询。
+
+- 常用的操作符：= <> > >= < <=
+
+- 例子
+
+  ```sql
+  -- 标量子查询
+  -- 1. 查询“销售部”的所有员工信息
+  --   查询“销售部” id
+  select id from dept where name='销售部';
+  --   根据部门id 查询所有员工
+  select * from emp where dept_id=4;
+  --   合并
+  select * from emp where dept_id=(select id from dept where name='销售部');
+  -- 2. 查询在“方东白”入职之后的员工信息
+  --   查询方东白的入职日期
+  select entrydate from emp where name='方东白';
+  --   查询指定入职日期之后入职的员工
+  select * from emp where entrydate>'2009-02-12';
+  --   合并
+  select * from emp where entrydate>(select entrydate from emp where name='方东白');
+  ```
+
+**列子查询**
+
+- 子查询返回的结果是一列（可以是多行），这种子查询称为列子查询。
+
+- 常用的操作符: IN 、NOTIN、ANY 、SOME 、 ALL
+
+- | 操作符 | 描述                                   |
+  | ------ | -------------------------------------- |
+  | IN     | 在指定的集合范围内，多选一             |
+  | NOT IN | 不在指定的集合范围内                   |
+  | ANY    | 子查询返回列表中，有任意一个满足即可   |
+  | SOME   | 与ANY等同，使用SOME的地方都可以使用ANY |
+  | ALL    | 子查询返回列表的所有值都必须满足       |
+
+- 语法
+
+  ```sql
+  SELECT * FROM t1 WHERE column1 = (SELECT column1 FROM t2 );
+  ```
+
+- 例子
+
+  ```sql
+  -- 列子查询
+  -- 1. 查询“销售部”和“市场部”的所有员工信息
+  -- 查询销售部和市场部部门id
+  select id from dept where name='销售部' or name='市场部';
+  -- 根据部门id查询员工信息
+  select * from emp where dept_id=2 or dept_id=4;
+  select * from emp where dept_id in (2,4);
+  -- 合并
+  select * from emp where dept_id in(select id from dept where name='销售部' or name='市场部');
+  -- 2. 查询比财务部所有人工资都高的员工信息
+  -- 查询财务部所有人工资
+  select salary from emp where dept_id=(select id from dept where name='财务部');
+  -- 查询比财务部所有人工资都高的员工信息
+  select * from emp where salary> all (select salary from emp where dept_id=(select id from dept where name='财务部'))
+  -- 3. 查询比研发部其中任意一人工资高的员工信息
+  -- 查询研发部所有人工资
+  select salary from emp where dept_id=(select id from dept where name='研发部');
+  -- 查询比财务部所有人工资都高的员工信息
+  select * from emp where  salary > any (select salary from emp where dept_id=(select id from dept where name='研发部'));
+  ```
+
+**行子查询**
+
+- 子查询返回的结果是一行（可以是多列），这种子查询称为行子查询。
+
+- 常用的操作符：= 、<>、IN、NOT IN
+
+- 例子
+
+  ```sql
+  -- 行子查询
+  -- 1. 查询与“张无忌" 的薪资及直属领导相同的员工信息 ;
+  -- 查询与“张无忌"及直属领导的薪资
+  select salary,managerid from emp where  name='张无忌';
+  -- 查询与“张无忌"及直属领导的薪资相同的员工信息
+  select * from emp where (salary, managerid) = (12500, 1);
+  select * from emp where (salary, managerid)=(select salary,managerid from emp where  name='张无忌');
+  ```
+
+**表子查询**
+
+- 子查询返回的结果是多行多列，这种子查询称为表子查询。
+
+- 常用的操作符: IN
+
+- 例子
+
+  ```sql
+  -- 表子查询
+  -- 1．查询与“鹿杖客"”，“宋远桥”的职位和薪资相同的员工信息
+  -- 查询“鹿杖客"”，“宋运桥”的职位和薪资
+  select job,salary from emp where name='鹿杖客' or name='宋远桥';
+  -- 查询“鹿杖客"”，“宋运桥”的职位和薪资相同的员工信息
+  select * from emp where (job,salary)in (select job,salary from emp where name='鹿杖客' or name='宋远桥');
+  -- 2. 查询入职日期是“2006-01-01”之后的员工信息，及其部门信息
+  -- 查询入职日期是“2006-01-01”之后的员工信息
+  select * from emp where entrydate>'2006-01-01';
+  --  查询其部门信息
+  select e.*,d.name from (select * from emp where entrydate>'2006-01-01') e left join dept d on e.dept_id=d.id;
+  ```
+
+
+
 ###### 多表查询案例
 
+```sql
+-- 1．查询员工的姓名、年龄、职位、部门信息（隐式内连接）
+select emp.name,emp.age,dept.name,emp.job from emp, dept where emp.dept_id=dept.id;
+-- 2. 查询年龄小于36岁的员工的姓名、年龄、职位、部门信息（显式内连接）
+select emp.name,emp.age,dept.name,emp.job from emp  join dept on emp.dept_id=dept.id where age<36;
+-- 3. 查询拥有员工的部门ID、部门名称
+select DISTINCT dept.id,dept.name from dept ,emp where emp.dept_id=dept.id;
+-- 4. 查询所有年龄大子40岁的员工，及其归属的部门名称； 如果员工没有分配部门，也需要展示出来
+select emp.*,dept.name from emp left join dept on emp.dept_id=dept.id where emp.age>40;
+-- 5. 查询所有员工的工资等级
+select e.*,s.grade from emp e,salgrade s where e.salary>=s.losal and  e.salary<= s.hisal;
+select e.*,s.grade from emp e,salgrade s where e.salary between s.losal and s.hisal;
+-- 6. 查询“研发部”所有员工的信息及 工资等级
+select e.*, s.grade
+from emp e,
+     salgrade s,
+     dept d
+where (e.salary between s.losal and s.hisal)
+  and e.dept_id = d.id
+  and d.name = '研发部';
+-- 7. 查询“研发部”员工的平均工资
+select d.name,avg(salary) from dept d,emp e where  e.dept_id=d.id and d.name='研发部';
+-- 8. 查询工资比“灭绝" 高的员工信息。
+select * from emp where salary>(select salary from emp where name='灭绝');
+-- 9. 查询比平均工资高的员工信息
+select * from emp where salary>(select avg(salary) from emp);
+-- 10， 查询低于本部门平均工资的员工信息
+select avg(salary) from emp where emp.dept_id=1;
+select e2.*, (select avg(e1.salary) from emp e1 where e1.dept_id = e2.dept_id) as '平均薪资'
+from emp e2
+where e2.salary < (select avg(e1.salary) from emp e1 where e1.dept_id = e2.dept_id);
+-- 11. 查询所有的部门信息，并经计部门的员工人数
+select d.* ,(select count(*) from emp e where e.dept_id=d.id) as '人数' from dept d;
+-- 部门人数  select count(*) from emp where dept_id=1;
+-- 12. 查询所有学生的选课情况，尽示出学生名称，学号，课程名称
+-- 表: student , course , student_course
+-- 连接条件 student_course.id=student_course.studentid ， course.id=student_course.courseid;
+select s.name,s.no,c.name from student s, student_course sc ,course c where s.id=sc.studentid and  c.id=sc.courseid;
+```
+
+技巧连接查询的时候先找涉及的表然后再找 连接条件及表之间的关系 来消除笛卡尔积 
+
+
+
 ### 6.事务
+
+
 
 ### 7.mysql数据类型参考
 
