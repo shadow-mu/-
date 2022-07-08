@@ -1456,6 +1456,162 @@ select s.name,s.no,c.name from student s, student_course sc ,course c where s.id
 
 ### 6.事务
 
+###### 事务简介
+
+- 事务是一的集合是一个不可分割的工作单位 事务会把所有的操作作为一个整体一起向系统提交或撤作请求，即这些操作**要么同时成功，要么同时失败**。
+-  ![image-20220708101219039](img/image-20220708101219039.png)
+- 默认MySQL的事务是自动提交的，也就是说，当执行一条DML语句，MySQL会立即隐式的提交事务。
+
+
+
+###### 事务操作
+
+- 方式1
+
+- 查看/设置事务提交方式
+
+  ```sql
+  SELECT @@autocommit ;
+  SET @@autocommit =0;
+  ```
+
+-  提交事务
+
+  ```sql
+  COMMIT ;
+  ```
+
+- 回滚事务
+
+  ```sql
+  ROLLBACK :
+  ```
+
+- 例子
+
+  ```sql
+  select @@autocommit;
+  set @@autocommit=0;
+  -- 数据恢复
+  update account set money = 2000 where name = '张三' or name = '李四';
+  select * from account;
+  -- 转账操作 (张三给李四转账1000)
+  -- 1. 查询张三账户余额
+  select * from account where name='张三';
+  -- 2. 将张三账户余额-1000
+  update account set money=money - 1000 where name='张三';
+  
+  -- 程序执行报错 ...
+  
+  -- 3. 将李四账户余额+1000
+  update account set money=money + 1000 where name='李四';
+  
+  -- 提交事务
+  commit ;
+  -- 回滚事务
+  rollback ;
+  ```
+
+- 方式2
+
+- 开启事务
+
+  ```sql
+  START TRANSACTION 或 BEGIN:
+  ```
+
+- 提交事务
+
+  ```sql
+  COMMIT;
+  ```
+
+- 回滚事务
+
+  ```sql
+  ROLLBACK ;
+  ```
+
+- 例子
+
+  ```sql
+  -- 转账操作 (张三给李四转账1000)
+  -- 开启事务
+  start transaction;
+  -- 1. 查询张三账户余额
+  select * from account where name='张三';
+  -- 2. 将张三账户余额-1000
+  update account set money=money - 1000 where name='张三';
+  
+  程序执行报错 ...
+  
+  -- 3. 将李四账户余额+1000
+  update account set money=money + 1000 where name='李四';
+  
+  -- 提交事务
+  commit;
+  -- 回滚事务
+  rollback; 
+  ```
+
+
+
+###### 事务的四大特性
+
+- 四大特性
+  - 原子性（Atomicity）：事务是不可分割的最小操作单元，要么全部成功，要么全部失败
+  - 一致性（Consistency）：事务完成时，必须使所有数据都保持一致状态
+  - 隔离性（Isolation）：数据库系统提供的隔离机制，保证事务在不受外部并发操作影响的独立环境下运行
+  - 持久性（Durability）：事务一旦提交或回滚，它对数据库中的数据的改变就是永久的
+
+
+
+###### 并发事务问题
+
+- | 问题       | 描述                                                         |
+  | ---------- | ------------------------------------------------------------ |
+  | 脏读       | 一个事务读到另一个事务还没提交的数据                         |
+  | 不可重复读 | 一个事务先后读取同一条记录，但两次读取的数据不同             |
+  | 幻读       | 一个事务按照条件查询数据时，没有对应的数据行，但是再插入数据时，又发现这行数据已经存在 |
+
+- 详解https://www.bilibili.com/video/BV1Kr4y1i7ru?p=54&vd_source=f23b48ec4d53ef03f37bdec9befa8039
+
+
+
+###### 事务隔离级别
+
+- | 隔离级别              | 脏读 | 不可重复读 | 幻读 |
+  | --------------------- | ---- | ---------- | ---- |
+  | Read uncommitted      | √    | √          | √    |
+  | Read committed        | ×    | √          | √    |
+  | Repeatable Read(默认) | ×    | ×          | √    |
+  | Serializable          | ×    | ×          | ×    |
+
+  √表示在当前隔离级别下该问题会出现
+
+  Serializable 性能最低；Read uncommitted 性能最高，数据安全性最差
+
+- 查看事务隔离级别：
+
+  ```sql
+  SELECT @@TRANSACTION_ISOLATION;
+  ```
+
+- 设置事务隔离级别：
+
+  ```sql
+  SET [ SESSION | GLOBAL ] TRANSACTION ISOLATION LEVEL {READ UNCOMMITTED | READ COMMITTED | REPEATABLE READ | SERIALIZABLE };
+  ```
+
+- 例子
+
+  ```sql
+  -- 查看事务隔离级别
+  select @@transaction_isolation;
+  -- 设置事务隔离级别
+  set session transaction isolation level read uncommitted ;
+  ```
+
 
 
 ### 7.mysql数据类型参考
