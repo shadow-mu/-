@@ -1,8 +1,8 @@
-## mysql基础
+# mysql基础
 
 
 
-### 1.mysql概述
+## 1.mysql概述
 
 ##### 1.数据库相关概念
 
@@ -98,7 +98,7 @@ net stop mysql80
 
 
 
-### 2.SQL
+## 2.SQL
 
 
 
@@ -776,7 +776,7 @@ DCL英文全称是Dala Control Lanauaqe(数据控制语言)，用来管理数据
 
 
 
-### 3.函数
+## 3.函数
 
 函数是指一段可以直接被另一段程序调用的程序或代码。 
 
@@ -955,7 +955,7 @@ DCL英文全称是Dala Control Lanauaqe(数据控制语言)，用来管理数据
 
   
 
-### 4.约束
+## 4.约束
 
 ###### 概述
 
@@ -1073,7 +1073,7 @@ alter  table emp add constraint fk_dept_id_id foreign key(dept_id) references de
 
 
 
-### 5.多表查询
+## 5.多表查询
 
 ###### 多表关系
 
@@ -1454,7 +1454,7 @@ select s.name,s.no,c.name from student s, student_course sc ,course c where s.id
 
 
 
-### 6.事务
+## 6.事务
 
 ###### 事务简介
 
@@ -1614,7 +1614,7 @@ select s.name,s.no,c.name from student s, student_course sc ,course c where s.id
 
 
 
-### 7.mysql数据类型参考
+## 7.mysql数据类型参考
 
 ##### 数值类型
 
@@ -1662,7 +1662,7 @@ select s.name,s.no,c.name from student s, student_course sc ,course c where s.id
 
 
 
-### 8.MYSQL图形化界面
+## 8.MYSQL图形化界面
 
 - 工作台（免费）： http://dev.mysql.com/downloads/workbench/
 - navicat（收费，试用版30天）： https://www.navicat.com/en/download/navicat-for-mysql
