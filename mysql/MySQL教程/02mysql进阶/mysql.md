@@ -284,47 +284,6 @@
   高度为3:
   1171\*1171\*16=21939856
 
-
-
-### 索引语法
-
-- 创建索引
-
-  ```sql
-  CREATE [UNIQUE] [FULLTEXT] INDEX index_name ON table name (index col name,...)
-  ```
-
-- 查看索引
-
-  ```sql
-  SHOW INDEX FROM table name
-  ```
-
-- 删除索引
-
-  ```sql
-  DROP INDEX index_name ON table_name
-  ```
-
-- 例子
-
-  ```sql
-  -- 查看索引
-  show index from tb_user;
-  -- 1.name字段为姓名字段，该字段的值可能会重复，为该字段创建索引
-  create index index_user_name on tb_user(name);
-  -- 2.phone手机号字段的值，是非空，且唯一的，为该字段创建唯一索引。
-  create unique index index_user_phone on tb_user(phone );
-  -- 3.为profession、age、status创建联合索引。
-  create index index_user_pro_age_sta on tb_user(profession,age,status);
-  -- 4.为email建立合适的索引来提升查询效率。
-  create index  index_user_ema on tb_user(email);
-  -- 删除索引
-  drop index index_user_ema on tb_user;
-  ```
-
-
-
 ### SQL性能分析
 
 ##### SQL执行频率
@@ -449,6 +408,100 @@
 
 
 ### 索引使用
+
+##### 索引语法
+
+- 创建索引
+
+  ```sql
+  CREATE [UNIQUE] [FULLTEXT] INDEX index_name ON table name (index col name,...)
+  ```
+
+- 查看索引
+
+  ```sql
+  SHOW INDEX FROM table name
+  ```
+
+- 删除索引
+
+  ```sql
+  DROP INDEX index_name ON table_name
+  ```
+
+- 例子
+
+  ```sql
+  -- 查看索引
+  show index from tb_user;
+  -- 1.name字段为姓名字段，该字段的值可能会重复，为该字段创建索引
+  create index index_user_name on tb_user(name);
+  -- 2.phone手机号字段的值，是非空，且唯一的，为该字段创建唯一索引。
+  create unique index index_user_phone on tb_user(phone );
+  -- 3.为profession、age、status创建联合索引。
+  create index index_user_pro_age_sta on tb_user(profession,age,status);
+  -- 4.为email建立合适的索引来提升查询效率。
+  create index  index_user_ema  tb_user(email);
+  -- 删除索引
+  drop index index_user_ema on tb_user;
+  ```
+
+
+
+##### 最左前缀法则
+
+- 如果索引关联了多列（联合索引），要遵守最左前缀法则，最左前缀法则指的是查询从索引的最左列开始，并且不跳过索引中的列。如果跳跃某一列，索引将部分失效（后面的字段索引失效）。
+
+- 例子
+
+  ```sql
+  select * from tb_user where  profession='软件工程' and age=31 and status='0';
+  explain select * from tb_user where  profession='软件工程' and age=31 and status='0';
+  ```
+
+- 联合索引中，出现范围查询（<, >），范围查询右侧的列索引失效。可以用>=或者<=来规避索引失效问题。
+
+  ```sql
+  explain select * from tb_user where profession='软件工程' and age>30 and  status='0';
+  ```
+
+  如何规避建议使用>= 或者 <= 联合索引就会生效
+
+##### 索引失效情况
+
+- 索引列运算
+
+  不要在索引列上进行运算操作，索引将失效。
+
+  ```sql
+  explain select from tb_user where substring(phone,10,2)='15';
+  ```
+
+- 字符串不加引号
+  字符串类型字段使用时，不加引号，索引将失效。
+
+  ```sql
+  explain select * from tb_user where phone = 17799990015;
+  ```
+
+- 模糊查询
+  如果仅仅是尾部模糊匹配，索引不会失效。如果是头部模糊匹配，索引失效。
+
+  ```sql
+  -- 前后都有 % 也会失效。
+  explain select * from tb_user where profession like '%工程';
+  ```
+
+- or连接的条件
+  用or分割开的条件，如果or前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。
+
+  ```sql
+  explain select from tb_user where id 10 or age 23;
+  explain select from tb_user where phone ='17799990017'or age 23;
+  ```
+
+- 数据分布影响
+  如果MySQL评估使用索引比全表更慢，则不使用索引。
 
 
 
