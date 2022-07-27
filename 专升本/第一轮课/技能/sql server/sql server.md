@@ -67,7 +67,7 @@
 
   - √企业版(Enterprise)
   - √商业智能(Business intelligence)
-  - v标准版(Standard)
+  - √标准版(Standard)
   - √Web版
 
 - SQLServer2012数据库相关概念
@@ -250,7 +250,7 @@
   例子
 
   ```sql
-  execute sp_attach_db mydb ,'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.ldf'
+  execute sp_attach_db mydb ,'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
   ```
 
 - 注：通过分离和附加数据库可以实现SQL Server数据库**文件存储位置的改变**（移植数据库）
