@@ -443,7 +443,7 @@
    - 语句格式
 
      ```sql
-     insert into 表明 [列名清单] values 常量清单
+     insert into 表名 [列名清单] values 常量清单
      ```
 
      如果省略<**列名清单**>，则按<常量清单>顺序为**每个属性**列赋值，即每个属性列上都应该有值
@@ -521,7 +521,140 @@
   delete from student where sanme='刘德华' 
   ```
 
-查询
+单表查询
+
+- 语句格式
+
+  ```sql
+  SELECT all[DISTINCT][TOP N[PERCENT]],字段1,字段2,字段3..[AS 别名] FROM 表名;
+  ```
+
+- 说明
+
+  1. ALL:表示输出所有记录，包括重复记录。默认值为ALL。
+
+  2. DISTINCT:表示在查询结果中去掉重复值。
+
+  3. TOP N:返回查询结果集中的前W行。
+
+     加[PERCENT]返回查询结果集中的前N%行。W的取值范围是0~100。
+
+- 例
+
+  ```sql
+  select * from student
+  select distinct *  from student
+  select top 6 *  from student
+  -- top % 计算结果向上取整数
+  select top 80 percent  * from student
+  select sno as '学号'  from student
+  -- 计算年龄现在减出生日期
+  select sanme ,year(getdate())-year(sbirth) from student
+  -- 分数提20%
+  select sno,chedit*1.2 AS 成绩 from student
+  ```
+
+- 单表有条件查询
+
+- 语句格式
+
+  ```sql
+  SELECT all[DISTINCT][TOP N[PERCENT]],字段1,字段2,字段3..[AS 别名] FROM 表名 where 条件;
+  ```
+
+- WHERE条件中的运算符
+
+  | 查询条件   | 运算符                      |
+  | ---------- | --------------------------- |
+  | 比较运算符 | =，<，>，<=，>=，!=         |
+  | 逻辑运算符 | AND,OR,NOT                  |
+  | 范围运算符 | BETWEEN AND,NOT BETWEEN AND |
+  | 列表运算符 | IN,NOT IN                   |
+  | 字符匹配符 | LIKE,NOT LIKE               |
+  | 空值       | IS NULL,IS NOT NULL         |
+
+  1. WHERE子句中可以使用逻辑运算符AND、OR和NOT,这3个逻辑
+     运算符可以混合使用。
+
+  2. 在WHERE子句中使用BETWEEN关键字查找在某一范围内的数据，也
+     可以使用NOT BETWEEN关键字查找不在某一范围内的数据。
+
+  3. 在WHERE子句中使用字符匹配符LIKE或NOT LIKE可以把表达式与字符串进行比较，从而实现对字符串的模糊查询。
+
+     通配符% 表示0或者多个字符
+
+     通配符_ 表示任意一个字符
+
+  4. 在WHERE子句中，如果需要确定表达式的取值是否属于某一列表值之
+     一时，就可以使用关键字IN或NOT IN来限定查询条件。
+
+  5. 当数据表中的值为NULL时，可以使用IS NULL关键字的WHERE子句进行查询，反之要查询数据表的值不为NULL时，可以使用IS NOT NULL关键字。**注意无法用等于号（=）判断空**
+
+- 例子
+
+  ```sql
+  select * from student WHERE grender='男'
+  select * from student WHERE chedit>60
+  select * from student WHERE major='计算机系'
+  -- 查询计算机系女生的信息。
+  select * from student where major='计算机系' and grender='女'
+  -- 查询成绩在90分以上或不及格的学生学号和课号信息。
+  select * from student where chedit>90 or chedit<60
+  -- 查询非计算机
+  select * from student where not major='计算机系'
+  -- 查询成绩在60~70分之间含(60,70)的学生学号及成绩。
+  select sno,chedit from student where chedit between 60 and 70
+  -- 查询所有姓张的学生的个人信息。
+  select * from student where sanme like '张%'
+  -- 查询所有名字第2个字带三的学生的个人信息。
+  select * from student where sanme LIKE '_三%'
+  -- 查询所有姓张姓唐的学生的个人信息。
+  select * from student where sanme like'[张唐]%' 
+  -- 查询软件和计算机的学生
+  select * from student where major in('软件','计算机系')
+  --查询缺少成绩的学生
+  select * from student where chedit is  null
+  -- 不为空
+  select * from student where chedit is not null
+  ```
+
+聚合函数
+
+- SQL Server的聚集函数是综合信息的统计函数，也称为聚合函数或集函数，
+
+  1. 包括计数、求最大值、求最小值、求平均值和求和等。
+  2. 聚集函数可作为列标识符出现在SELECT子句的目标列或HAVING子句的
+     条件中。
+  3. 在SQL查询语句中，如果有GROUP BY子句，则语句中的函数为分组统
+     计函数；否则，语句中的函数为全部结果集的统计函数。SQL提供的聚集
+
+- | 函数          | 说明                 |
+  | ------------- | -------------------- |
+  | COUNT(*)      | 统计行的个数         |
+  | COUNT(<列名>) | 统计一列中值的个数   |
+  | MAX(<列名>)   | 计算一列中值的最大值 |
+  | MIN(<列名>)   | 计算一列中的最小值   |
+  | SUM(<列名>)   | 计算一列中值的总和   |
+  | AVG(<列名>)   | 计算一列中值的平均值 |
+  
+  注意：**聚集函数忽略空值** 所以用非空项查询 ，**除了count其他都不能*号**
+  
+- 例子
+
+  ```sql
+  -- 查询学生总数。
+  select count(*) from student
+  --查询选修了课程的学生人数。
+  select count(distinct sno) from sc 
+  --计算男学生平均成绩。
+  select avg(chedit) from student where grender='男'
+  --查询学生最高分和最低分。
+  select max(chedit),min(chedit) from student
+  ```
+
+- 
+
+
 
 ## 数据库高级应用
 
