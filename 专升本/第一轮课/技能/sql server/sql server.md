@@ -327,7 +327,7 @@
      foreign key reference 表名(字段)
      ```
 
-  6. 第二条和第四条是列级约束其他的是列级约束和表级约束都可以               列级约束是 只能针对当列约束
+  6. 第二条和第四条是列级约束其他的是列级约束和表级约束都可以               列级约束是 只能针对当列约束 
 
      表级约束可以多列
 
@@ -436,7 +436,7 @@
 
 ## 操作数据表中的数据
 
-插入
+### 插入
 
 1. 插入单条记录
 
@@ -482,7 +482,7 @@
      4. 字符型或日期型数据必须使用' '（单引号）将其括起来
      5. 常量的顺序必须和指定的列名顺序保持一致
 
-修改
+### 修改
 
 - 语句格式
 
@@ -504,7 +504,7 @@
   update student set chedit=60 where chedit<60
   ```
 
-删除
+### 删除
 
 - 语句格式
 
@@ -521,7 +521,7 @@
   delete from student where sanme='刘德华' 
   ```
 
-单表查询
+### 单表查询
 
 - 语句格式
 
@@ -618,7 +618,7 @@
   select * from student where chedit is not null
   ```
 
-聚合函数
+### 聚合函数
 
 - SQL Server的聚集函数是综合信息的统计函数，也称为聚合函数或集函数，
 
@@ -652,9 +652,319 @@
   select max(chedit),min(chedit) from student
   ```
 
-- 
+### 分组与排序
+
+1. 对查询结果集进行分组
+
+   - 使用GROUP BY子句可以将查询结果按照**某一列或多列数据**值进行**分类**，换句话说，就是对查询结果的信息进行**归纳**，以**汇总**相关数据。
+     GROUP BY子句把查询结果集中的各行按列名清单进行分组，在这些列上，对应值都相同的记录分在同一组。若无HAVING子句，则各组分别输出；若有HAVING子句，**只有符合HAVING条件**的组才输出。
+
+   - 语法格式
+
+     ```sql
+     [GROUP BY列名清单][HAVING条件表达式]
+     ```
+
+   - 例子：
+
+     ```sql
+     -- 统计各系人数
+     select sdept, count(*) from student group by sdept
+     -- 统计表中男女学生人数
+     select gender, count(*) from student group by gender
+     -- 统计各系男女学生人数
+     select sdept, gender, count(*) from student group by gender,sdept
+     -- 统计各系女学生人数
+     select sdept, gender, count(*) from student where gender='女' group by gender,sdept 
+     select sdept, gender, count(*) from student   group by gender,sdept having gender='女'
+     -- 查询选修了2门以上课程的学生学号 每个学生的选课门数
+     select sno, count(*) from sc group by sno having count(*)>2
+     -- 变式处理：查询被2个以上同学选过的课程号
+     select cno ,count(*) from sc group by cno having count(*)>2
+     ```
+
+     注意where对基本表table的行为记录做筛选  having针对分组统计的结果进行筛选 
+
+     聚合函数可以出现在 having order后面
+
+     注意分组和聚合函数里面没有的字段不能直接查询因为没进行过处理无法查询会报错
+
+2. 对查询结果集进行排序
+
+   - 用户可以利用ORDER BY子句对查询结果按照一个或多个字段
+     进行**升序(ASC)或降序(DESC)排序**，默认值为升序。
+
+   - 语法
+
+     ```sql
+     [ORDER BY<列名1>[ASC|DESC[,<列名2> [ASC|DESC],…
+     ```
+
+   - 例子
+
+     ```sql
+     -- 查询选修了C02号课程的学生的学号、其成绩，查询结果按分数(sc)的降序排列。
+     select sno,cno,degree from sc where cno='C02' order by degree desc
+     -- 查询全体学生情况，查询结果按所在系升序排列，同一系中的学生按出生口期除序排列。
+     select * from student order by sdept asc, sbirth desc
+     ```
+
+### 多表连接查询
+
+1. 内连接
+
+   - 语句格式
+
+     ```sql
+     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别
+     名.<选项2>[AS<显示列名>]，...]FROM<表名1>[别名1]，<表名2>[别名2[，…]WHERE<连接条件表达式>[AND<条件表达式>]
+     ```
+
+     注意：若在输出列或条件表达式中出现两个表的公共字段，则在公共
+     字段名前必须加别名
+
+   - 例子
+
+     ```sql
+     -- 输出所有女学生的学号、姓名、课号及成绩。
+     select s.sno,s.sname,c.cno, c.degree from student s, sc c where s.sno=c.sno and s.gender='女'
+     select  s.sno,s.sname,c.cno, c.degree  from student s inner join sc c on s.sno=c.sno where s.gender='女'
+     ```
+
+2. 外连接
+
+   - 在自然连接中，**只有**在两个表中**匹配**的行才能在结果集中出现。而在外连接中可以**只限制**一个表（**从表**），而对另外一个表**不加限制**（**主表**）。外连接分为**左外连接、右外连接和全外连接。**
+
+   - 语法格式
+
+     ```sql
+     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别
+     名.<选项2>[AS<显示列名>]，...]
+     FROM<表名1>LEFT|RIGHT|FULL[OUTER]JOIN<表名2>
+     oN<表名1.列1>=<表名2.列2>
+     ```
+
+     对于左连接对于主表（left前面是主表）有限制对于从表要进行on的连接
+
+     右连接同理
+
+   - 例子
+
+     ```sql
+     -- 利用左外连接查询每个学生及其选修课的情况。
+     select s.*,c.cno ,c.degree from student s left join sc c on s.sno= c.sno
+     -- 右外连
+     select student.*,cno from sc  right join student  on student.sno= sc.sno
+     ```
+
+3. 嵌套查询-非相关子查询
+
+   - 在SQL语言中，一个**SELECT一FROM一WHERE语句称为一个查询块**。将一个查询块嵌套在另一个查询块的WHERE子句或HAVING子句的条件中称为嵌套查询或子查询。
+
+   - 非相关嵌套子查询的执行过程为：首先执行子查询，子查询得到的结果集不被显示出来，而是传给外部查询，作为外部查询的条件使用，然后执行外部查询，并显示查询结果。子查询可以多层嵌套。
+
+   - 例子
+
+     ```SQL
+     -- 查询选修了课程号C02的学生信息
+     select * from student where sno in(select sno from sc where cno='C02')
+     ```
+
+   - 嵌套子查询一般也分为两种：子查询返回单个值和子查询返回一个值列表。
+
+     ```sql
+     -- 查询所有年龄大于平均年龄的学生信息
+     select * from student where sage > (select avg(sage) from student)
+     -- 查询与刘晨在同一个系学习的学生信息。
+     select * from student where sdept in(select sdept from student where sname='刘晨')
+     -- 统计选了“数据库”课程的学生的学号、选课门数和平均成绩
+     select sno,count(*),avg(degree) from sc where sno in(select sno from sc where cno in(select cno from course where canme='数据库')) group by sno
+     ```
+
+   - 带有ANY或ALL操作符的子查询。ANY和ALL操作符在使用时必须和比较运算符一起使用，其格式如下。
+
+     ```sql
+     <字段><比较符>[ANY|ALL<子查询>
+     ```
+
+     ALL代表所有 ANY代表其中一个
+
+   - 例子
+   
+     ```sql
+     -- 查询其他系中比计算机系学生年龄都小的学生。
+     select * from student where sage<all(select sage
+     from student where sdept='信息系' ) and sdept <> '信息系'
+     -- 查询其他系中比计算机系任一个学生年龄小的学生信息。
+     select * from student where sage <ANY(select sage
+     from student where sdept='信息系' ) and sdept <> '信息系'
+     ```
+   
+   - 使用存在量词 EXISTS(相关子查询)
+   
+     执行过程：对外层查询student表的每一条记录，检查内层查询是否为空，若不为空，则输出该记录（先执行外层查询，后执行内层查询）
+   
+   - 例子
+   
+     ```
+     -- 查询选修了课程号C02的学生信息
+     
+     ```
+
+## 数据库高级操作
+
+### 视图
+
+- 视图是从一个或者几个**基本表或者视图**中导出的虚拟表，
+
+- 必须使用SQL中的**SELECT**语句来实现。
+
+- 在定义一个视图时，只是把其**定义**存放在数据库中，并**不直接存储视图**对应的**数据**，直到用户使用视图时才去查找对应的数据。
+
+- 主要作用：提供**用户视角**的数据
+
+- 语法
+
+  ```sql
+  CREATE VIEW 视图名字 [(Column [,...n])
+  [WITH ENCRYPTION]
+  AS 查询语句
+  
+  ```
+
+  select_statement:选择哪些列进入视图的SELECT语句。
+  WITH ENCRYPTION:对视图的定义进行加密。
+
+  注意：视图中的SELECT命令不能包括INTO、ORDER BY等子句。
+
+- 例子
+
+  ```sql
+  -- 创建视图
+  -- 有条件的视图定义。定义视图v student,查询所有选修C01号 
+  -- 课程的学生的学号(sno)、姓名(sname)、课程名称(cname)和成绩(degree)
+  create view v_stdent with encryption as select student.sno,sname,sc.cno,degree from student ,sc,course where student.sno=sc.sno and sc.cno = course.cno and sc. cno='C01'
+  -- 使用视图
+  select * from v_stdent -- 用户视角；提高安全性
+  -- 定义视图vstudent_count,查询不同性别的学生人数。
+  create view v_student_count(gender,学生人数) as
+  select gender,count(*) from student group by gender
+  -- 使用视图
+  select * from v_student_count 
+  -- 删除视图
+  drop view 视图名称
+  -- 通过视图查询性别人数超过1人
+  select * from v_student_count where 学生人数>1
+  ```
+
+  注意：创建视图中如果有原表中没有的数据需要起别名 通过视图还可以进行筛选
+
+### 索引
+
+1. 索引概念
+
+   - 索引：是SQL Server编排数据的内部方法。它为SQL Server提供一种方法来编排查询数据
+   - 索引页：数据库中存储索引的数据页；索引页类似于汉语字(词)典中按拼音或笔画排序的目录页。
+   - 索引的作用：通过使用索引，可以大大提高数据库的检索(查询)速度，改善数据库性能。
+
+2. 索引类型
+
+   - 聚集索引(Clustered):表中各行的物理顺序与键值的逻辑（索引）顺序
+     相同，每个表只能有一个；聚集索引适用于范围查询。
+   - 非聚集索引(Nonclustered):表中各行的物理顺序与键值的遵辑（索引)
+     顺序不相同索引中包含指向数据存储位置的指针；非聚集索引适合直接
+     匹配单个条件的查询；每个表可以有1~249个。
+   - 唯一索引：唯一索引不允许两行具有相同的索引值
+   - 注意：聚集索引并不一定是唯一索引，由于SQL SERVER将主键默认定
+     义为聚集索引，事实上，索引是**否唯一与是否聚集是不相关**的，聚集索
+     引可以是唯一索引，也可以是非唯一索引；
+
+3. 语法
+
+   - 创建索引
+
+     ```sql
+     CREATE [UNIQUE][CLUSTERED | NONCLUSTERED]
+     INDEX 索引名字
+     ON 表名 (column_name...)
+     [WITH FILLFACTOR=X]
+     ```
+
+     - UNIQUE表示唯一索引，可选
+     - CLUSTERED、NONCLUSTERED表示聚集索引还是非聚集索引，可选
+     - FILLFACTOR表示填充因子，指定一个0到100之间的值，该值指示索引页填满的空间所占的百分比
+
+   - 删除索引
+
+     ```sql
+     drop index 表名 索引名
+     drop index 索引名 on 表名
+     ```
+
+   - 例子
+
+     ```sql
+      --为Student表的sno列创建一个唯一性的聚集索引：
+      create unique clustered index idx_student_sno on student(sno)
+     ```
+
+     - 注意：在执行此命令前先删除原来该表的主关键字属性
+     - 提示：主关键字约束默认相当于聚集索引和唯一索引的结合。
+
+### 存储过程
+
+- 创建
+
+  ```sql
+  create procedure 存储过程名字 as 查询语句
+  ```
+
+- 使用存储过程
+
+  ```sql
+  execute 存储过程名字
+  ```
+
+- 修改
+
+  ```sql
+  alter procedure 存储过程名字 as 查询语句
+  ```
+
+- 删除
+
+  ```sql
+  drop procedure 存储过程名字
+  ```
+
+  注意 procedure可以缩写称 proc
+
+- 例子
+
+  ```sql
+  -- 创建存储过程
+  -- 例：查询选修了课程号CO2(sc)的学生信息(sno,sname,gender,)student
+  -- 连接查询
+  create procedure proc_t1  as select student.*,cno from student,sc where student.sno=sc.sno and cno='C02'
+  -- 执行存储过程
+  execute proc_t1
+  -- 删除存储过程
+  drop procedure proc_t1
+  ```
+
+- 存储功能可以带参数 用@加参数名称
+
+  例子
+
+  ```sql
+  -- 例：查询选修了某课程号的学生信息(sno,sname,gender,)student
+  create procedure proc_t2 @cno char(4) as select student.*,cno from student,sc where student.sno=sc.sno and cno=@cno
+  -- 使用
+  execute proc_t2 'C01'
+  execute proc_t2  @cno='C01'
+  -- 修改存储过程
+  alter proc proc_t1  as select student.*,cno from student,sc where student.sno=sc.sno and cno='C02'
+  ```
 
 
-
-## 数据库高级应用
 
