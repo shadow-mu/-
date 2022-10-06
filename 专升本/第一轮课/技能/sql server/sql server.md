@@ -285,12 +285,11 @@
 
 - 下面简单介绍与表有关的几个概念：
   1. 表结构。组成表的各列的名称及数据类型，统称为表结构。
-  2. 记录。每个表包含了若干行数据，它们是表的"值”，表中的一行称为一个
-     记录。
+  2. 记录。每个表包含了若干行数据，它们是表的"值”，表中的一行称为一个记录。
   3. 字段。表中的一列称为字段。例如，表3.1中表结构为（学号，姓名，性别，出生时间，专业，总学分，备注)，包含7个字段，由5个记录组成。
   4. 空值。空值(NULL)通常表示未知、不可用或将在以后添加的数据。若一个列允许为空值，则向表中输入记录值时可不为该列给出具体值；而一个列若不允许为空值，则在输入时必须给出具体值。
   5. 关键字。若表中记录的某一字段或字段组合能唯一标识记录，则称该字段或字段组合为候选关键字(Candidate key)。若一个表有多个候选关键字，则选定其中一个为主关键字（Primary key),也称为主键。
-
+  
 - 创建表 语法
 
   ```sql
@@ -369,12 +368,12 @@
   alter table 表名 add 新字段名称 数据类型 列级完整性约束条件
   -- 修改属性的数据类型
   alter table 表名 alter column 字段名称 新数据类型
+  -- 删除属性
+  alter table 表名 drop column 字段名称 
   -- 添加约束
   alter table 表名 alter constraint 约束名 约束条件 (字段名称)
   -- 删除约束
   alter table 表名 drop constraint 约束名
-  -- 删除属性
-  alter table 表名 drop column 字段名称 
   ```
 
 - 例子
@@ -384,12 +383,12 @@
   alter table student add sql char(30) null
   -- 修改属性的数据类型
   alter table student alter column sql char(20)
+  -- 删除属性
+  alter table student drop column sql 
   -- 添加约束
   alter table student add constraint uq_stu_sq unique (sql)
   -- 删除约束
   alter table student drop constraint uq_stu_sq
-  -- 删除属性
-  alter table student drop column sql 
   ```
 
 - 删除表 语法
