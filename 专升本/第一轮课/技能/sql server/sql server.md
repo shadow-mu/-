@@ -364,13 +364,15 @@
 - 修改数据表 语法
 
   ```sql
-  -- 增加属性
+  -- 增加字段
   alter table 表名 add 新字段名称 数据类型 列级完整性约束条件
-  -- 修改属性的数据类型
+  -- 修改字段的数据类型
   alter table 表名 alter column 字段名称 新数据类型
-  -- 删除属性
+  -- 删除字段
   alter table 表名 drop column 字段名称 
   -- 添加约束
+  alter table 表名 add constraint 约束名 约束条件 (字段名称)
+  -- 修改约束
   alter table 表名 alter constraint 约束名 约束条件 (字段名称)
   -- 删除约束
   alter table 表名 drop constraint 约束名
@@ -379,14 +381,16 @@
 - 例子
 
   ```sql
-  -- 增加属性
+  -- 增加字段
   alter table student add sql char(30) null
-  -- 修改属性的数据类型
+  -- 修改字段的数据类型
   alter table student alter column sql char(20)
-  -- 删除属性
+  -- 删除字段
   alter table student drop column sql 
   -- 添加约束
   alter table student add constraint uq_stu_sq unique (sql)
+  -- 修改约束
+  alter table student alter constraint uq_stu_sq unique (sql)
   -- 删除约束
   alter table student drop constraint uq_stu_sq
   ```
@@ -402,7 +406,6 @@
   ```sql
   drop table student
   ```
-
 
 **关系的完整性**
 
@@ -427,10 +430,7 @@
 
   3. √用户自定义的完整性
 
-     用户自定义的完整性就是针对某一具体关系数据库的约束条件，它反映某
-     一具体应用所涉及的数据必须满足语义要求。例如某个属性必须取唯一
-     值、属性值之间应满足一定的函数关系、某属性的取值范围在0~100之间
-     等。
+     用户自定义的完整性就是针对某一具体关系数据库的约束条件，它反映某一具体应用所涉及的数据必须满足语义要求。例如某个属性必须取唯一值、属性值之间应满足一定的函数关系、某属性的取值范围在0~100之间等。
      √例如，性别只能取“男”或“女”；学生的成绩必须在0~100之间。
 
 ## 操作数据表中的数据
@@ -439,7 +439,7 @@
 
 1. 插入单条记录
 
-   - 语句格式
+   - 语法
 
      ```sql
      insert into 表名 [列名清单] values 常量清单
@@ -460,10 +460,10 @@
 
 2. 插入多条记录
 
-   - 语句格式
+   - 语法
 
      ```
-     insert into 表明 [列名清单] values (常量清单1),(常量清单2),...
+     insert into 表名 [列名清单] values (常量清单1),(常量清单2),...
      ```
 
    - 例子
@@ -483,7 +483,7 @@
 
 ### 修改
 
-- 语句格式
+- 语法
 
   ```sql
   update 表名 set 列名1=表达式1 [,列名2=表达式2] [where 条件表达式]
@@ -494,8 +494,6 @@
   1. 如果不指定条件，则会修改表中所有记录
   2. 如果要修改多列，则在SET语句后用”，”分割各修改子句
 
-  1.  
-
 - 例
 
   ```sql
@@ -505,14 +503,14 @@
 
 ### 删除
 
-- 语句格式
+- 语法
 
   ```sql
   delete from 表名  [where 条件表达式]
   ```
 
   说明：
-  当无WHERE〈条件表达式>时将删除<表名>中所有记录，但是，该表结构还在，只是变为了空表
+  当无WHERE<条件表达式>时将删除<表>中所有记录，但是，该表结构还在，只是变为了空表
 
 - 例
 
@@ -522,7 +520,7 @@
 
 ### 单表查询
 
-- 语句格式
+- 语法
 
   ```sql
   SELECT all[DISTINCT][TOP N[PERCENT]],字段1,字段2,字段3..[AS 别名] FROM 表名;
@@ -534,9 +532,9 @@
 
   2. DISTINCT:表示在查询结果中去掉重复值。
 
-  3. TOP N:返回查询结果集中的前W行。
+  3. TOP N:返回查询结果集中的前N行。
 
-     加[PERCENT]返回查询结果集中的前N%行。W的取值范围是0~100。
+     加[PERCENT]返回查询结果集中的前N%行。N的取值范围是0~100。
 
 - 例
 
@@ -555,7 +553,7 @@
 
 - 单表有条件查询
 
-- 语句格式
+- 语法
 
   ```sql
   SELECT all[DISTINCT][TOP N[PERCENT]],字段1,字段2,字段3..[AS 别名] FROM 表名 where 条件;
@@ -575,18 +573,16 @@
   1. WHERE子句中可以使用逻辑运算符AND、OR和NOT,这3个逻辑
      运算符可以混合使用。
 
-  2. 在WHERE子句中使用BETWEEN关键字查找在某一范围内的数据，也
-     可以使用NOT BETWEEN关键字查找不在某一范围内的数据。
-
-  3. 在WHERE子句中使用字符匹配符LIKE或NOT LIKE可以把表达式与字符串进行比较，从而实现对字符串的模糊查询。
-
-     通配符% 表示0或者多个字符
-
-     通配符_ 表示任意一个字符
-
-  4. 在WHERE子句中，如果需要确定表达式的取值是否属于某一列表值之
-     一时，就可以使用关键字IN或NOT IN来限定查询条件。
-
+  2. 在WHERE子句中使用BETWEEN关键字查找在某一范围内的数据，也可以使用NOT BETWEEN关键字查找不在某一范围内的数据。
+     
+3. 在WHERE子句中使用字符匹配符LIKE或NOT LIKE可以把表达式与字符串进行比较，从而实现对字符串的模糊查询。
+  
+   通配符% 表示0或者多个字符
+  
+   通配符_ 表示任意一个字符
+  
+4. 在WHERE子句中，如果需要确定表达式的取值是否属于某一列表值之一时，就可以使用关键字IN或NOT IN来限定查询条件。
+     
   5. 当数据表中的值为NULL时，可以使用IS NULL关键字的WHERE子句进行查询，反之要查询数据表的值不为NULL时，可以使用IS NOT NULL关键字。**注意无法用等于号（=）判断空**
 
 - 例子
@@ -622,10 +618,8 @@
 - SQL Server的聚集函数是综合信息的统计函数，也称为聚合函数或集函数，
 
   1. 包括计数、求最大值、求最小值、求平均值和求和等。
-  2. 聚集函数可作为列标识符出现在SELECT子句的目标列或HAVING子句的
-     条件中。
-  3. 在SQL查询语句中，如果有GROUP BY子句，则语句中的函数为分组统
-     计函数；否则，语句中的函数为全部结果集的统计函数。SQL提供的聚集
+  2. 聚集函数可作为列标识符出现在SELECT子句的目标列或HAVING子句的条件中。
+  3. 在SQL查询语句中，如果有GROUP BY子句，则语句中的函数为分组统计函数；否则，语句中的函数为全部结果集的统计函数。SQL提供的聚集
 
 - | 函数          | 说明                 |
   | ------------- | -------------------- |
@@ -636,7 +630,7 @@
   | SUM(<列名>)   | 计算一列中值的总和   |
   | AVG(<列名>)   | 计算一列中值的平均值 |
   
-  注意：**聚集函数忽略空值** 所以用非空项查询 ，**除了count其他都不能*号**
+  注意：**聚集函数忽略空值** 所以用非空项查询 ，**除了count其他都不能用*号**
   
 - 例子
 
@@ -658,7 +652,7 @@
    - 使用GROUP BY子句可以将查询结果按照**某一列或多列数据**值进行**分类**，换句话说，就是对查询结果的信息进行**归纳**，以**汇总**相关数据。
      GROUP BY子句把查询结果集中的各行按列名清单进行分组，在这些列上，对应值都相同的记录分在同一组。若无HAVING子句，则各组分别输出；若有HAVING子句，**只有符合HAVING条件**的组才输出。
 
-   - 语法格式
+   - 语法
 
      ```sql
      [GROUP BY列名清单][HAVING条件表达式]
@@ -682,7 +676,7 @@
      select cno ,count(*) from sc group by cno having count(*)>2
      ```
 
-     注意where对基本表table的行为记录做筛选  having针对分组统计的结果进行筛选 
+     注意：where对基本表table的行为记录做筛选  having针对分组统计的结果进行筛选 
 
      聚合函数可以出现在 having order后面
 
@@ -712,16 +706,14 @@
 
 1. 内连接
 
-   - 语句格式
+   - 语法
 
      ```sql
-     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别
-     名.<选项2>[AS<显示列名>]，...]FROM<表名1>[别名1]，<表名2>[别名2[，…]WHERE<连接条件表达式>[AND<条件表达式>]
+     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别名.<选项2>[AS<显示列名>]，...]FROM<表名1>[别名1]，<表名2>[别名2[，…]WHERE<连接条件表达式>[AND<条件表达式>]
      ```
-
-     注意：若在输出列或条件表达式中出现两个表的公共字段，则在公共
-     字段名前必须加别名
-
+     
+     注意：若在输出列或条件表达式中出现两个表的公共字段，则在公共、字段名前必须加别名
+     
    - 例子
 
      ```sql
@@ -729,33 +721,30 @@
      select s.sno,s.sname,c.cno, c.degree from student s, sc c where s.sno=c.sno and s.gender='女'
      select  s.sno,s.sname,c.cno, c.degree  from student s inner join sc c on s.sno=c.sno where s.gender='女'
      ```
-
+   
 2. 外连接
 
    - 在自然连接中，**只有**在两个表中**匹配**的行才能在结果集中出现。而在外连接中可以**只限制**一个表（**从表**），而对另外一个表**不加限制**（**主表**）。外连接分为**左外连接、右外连接和全外连接。**
 
-   - 语法格式
+   - 语法
 
      ```sql
-     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别
-     名.<选项2>[AS<显示列名>]，...]
+     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别名.<选项2>[AS<显示列名>]，...]
      FROM<表名1>LEFT|RIGHT|FULL[OUTER]JOIN<表名2>
      oN<表名1.列1>=<表名2.列2>
      ```
-
-     对于左连接对于主表（left前面是主表）有限制对于从表要进行on的连接
-
-     右连接同理
-
+     
+     注意：对于左连接对于主表（left前面是主表）有限制对于从表要进行on的连接右连接同理
+     
    - 例子
-
+   
      ```sql
      -- 利用左外连接查询每个学生及其选修课的情况。
      select s.*,c.cno ,c.degree from student s left join sc c on s.sno= c.sno
      -- 右外连
      select student.*,cno from sc  right join student  on student.sno= sc.sno
      ```
-
+   
 3. 嵌套查询-非相关子查询
 
    - 在SQL语言中，一个**SELECT一FROM一WHERE语句称为一个查询块**。将一个查询块嵌套在另一个查询块的WHERE子句或HAVING子句的条件中称为嵌套查询或子查询。
@@ -826,14 +815,12 @@
 
   ```sql
   CREATE VIEW 视图名字 [(Column [,...n])
-  [WITH ENCRYPTION]
-  AS 查询语句
-  
+  [WITH ENCRYPTION]  AS 查询语句
   ```
-
+  
   select_statement:选择哪些列进入视图的SELECT语句。
-  WITH ENCRYPTION:对视图的定义进行加密。
-
+WITH ENCRYPTION:对视图的定义进行加密。
+  
   注意：视图中的SELECT命令不能包括INTO、ORDER BY等子句。
 
 - 例子
@@ -868,16 +855,11 @@
 
 2. 索引类型
 
-   - 聚集索引(Clustered):表中各行的物理顺序与键值的逻辑（索引）顺序
-     相同，每个表只能有一个；聚集索引适用于范围查询。
-   - 非聚集索引(Nonclustered):表中各行的物理顺序与键值的遵辑（索引)
-     顺序不相同索引中包含指向数据存储位置的指针；非聚集索引适合直接
-     匹配单个条件的查询；每个表可以有1~249个。
+   - 聚集索引(Clustered):表中各行的物理顺序与键值的逻辑（索引）顺序相同，每个表只能有一个；聚集索引适用于范围查询。
+   - 非聚集索引(Nonclustered):表中各行的物理顺序与键值的逻辑（索引)顺序不相同索引中包含指向数据存储位置的指针；非聚集索引适合直接匹配单个条件的查询；每个表可以有1~249个。
    - 唯一索引：唯一索引不允许两行具有相同的索引值
-   - 注意：聚集索引并不一定是唯一索引，由于SQL SERVER将主键默认定
-     义为聚集索引，事实上，索引是**否唯一与是否聚集是不相关**的，聚集索
-     引可以是唯一索引，也可以是非唯一索引；
-
+   - 注意：聚集索引并不一定是唯一索引，由于SQL SERVER将主键默认定义为聚集索引，事实上，索引是**否唯一与是否聚集是不相关**的，聚集索引可以是唯一索引，也可以是非唯一索引；
+   
 3. 语法
 
    - 创建索引
@@ -947,6 +929,8 @@
   create procedure proc_t1  as select student.*,cno from student,sc where student.sno=sc.sno and cno='C02'
   -- 执行存储过程
   execute proc_t1
+  -- 修改存储过程
+  alter procedure proc_t1 as select * from student
   -- 删除存储过程
   drop procedure proc_t1
   ```
