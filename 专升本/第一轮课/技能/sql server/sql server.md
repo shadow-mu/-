@@ -441,11 +441,19 @@
   -- 增加字段
   alter table 表名 add 新字段名称 数据类型 列级完整性约束条件
   -- 修改字段的数据类型
-  alter table 表名 alter column 字段名称 新数据类型
+  alter table 表名 alter column 字段名称 新数据类型[写只能 not null]
   -- 删除字段
   alter table 表名 drop column 字段名称 
   -- 添加约束
   alter table 表名 add constraint 约束名 约束条件 (字段名称)
+  -- 添加外键约束
+  alter table 表名 add constraint 约束名 foreign key(字段) references 另一个表名(字段)
+  -- 添加检查约束
+  alter table 表名 add constraint 约束名 check(检查的条件)
+  -- 添加默认值约束
+  alter table 表名 add constraint 约束名 default(默认值) for 字段名
+  -- 添加非空约束 相当于修改字段
+  alter table表名 alter column 字段名称 数据类型 not null
   -- 修改约束
   alter table 表名 alter constraint 约束名 约束条件 (字段名称)
   -- 删除约束
@@ -462,9 +470,17 @@
   -- 删除字段
   alter table student drop column sql 
   -- 添加约束
-  alter table student add constraint uq_stu_sq unique (sql)
+  alter table student add constraint uq_stu_sq unique (cno)
+  -- 添加外键约束
+  alter table student add constraint wjys foreign key cno references sc(cno)
+  -- 添加检查约束
+  alter table student add constraint ch check(cno>0)
+  -- 添加默认值约束
+  alter table student add constraint de default(2) for cno
+  -- 添加非空约束 相当于修改字段
+  alter table student alter column sql char(20) not null
   -- 修改约束
-  alter table student alter constraint uq_stu_sq unique (sql)
+  alter table student alter constraint uq_stu_sq primary key (cname)
   -- 删除约束
   alter table student drop constraint uq_stu_sq
   ```
@@ -544,20 +560,20 @@
 
 - 关系模型中允许定义3类完整性约束：
 
-  1. √实体完整性
+  1. √实体完整性,**由primary key主键/主码保证**
 
      实体完整性规则若属性A是基本关系R的主属性，则属性A不能取空值。
      例如：学生关系“学生学号，姓名，性别，专业号，年龄”中，“学号”
      为主码，则“学号”不能取空值。
 
-  2. √参照完整性
+  2. √参照完整性,**由foreign key外键/外码保证**
 
      学生、课程、学生与课程之间的多对多联系选修可以用如下3个关系表示。
      √学生（**学号**，姓名，性别，专业号，年龄)
      √课程（**课程号**，课程名，学分）
      √选修（**学号**，**课程号**，成绩）
 
-  3. √用户自定义的完整性
+  3. √用户自定义的完整性**(域完整性)：not null、unique、check(...)**
 
      用户自定义的完整性就是针对某一具体关系数据库的约束条件，它反映某一具体应用所涉及的数据必须满足语义要求。例如某个属性必须取唯一值、属性值之间应满足一定的函数关系、某属性的取值范围在0~100之间等。
      √例如，性别只能取“男”或“女”；学生的成绩必须在0~100之间。
@@ -652,18 +668,18 @@
 - 语法
 
   ```sql
-  SELECT all[DISTINCT][TOP N[PERCENT]],字段1,字段2,字段3..[AS 别名] FROM 表名;
+  SELECT all[DISTINCT][TOP N][PERCENT],字段1,字段2,字段3..[AS 别名] FROM 表名;
   ```
 
 - 说明
 
-  1. ALL:表示输出所有记录，包括重复记录。默认值为ALL。
+  1. all:表示输出所有记录，包括重复记录。默认值为all。
 
-  2. DISTINCT:表示在查询结果中去掉重复值。
+  2. distinct:表示在查询结果中去掉重复值**作用范围是所有目标列**
 
-  3. TOP N:返回查询结果集中的前N行。
+  3. top n:返回查询结果集中的前N行。
 
-     加[PERCENT]返回查询结果集中的前N%行。N的取值范围是0~100。
+     加[precent]返回查询结果集中的前n%行。n的取值范围是0~100。
 
 - 例
 
@@ -690,29 +706,34 @@
 
 - WHERE条件中的运算符
 
-  | 查询条件   | 运算符                      |
-  | ---------- | --------------------------- |
-  | 比较运算符 | =，<，>，<=，>=，!=         |
-  | 逻辑运算符 | AND,OR,NOT                  |
-  | 范围运算符 | BETWEEN AND,NOT BETWEEN AND |
-  | 列表运算符 | IN,NOT IN                   |
-  | 字符匹配符 | LIKE,NOT LIKE               |
-  | 空值       | IS NULL,IS NOT NULL         |
+  | 查询条件   | 运算符                                                       |
+  | ---------- | ------------------------------------------------------------ |
+  | 比较运算符 | =，<，>，<=，>=，**!=，<>**，not+比较运算符                  |
+  | 逻辑运算符 | AND,OR,NOT                                                   |
+  | 范围运算符 | BETWEEN AND（**包括边界**）,NOT BETWEEN AND（**不包括边界**） |
+  | 列表运算符 | IN,NOT IN                                                    |
+  | 字符匹配符 | LIKE,NOT LIKE                                                |
+  | 空值       | IS NULL,IS NOT NULL                                          |
 
-  1. WHERE子句中可以使用逻辑运算符AND、OR和NOT,这3个逻辑
-     运算符可以混合使用。
-
-  2. 在WHERE子句中使用BETWEEN关键字查找在某一范围内的数据，也可以使用NOT BETWEEN关键字查找不在某一范围内的数据。
-     
-3. 在WHERE子句中使用字符匹配符LIKE或NOT LIKE可以把表达式与字符串进行比较，从而实现对字符串的模糊查询。
+  1. !=，<>都是不等于  not+比较运算符 列 not> 表示不大于
   
-   通配符% 表示0或者多个字符
+  2. WHERE子句中可以使用逻辑运算符AND、OR和NOT,这3个逻辑运算符可以混合使用。
   
-   通配符_ 表示任意一个字符
+  3. 在WHERE子句中使用between关键字**查找在某一范围内的数据**（包括边界），也可以使用not between**关键字查找不在某一范围内的数据**（不包括边界）。
   
-4. 在WHERE子句中，如果需要确定表达式的取值是否属于某一列表值之一时，就可以使用关键字IN或NOT IN来限定查询条件。
-   
-  5. 当数据表中的值为NULL时，可以使用IS NULL关键字的WHERE子句进行查询，反之要查询数据表的值不为NULL时，可以使用IS NOT NULL关键字。**注意无法用等于号（=）判断空**
+  4. in (值 , 值)：用逗号分隔的一组取值，**满足集合中的一个值**。
+  
+  5. 在WHERE子句中使用字符匹配符LIKE或NOT LIKE可以把表达式与字符串进行比较，从而实现对字符串的**模糊查询**不能等号 比如查询姓张的如果='张'就是名字为张的了。
+  
+     通配符% 表示**0**或者**多个字符**(任意长度)
+  
+     通配符**_** 表示任意**一个字符**
+  
+     通配符[ ] (中括号) 匹配 [ ] 中的**任意一个字符** 例子 [ac]  ab可以 cd可以 bd不可以
+  
+  6. 在WHERE子句中，如果需要确定表达式的取值是否属于某一列表值之一时，就可以使用关键字IN或NOT IN来限定查询条件
+  
+  7. 当数据表中的值为NULL时，可以使用IS NULL关键字的WHERE子句进行查询，反之要查询数据表的值不为NULL时，可以使用IS NOT NULL关键字。**注意无法用等于号（=）判断空**
 
 - 例子
 
