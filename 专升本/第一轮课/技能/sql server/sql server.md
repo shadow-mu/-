@@ -410,6 +410,7 @@
    sno char(8) not null primary key,
    sanme char(10) not null,
    grender char(2) null default '男' check(grender='女' or grender='男'),
+   -- check(grender='女' or grender='男') 等同于check(grender in('男','女')) 
    sbirth date,
    email char(30) unique, -- 唯一约束
    major char(20),
@@ -512,7 +513,7 @@
 
     - decimal和numeric两种类型(等价)
     - 格式：decimal(p,s)或者numeric(p,s)
-      - p(有效位数，小数点**左右两侧位数之和**)
+      - p(有效位数，小数点（**左右两侧位数之和**)
       - s(小数位数)，s默认值为0,  0<=s<=p
     - **decimal(10,6)表示数中共有10位数，其中数部分占4位，小数部分占6。**
 
@@ -668,18 +669,18 @@
 - 语法
 
   ```sql
-  SELECT all[DISTINCT][TOP N][PERCENT],字段1,字段2,字段3..[AS 别名] FROM 表名;
+  SELECT all[DISTINCT][TOP N][PERCENT][with ties],字段1,字段2,字段3..[AS 别名] FROM 表名;
   ```
 
 - 说明
 
   1. all:表示输出所有记录，包括重复记录。默认值为all。
-
   2. distinct:表示在查询结果中去掉重复值**作用范围是所有目标列**
-
   3. top n:返回查询结果集中的前N行。
 
-     加[precent]返回查询结果集中的前n%行。n的取值范围是0~100。
+     - 加[precent]返回查询结果集中的前n%行。n的取值范围是0~100。
+     - with ties:指定从基本结果集中返回**额外的数据行(包含并列的)**，只有在select子句中包含了**order by**子句时才使用（输出并列的）
+     - **top写在select,后面**，**属性名的前面**，如果有distinct,**写在distinct后面**
 
 - 例
 
@@ -694,6 +695,13 @@
   select sanme ,year(getdate())-year(sbirth) from student
   -- 分数提20%
   select sno,chedit*1.2 AS 成绩 from student
+  -- 查询选修了3号的学生中考试成绩最高的3个学号及其成绩。
+  select top 3 sno grade from sc where Cno='3' order by grade desc
+  -- 查询Student表中前10条学生信息。
+  select top 10 * from student 
+  -- 查询Student表中前10%学生信息。
+  select top 10 percent * from student
+  
   ```
 
 - 单表有条件查询
@@ -837,19 +845,34 @@
    - 用户可以利用ORDER BY子句对查询结果按照一个或多个字段
      进行**升序(ASC)或降序(DESC)排序**，默认值为升序。
 
+   - **asc查询空值在最前面**  **desc查询空值在最后面**
+     
+   - order by子句中，可以使用列名进行排序，可以使用字段在选择列表中的**位置序号进行排序。**
+     
    - 语法
 
      ```sql
-     [ORDER BY<列名1>[ASC|DESC[,<列名2> [ASC|DESC],…
+     ORDER BY<列名1> ASC|DESC , <列名2> [ASC|DESC],…
      ```
-
+   
    - 例子
-
+   
      ```sql
      -- 查询选修了C02号课程的学生的学号、其成绩，查询结果按分数(sc)的降序排列。
      select sno,cno,degree from sc where cno='C02' order by degree desc
      -- 查询全体学生情况，查询结果按所在系升序排列，同一系中的学生按出生口期除序排列。
      select * from student order by sdept asc, sbirth desc
+     
+     select sno,cno,degree -- 选择列表
+     from sc order by 3 desc -- 这个3指的是选择列表的序号
+     select sno,degree,cno -- 选择列表
+     from sc order by 2 desc -- 这个2指的是选择列表的序号
+     -- 查询选修了3号的学生中考试成绩最高的3个学号及其成绩。
+     select top 3 sno grade from sc where Cno='3' order by grade desc
+     -- 查询Student表中前10条学生信息。
+     select top 10 * from student 
+     -- 查询Student表中前10%学生信息。
+     select top 10 percent * from student
      ```
 
 ### 多表连接查询
