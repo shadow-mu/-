@@ -764,7 +764,7 @@
   select * from student where sanme like'[张唐]%' 
   -- 查询软件和计算机的学生
   select * from student where major in('软件','计算机系')
-  --查询缺少成绩的学生
+  -- 查询缺少成绩的学生
   select * from student where chedit is  null
   -- 不为空
   select * from student where chedit is not null
@@ -776,7 +776,7 @@
 
   1. 包括计数、求最大值、求最小值、求平均值和求和等。
   2. 聚集函数可作为列标识符出现在SELECT子句的目标列或HAVING子句的条件中。
-  3. 在SQL查询语句中，如果有GROUP BY子句，则语句中的函数为分组统计函数；否则，语句中的函数为全部结果集的统计函数。SQL提供的聚集
+  3. 在SQL查询语句中，如果有GROUP BY子句，则语句中的函数为**分组统计函数**；否则，语句中的函数为**全部结果集的统计函数**。SQL提供的聚集
 
 - | 函数          | 说明                 |
   | ------------- | -------------------- |
@@ -789,16 +789,20 @@
   
   注意：**聚集函数忽略空值** 所以用非空项查询 ，**除了count其他都不能用*号**
   
+  注意：**count(distinct 字段) 去重复值** 
+  
+  注意：**除了count(*)外其他函数计算当中会忽略null**
+  
 - 例子
 
   ```sql
   -- 查询学生总数。
   select count(*) from student
-  --查询选修了课程的学生人数。
+  -- 查询选修了课程的学生人数。
   select count(distinct sno) from sc 
-  --计算男学生平均成绩。
+  -- 计算男学生平均成绩。
   select avg(chedit) from student where grender='男'
-  --查询学生最高分和最低分。
+  -- 查询学生最高分和最低分。
   select max(chedit),min(chedit) from student
   ```
 
@@ -807,8 +811,21 @@
 1. 对查询结果集进行分组
 
    - 使用GROUP BY子句可以将查询结果按照**某一列或多列数据**值进行**分类**，换句话说，就是对查询结果的信息进行**归纳**，以**汇总**相关数据。
-     GROUP BY子句把查询结果集中的各行按列名清单进行分组，在这些列上，对应值都相同的记录分在同一组。若无HAVING子句，则各组分别输出；若有HAVING子句，**只有符合HAVING条件**的组才输出。
-
+     
+   - GROUP BY子句把查询结果集中的各行按列名清单进行分组，在这些列上，对应值都相同的记录分在同一组。若无HAVING子句，则各组分别输出；若有HAVING子句，**只有符合HAVING条件**的组才输出。
+     
+   - 未对查询结果分组，聚合函数将作用于**整个查询结果，此时认为整个查询结果就是一个组，即最后只产生一个结果**
+     
+   - 对查询结果分组后，聚合函数将分别作用于**每个组，每个组都将产生一个集合函数的计算结果**
+     
+   - 什么情况下使用group by分组？
+     
+     - select语句中有集合函数，需要进一步考虑是否分组
+     - **分组属性从题目中涉及的属性中产生**
+     - 如果分组，格式：group by分组属性
+       ①分组属性**不可能**是**集合函数中的属性**
+       ②分组属性与**where中查询条件**中的属性相同，则**不需要分组**
+     
    - 语法
 
      ```sql
@@ -833,11 +850,17 @@
      select cno ,count(*) from sc group by cno having count(*)>2
      ```
 
-     注意：where对基本表table的行为记录做筛选  having针对分组统计的结果进行筛选 
-
-     聚合函数可以出现在 having order后面
-
-     注意分组和聚合函数里面没有的字段不能直接查询因为没进行过处理无法查询会报错
+     - **where子句**用于筛选**from子句中指定的表所产生的行数据做筛选**
+     - group by子句用于对经where子句筛选后的结果数据进行分组
+     - group by写在where子句之后
+     - having子句用于**对分组后的统计结果再进行筛选**
+     - having**不能单独存在**，必须在group by存在的前提下使用
+     
+     - 聚合函数**不能写在where里**  **可以出现在 having order后面**
+     
+     
+     - 注意分组和聚合函数里面没有的字段不能直接查询因为没进行过处理无法查询会报错
+     - **使用group by子句后**，**select语句的列名列表中**只能出现**分组和聚合函数出现的字段**
 
 2. 对查询结果集进行排序
 
@@ -878,20 +901,34 @@
 
 1. 内连接
 
-   - 语法
+   - 使用内连接时，如果**两个表的相关字段满足连接条件**，则从两个表中提取数据组成新的记录。
 
+   - 特点：**只有满足连接条件的元组才能进行连接**。
+   
+   - ![image-20221111163617838](img/image-20221111163617838.png)
+   
+   - 两个表能否连接取决于有没有公共属性
+   
+     1. 名称一样，但含义相同，数据类型相同
+     2. 名称不一样，但含义相同，数据类型相同
+     
+   - 语法
+   
      ```sql
-     SELECT [ALL | DISTINCT][别名]<选项1>[AS<显示列名>][，[别名.<选项2>[AS<显示列名>]，...]FROM<表名1>[别名1]，<表名2>[别名2[，…]WHERE<连接条件表达式>[AND<条件表达式>]
+     select目标属性1，日标属性2 from 表1，表2，.. where连接条件[and查询条件]
+     select目标属性1，日标属性2 from 表1 inner join 表2，.. on 连接条件[and查询条件]
      ```
      
      注意：若在输出列或条件表达式中出现两个表的公共字段，则在公共、字段名前必须加别名
      
    - 例子
-
+   
      ```sql
      -- 输出所有女学生的学号、姓名、课号及成绩。
      select s.sno,s.sname,c.cno, c.degree from student s, sc c where s.sno=c.sno and s.gender='女'
      select  s.sno,s.sname,c.cno, c.degree  from student s inner join sc c on s.sno=c.sno where s.gender='女'
+     -- 查询选修了数据库课程的学生的学号、姓名与成绩。
+     select Student.Sno,Sname,Grade from Student ,SC ,Course  where Student.Sno=SC.Sno and Course.Cno=SC.Cno and Cname='数据库'
      ```
    
 2. 外连接
