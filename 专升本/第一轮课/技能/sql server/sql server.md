@@ -600,14 +600,14 @@
 
    - 注：
 
-     1. 表中不允许为空值的项必须输入
-     2. 省略列名清单，则常量清单应于表中的列名顺序一致
+     1. **表中不允许为空值的项必须输入**
+     2. **省略列名清单**，则**常量清单应于表中的列名顺序一致**
 
-2. 插入多条记录
+2. 插入多条记录 
 
    - 语法
 
-     ```
+     ```sql
      insert into 表名 [列名清单] values (常量清单1),(常量清单2),...
      ```
 
@@ -625,6 +625,23 @@
      3. 如果没有指明任何列名，则新插入的记录必须在每个属性列上均有值
      4. 字符型或日期型数据必须使用' '（单引号）将其括起来
      5. 常量的顺序必须和指定的列名顺序保持一致
+   
+3. 插入子查询结果
+
+   - 语法
+
+     ```sql
+     insert into <表名> [列名清单] select属性1，属性2，--子查询 from 表 where group by ... order...
+     ```
+
+   - 功能：将**子查询结果插入指定表中**
+
+   - 例子
+
+     ```sql
+     -- 现有表stu temp与Student结构相同，查询年龄大于18岁的女同学，并将其信息插入。
+     insert into stu_temp select * from student where sage > 18 and Ssex='女'
+     ```
 
 ### 修改
 
@@ -642,8 +659,16 @@
 - 例
 
   ```sql
+  -- 将所有选修了课程的同学的成绩增加10分。
+  update SC  set Grade=Grade+10
   update student set sanme ='刘德华' where sanme='张齐'
   update student set chedit=60 where chedit<60
+  -- 将software.系全体学生的成绩加5分
+  update sc set Grade=Grade+5 where Sno in(select Sno from Student
+  where Sdept='software')
+  -- 将software系前两名学生的备注写无，
+  update top(2) student set remark='无' where Sdept='software'
+  -- 此格式中top(2) ()不能省略
   ```
 
 ### 删除
@@ -654,13 +679,19 @@
   delete from 表名  [where 条件表达式]
   ```
 
-  说明：
-  当无WHERE<条件表达式>时将删除<表>中所有记录，但是，该表结构还在，只是变为了空表
-
+  - 说明：当无WHERE<条件表达式>时将删除<表>中**所有记录**，但是，该表结构还在，只是变为了空表
+  
 - 例
 
   ```sql
+  -- 删除所有学生的信息
+  delete from Student
   delete from student where sanme='刘德华' 
+  -- 删除Student表中25%的行数据。
+  delete top(25) percent from student
+  -- 此格式中top(25) ()不能省略
+  -- 删除software系全体学生的选课信息及成绩。
+  delete from sc where son in (select sno from student Sdept='software')
   ```
 
 ### 单表查询
@@ -929,6 +960,9 @@
      select  s.sno,s.sname,c.cno, c.degree  from student s inner join sc c on s.sno=c.sno where s.gender='女'
      -- 查询选修了数据库课程的学生的学号、姓名与成绩。
      select Student.Sno,Sname,Grade from Student ,SC ,Course  where Student.Sno=SC.Sno and Course.Cno=SC.Cno and Cname='数据库'
+     -- 统计每个系的平均成绩，列出系及平均成绩。（分组的多表查询）
+     select Sdept,avg(Grade) from Student,SC where Student.Sno=SC.Sno
+     group by Sdept
      ```
    
 2. 外连接
@@ -956,36 +990,71 @@
    
 3. 嵌套查询-非相关子查询
 
-   - 在SQL语言中，一个**SELECT一FROM一WHERE语句称为一个查询块**。将一个查询块嵌套在另一个查询块的WHERE子句或HAVING子句的条件中称为嵌套查询或子查询。
+   - 在SQL语言中，一个**SELECT一FROM一WHERE语句称为一个查询块**。将一个**查询块嵌套在另一个查询块**的WHERE子句或HAVING子句的条件中称为嵌套查询或子查询。
 
    - 非相关嵌套子查询的执行过程为：首先执行子查询，子查询得到的结果集不被显示出来，而是传给外部查询，作为外部查询的条件使用，然后执行外部查询，并显示查询结果。子查询可以多层嵌套。
 
-   - 例子
+   - 子查询的限制  **不能使用ORDER BY子句**
 
+   - 语法
+   
+     ```sql
+     SELECT<查询列表> FROM表1 where<列名>[not] IN(SELECT<列名> FROM表2
+     [WHERE ...]
+     外层列名与内层列名通常一致(公共属性) 表1和表2应有公共属性
+     SELECT<查询列表> FROM表1 where<列名>  比较运算符 (SELECT<列名> FROM表2
+     [WHERE ...]             
+     ```
+   
+     - 使用嵌套子查询**进行比较测试时**，要**求子查询只能返回单个值。**
+     - 外层查询一般通过比较运算符(>、>=、<、<=、=、<>、!=)
+     - 将外层查询中**某个列的值与子查询返回的值进行比较**。    
+   
+   - 公共的属性：
+
+     - 属性名称相同（公共属性）且数据类型相同，含义相同
+
+       ```
+       Student 学号 Sno char(10) SC 学号 Sno char(10)
+       ```
+
+     - 属性名称可以不同，但数据类型相同，含义要相同
+
+       ```
+       Student 学号 Sno char(10) SC 学号 no char(10)
+       ```
+   
+       **表1与表2必须是有一致属性的两个表**
+   
+   - 例子
+   
      ```SQL
      -- 查询选修了课程号C02的学生信息
      select * from student where sno in(select sno from sc where cno='C02')
-     ```
-
-   - 嵌套子查询一般也分为两种：子查询返回单个值和子查询返回一个值列表。
-
-     ```sql
-     -- 查询所有年龄大于平均年龄的学生信息
-     select * from student where sage > (select avg(sage) from student)
      -- 查询与刘晨在同一个系学习的学生信息。
      select * from student where sdept in(select sdept from student where sname='刘晨')
      -- 统计选了“数据库”课程的学生的学号、选课门数和平均成绩
      select sno,count(*),avg(degree) from sc where sno in(select sno from sc where cno in(select cno from course where canme='数据库')) group by sno
      ```
-
+   
+   - 嵌套子查询一般也分为两种：子查询返回单个值和子查询返回一个值列表。
+   
+     ```sql
+     -- 查询所有年龄大于平均年龄的学生信息
+     select * from student where sage > (select avg(sage) from student)
+     -- 查询IS系中年龄高于该系平均年龄的学生的学号、姓名、性别、年龄。
+     select Sno,Sname,Ssex,Sage from student
+     where sdept='Is'and sage >(select avg(sage) from Student where Sdept='Is')
+     ```
+   
    - 带有ANY或ALL操作符的子查询。ANY和ALL操作符在使用时必须和比较运算符一起使用，其格式如下。
-
+   
      ```sql
      <字段><比较符>[ANY|ALL<子查询>
      ```
-
+   
      ALL代表所有 ANY代表其中一个
-
+   
    - 例子
    
      ```sql
