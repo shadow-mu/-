@@ -298,57 +298,152 @@
 
 ## 管理维护数据库
 
+### 数据库备份与恢复
+
+- 为了保证数据库中数据的一致性和正确性，DBMS提供了将数据库从错误状态恢复到某一正确状态的功能，这种功能称为**恢复**
+
+- 数据库恢复是以**备份**为基础的
+
+- 备份内容：
+
+  1. 数据文件（主数据文件.mdf和次数据文件.ndf)
+  2. 日志文件 ldf
+
+- 备份介质
+
+  1. 磁盘disk:常用的备份介质，可以用于备份本地文件，也可以用于网络文件
+  2. 磁带tape:是大容量的备份个质，仅可用于备份本地文件
+
+- 备份方法
+
+  1. **完全备份**：每次都备份整个数据库，包括事务日志。
+  2. **差异备份**：只备份自上次备份以来发生过变化的数据库的数据，也称增量备份用来扩充完全备份或数据库和事务日志备份方法。**差异备份的前提是完全备份**
+  3. **数据库和事务日志备份**：不需要频繁地定期进行数据库备份，而是在两次完全数据库备份期间，进行事务日志备份。
+  4. **数据库文件或文件组备份**：只备份特定的数据库文件或文件组，同时还要定期备份事务日志。
+
+- 创建备份设备
+
+  1. 进行数据库备份时首先必须创建用来存储备份的备份设备。备份设备可以是磁带或磁盘
+  2. **创建备份设备后**才能通过T-SQL命令将需要备份的数据库备份到**备份设备**中。
+     - **临时备份设备**：只能使用**物理名（物理路径）**访问的备份设备称为临时备份设备。
+     - **永久备份设备**：可以使用**逻辑名**访问的备份设备称为命名的备份设备，用于创建永久备份设备；
+  3. 若使用磁盘设备备份，**备份设备实际上就是磁盘文件**，该文件的**后缀为.bak**
+
+- 语法
+
+  - 使用临时备份设备备份数据库
+
+    ```sql
+    backup database 数据库名 to disk = '文件位置(需要加文件名)'
+    ```
+
+  - 例子
+
+    ```sql
+    backup database mydb to disk = 'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
+    ```
+
+  - 使用临时备份设备还原数据库
+
+    ```sql
+    restore  database 数据库名 from disk = '文件位置(需要加文件名)'
+    ```
+
+  - 例子
+
+    ```sql
+    restore  database mydb from disk = 'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
+    ```
+
+  - 使用永久备份设备备份数据库步骤
+
+    1. 创建备份设备
+
+       ```sql
+       sp_addumpdevice 'disk','备份设备逻辑名称','备份设备物理路径'
+       ```
+
+       - 备份设备实际上就是磁盘文件，该文件的后缀为**.bak**
+       - 备份设备逻辑名称即为文件名称中**.bak前面的名字**
+       - 例如备份设备物理路径D:\SQL\test.bak 则该备份设备的逻辑名称可为test
+       - 设备介质：disk硬盘/磁盘  tape磁带
+
+    2. 使用永久备份设备备份数据库
+
+       ```sql
+       backup database 数据库名 to 备份设备逻辑名称
+       ```
+
+    3. 使用永久备份设备还原数据库
+
+       ```sql
+       restore database 被还原数据库名 from 备份设备逻辑名称
+       ```
+
+    - 例子
+
+      ```sql
+       -- 将数据库备份到D盘下“"mybackup”文件夹中的success.bak文件中
+       -- 创建备份设备
+       sp_addumpdevice 'disk','success','D:\mybackup\success.bak'
+       -- 备份数据库
+       backup database zy to success
+       -- 还原数据库
+       restore database zy from success
+      ```
+
 ### 分离附加数据库
 
-- 分离数据库 语法 （系统数据库master、empdb、moel不可分离)
+1. 分离
 
-  ```sql
-  execute sp_detach_db 数据库名
-  ```
+   - 分离数据库是将某个数据库（例如myDB_stu)从SQL Server**数据库列表中删除**，使其**不再被SQL Server管理和使用**，但**该数据库的文件(.mdf)和对应的日志文件(.ldf)完好无损。**
 
-  例子
+   - 分离成功后，可以把该数据库文件(.mdf)和对应的日志文件(.ldf)拷贝到其它磁盘中作为备份保存。
 
-  ```sql
-  execute sp_detach_db mydb
-  ```
+   - 分离数据库 语法 （系统数据库master、empdb、moel不可分离)
 
-- 附加数据库 语法 
+     ```sql
+     execute sp_detach_db 数据库名
+     sp_detach_db '数据库名'
+     ```
 
-  ```sql
-  execute sp_attach_db 数据库名 '文件位置(需要加文件名)'
-  ```
+     例子
 
-  例子
+     ```sql
+     execute sp_detach_db mydb
+     sp_detach_db 'student' /*分离student数据库*/
+     ```
 
-  ```sql
-  execute sp_attach_db mydb ,'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
-  ```
+2. 附加
 
-- 注：通过分离和附加数据库可以实现SQL Server数据库**文件存储位置的改变**（移植数据库）
+   - 附加数据库就是将一个备份磁盘中的数据库文件(md)和对应的日志文件(ldf)拷贝到需要的计算机，并将其添加到某个SQL Server数据库服务器中，由该服务器来管理和使用这个数据库。
 
-- 备份 语法 
+   - 附加数据库 语法
 
-  ```sql
-  backup database 数据库名 to disk = '文件位置(需要加文件名)'
-  ```
+     ```sql
+     execute sp_attach_db 数据库名 '文件位置(需要加文件名)'
+     sp_attachdb '数据库名','主数据文件物理路径','日志文件物理路径'
+     ```
 
-  例子
+     - 数据库文件的物理名称，包括路径；最多可以指定16个文件名：
+     - 文件路径至少包含主文件。
 
-  ```sql
-  backup database mydb to disk = 'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
-  ```
+   - 例子
 
-- 还原 语法 
+     ```sql
+     execute sp_attach_db mydb ,'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
+     /*附加student数据库格式1*/
+     sp_attach_db 'student','D:\student.mdf','D:\student log.ldf'
+     /*附加student数据库格式2*/
+     create database student
+     on(
+     	filename='C:\student.mdf')
+     log on(
+     filename='C:\student log.ldf')
+     for attach
+     ```
 
-  ```sql
-  restore  database 数据库名 from disk = '文件位置(需要加文件名)'
-  ```
-
-  例子
-
-  ```sql
-  restore  database 数据库名 from disk = 'D:\EXE\BC\sql server\sql server sl\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyDb_log.bak'
-  ```
+   - 注：通过分离和附加数据库可以实现SQL Server数据库**文件存储位置的改变**（移植数据库）
 
 ## 数据表操作
 
@@ -1081,47 +1176,178 @@
 
 ### 视图
 
-- 视图是从一个或者几个**基本表或者视图**中导出的虚拟表，
+1. 视图的定义
 
-- 必须使用SQL中的**SELECT**语句来实现。
+   - 视图是从**一个或多个表（或视图）导出的表**，即可以基于表创建视图，也可以基于视图创建视图
+   - 视图中包含的字段**少于**其源自的基本表
+   - 视图与基本表不同，视图是一个**虚表**，即**视图所对应的数据不进行实际存储**，即**DBMS中只存储视图的定义，不存储数据，数据来源于基本表**；
+   - **基本表中的数据发生变化**，从视图中**查询出的数据也随之改变**；
+   - 必须使用SQL中的**select语句**实现**视图定义**
+   - 视图总是显示最新的数据，每次查询视图时，**DBMS通过使用SQL语句重建数据**；
+   - 视图的主要作用是**提供用户视角的数据**。
 
-- 在定义一个视图时，只是把其**定义**存放在数据库中，并**不直接存储视图**对应的**数据**，直到用户使用视图时才去查找对应的数据。
+2. 视图的作用
 
-- 主要作用：提供**用户视角**的数据
+   - 用户可以只关系其感兴趣的某些特定数据，或者他们所负责的特定任务，通过视图可以只允许用户看到视图中定义的数据而不是见图引用的基本表中的全部数据，从而**提高了数据的安全性。**
+   - 简化操作
+   - 定制数据
+   - 合并分隔数据
+     - **保持了数据的逻辑独立性**。
+   - 安全性
 
-- 语法
+3. 创建视图
 
-  ```sql
-  CREATE VIEW 视图名字 [(Column [,...n])
-  [WITH ENCRYPTION]  AS 查询语句
-  ```
-  
-  select_statement:选择哪些列进入视图的SELECT语句。
-WITH ENCRYPTION:对视图的定义进行加密。
-  
-  注意：视图中的SELECT命令不能包括INTO、ORDER BY等子句。
+   - 创建视图语法
 
-- 例子
+     ```sql
+     create view 视图名 [(属性名1，属性名2)] [with encryption]  as 查询语句
+     [with check option]
+     ```
 
-  ```sql
-  -- 创建视图
-  -- 有条件的视图定义。定义视图v student,查询所有选修C01号 
-  -- 课程的学生的学号(sno)、姓名(sname)、课程名称(cname)和成绩(degree)
-  create view v_stdent with encryption as select student.sno,sname,sc.cno,degree from student ,sc,course where student.sno=sc.sno and sc.cno = course.cno and sc. cno='C01'
-  -- 使用视图
-  select * from v_stdent -- 用户视角；提高安全性
-  -- 定义视图vstudent_count,查询不同性别的学生人数。
-  create view v_student_count(gender,学生人数) as
-  select gender,count(*) from student group by gender
-  -- 使用视图
-  select * from v_student_count 
-  -- 删除视图
-  drop view 视图名称
-  -- 通过视图查询性别人数超过1人
-  select * from v_student_count where 学生人数>1
-  ```
+     - **属性可以不写**,但**写就要和后面select 查询的属性名顺序一致**
 
-  注意：创建视图中如果有原表中没有的数据需要起别名 通过视图还可以进行筛选
+     - 视图定义中某列是**函数/数学表达式/常量**(**表中没有的**)，**必须定义列名称。**
+
+     - **with encryption 对视图的定义进行加密**
+
+     - with check option  在视图上进行的修改都要符合SQL查询语句所指定的查询条件，这样可以保证数据修改后，仍可通过视图看到修改的数据
+
+     - select_statement:选择哪些列进入视图的SELECT语句。
+
+     - 注意：创建视图中如果有原表中没有的数据需要起别名 通过视图还可以进行筛选
+
+     - 注意：视图中的SELECT命令**不能包括INTO、ORDER BY等子句**。
+
+     - ```sql
+       -- 例子
+       --  1.定义视图V_stu,查询学生的学号、姓名、所在系。
+       create view V_stu as select Sno,Sname,Sdept from student
+       -- 说明：由于视图V_stu的后面没有写属性的名称，即没有为视图定义属性的名字，视图中默认包含3个属性，名称默认为select,后面查询的字段的名称，即Sno,Sname,Sdept
+       -- 2.有条件的视图定义。定义视图v_student,查询所有选修c01号 
+       -- 课程的学生的学号(sno)、姓名(sname)、课程名称(cname)和成绩(degree)
+       create view v_student as select sno,sname,cname,degree from studnet,sc,course where student.sno=sc.sno and sc.cno=course.cno and cno='co1'
+       -- 3.定义视图v_student_.count,查询不同性别的学生人数。
+       create view v_student_count(性别,人数) as select Ssex,count(Sno) from student
+       group by Ssex
+       -- 视图定义中某列是函数/数学表达式/常量，必须定义列名称。
+       -- 有条件的视图定义。定义视图v_student,查询所有选修C01号 
+       -- 课程的学生的学号(sno)、姓名(sname)、课程名称(cname)和成绩(degree)
+       create view v_stdent with encryption as select student.sno,sname,sc.cno,degree from student ,sc,course where student.sno=sc.sno and sc.cno = course.cno and sc. cno='C01'
+       ```
+
+4. 修改视图
+
+   - 修改视图语法
+
+     ```sql
+     alter view 视图名 [(属性名1，属性名2)] [with encryption]  as 查询语句
+     [with check option]
+     ```
+
+   - 例子
+
+     ```sql
+     -- 修改视图v_student_.count,查询不同性别的学生人数及平均年龄。
+     alter view v_student_count(性别,人数,平均年龄) as select Ssex,count(sno),avg(sage) from student group by Ssex
+     ```
+
+5. 删除视图
+
+   - 删除视图语法
+
+     ```sql
+     drop view 视图名
+     ```
+
+     - 删除视图时，**由该视图导出的其他视图的定义仍在数据字典中**，但已不能使用，必须显式删除；
+     - **删除基表时不影响视图的定义**，**但该视图无法正常使用**，由该基表导出的所有视图定义都必须显式删除；
+
+   - 例子
+
+     ```sql
+     -- 删除视图
+     drop view v_student_count
+     ```
+
+6. 查询视图
+
+   - 查询视图语法
+
+     ```sql
+     select * from 视图名
+     ```
+
+     - 注意：**查询字段必须使用在视图中已经创建的字段**
+
+   - 例子
+
+     ```sql
+     -- 查询视图
+     select * from v_stdent -- 用户视角 提高安全性
+     -- 定义视图
+     create view v_student as select S.Sno,Sname,Cname,Grade
+     from Student S,Course C,SCwhere S.Sno=SC.Sno and C.Cno=SC.Cno
+     and C.Cn0='003';
+     -- 通过上面视图查询选修了003号课程且成绩高于90的学生的 学号 姓名 成绩 
+     select Sno,Sname,Grade from v_student where Grade>90 
+     -- 注意查询中没写003号课程的条件是在创建视图的时候已经筛选掉了
+     -- 通过视图查询性学生人数超过1人
+     select * from v_student_count where 学生人数>1 
+     ```
+
+7. 更新视图-插入数据
+
+   - 插入数据语法
+
+     ```sql
+     insert into 视图名 (属性1，属性2，...) values (值1，值2....)
+     ```
+
+     - 注意：视图是虚表不能存放数据，插入的数据实际是存放在创建视图的原表中
+
+   - 例子
+
+     ```sql
+     -- 更新视图V_stu,向其中插入数据
+     create view V_stu as select Sno,Sname,Sdept from Student
+     insert into V_stu values('20060106','圆圆','计算机系')
+     ```
+
+8. 更新视图-修改数据
+
+   - 修改数据语法
+
+     ```sql
+     update 视图名 set 列名1=表达式1 [,列名2=表达式2] [where 条件表达式]
+     ```
+
+     - 注意：**视图上计算列、内置函数列、聚合函数、group by 视图定义的from子句包含多个表。不能更改视图数据表示插入删除 更新 删除 都不可以** 但是多表的数据一次操作一个表可以修改但删除不可以
+
+   - 例子
+
+     ```sql
+     -- 更新视图V_stu,将95001同学的系别改为CS。
+     create view V_stu as select Sno,Sname,Sdept from Student
+     update V_stu set Sdept='cs' where sno='95001'
+     ```
+
+9. 更新视图-删除数据
+
+   - 删除数据语法
+
+     ```sql
+     delete from 视图名 where 条件
+     ```
+
+     - **视图中依赖多个表是不可以进行删除的**
+
+   - 例子
+
+     ```sql
+     -- 删除视图V_stu中的数据，将95001同学的信息删除。
+     create view V_stu as select Sno,Sname,Sdept from Student
+     delete from V_stu where sno='95001'
+     ```
 
 ### 索引
 
@@ -1129,48 +1355,146 @@ WITH ENCRYPTION:对视图的定义进行加密。
 
    - 索引：是SQL Server编排数据的内部方法。它为SQL Server提供一种方法来编排查询数据
    - 索引页：数据库中存储索引的数据页；索引页类似于汉语字(词)典中按拼音或笔画排序的目录页。
-   - 索引的作用：通过使用索引，可以大大提高数据库的检索(查询)速度，改善数据库性能。
+   - 索引的作用：通过使用索引，可以大大**提高数据库的检索(查询)速度，改善数据库性能**。 
 
-2. 索引类型
+2. 索引
 
-   - 聚集索引(Clustered):表中各行的物理顺序与键值的逻辑（索引）顺序相同，每个表只能有一个；聚集索引适用于范围查询。
-   - 非聚集索引(Nonclustered):表中各行的物理顺序与键值的逻辑（索引)顺序不相同索引中包含指向数据存储位置的指针；非聚集索引适合直接匹配单个条件的查询；每个表可以有1~249个。
-   - 唯一索引：唯一索引不允许两行具有相同的索引值
-   - 注意：聚集索引并不一定是唯一索引，由于SQL SERVER将主键默认定义为聚集索引，事实上，索引是**否唯一与是否聚集是不相关**的，聚集索引可以是唯一索引，也可以是非唯一索引；
+   - **聚集索引(Clustered)**
    
-3. 语法
-
-   - 创建索引
-
-     ```sql
-     CREATE [UNIQUE][CLUSTERED | NONCLUSTERED]
-     INDEX 索引名字
-     ON 表名 (column_name...)
-     [WITH FILLFACTOR=X]
-     ```
-
-     - UNIQUE表示唯一索引，可选
-     - CLUSTERED、NONCLUSTERED表示聚集索引还是非聚集索引，可选
+     - 定义：将数据行的键值在表内排序并存储对应的数据记录，使得表中记**录的物理顺序与索引顺序一致。**
+   
+     - 检索效率**高于非聚集索引**
+   
+     - 对数据新增/删除的**影响较大**
+   
+     - **每个表只能有一个聚集索引**
+   
+     - SQL Server将**主键默认定义为聚集索引**
+   
+     - 语法
+   
+       ```sql
+       create clustered index 索引名 on 表名（属性名 asc / desc) [with fillfactor=x]
+       -- 排序方式：adc (默认值)升序 desc降序
+       ```
+   
+     - 注意：聚集索引并不一定是唯一索引，由于SQL SERVER将主键默认定义为聚集索引，事实上，索引是**否唯一与是否聚集是不相关**的，聚集索引可以是唯一索引，也可以是非唯一索引；
+   
      - FILLFACTOR表示填充因子，指定一个0到100之间的值，该值指示索引页填满的空间所占的百分比
-
-   - 删除索引
-
-     ```sql
-     drop index 表名 索引名
-     drop index 索引名 on 表名
-     ```
-
-   - 例子
-
-     ```sql
-      --为Student表的sno列创建一个唯一性的聚集索引：
-      create unique clustered index idx_student_sno on student(sno)
-     ```
-
+   
      - 注意：在执行此命令前先删除原来该表的主关键字属性
+   
      - 提示：主关键字约束默认相当于聚集索引和唯一索引的结合。
+   
+   - **非聚集索引(Nonclustered)**
+   
+     - 非聚集索引：不改变表记录的物理存放顺序（适用于直接匹配单个条件的查询)，数据存储在一个位置，索引存储在另一个位置：
+   
+     - 非聚集索引是索引结构和数据分开存放的索引，**不影响表中的数据存储顺序。**
+   
+     - 检索效率**低于聚集索引**
+   
+     - 未指定索引类型，**默认为非聚集索引**
+   
+     - 对数据新增/删除的影响**较小**
+   
+     - 每个表**最多有249个**非聚集索引
+   
+     - **在创建非聚集索引之前创建聚集索引**
+   
+     - 语法
+   
+       ```sql
+       create nonclustered index 索引名 on 表名（属性名 asc / desc)
+       -- 排序方式：adc (默认值)升序 desc降序
+       ```
+   
+     - 例子
+   
+       ```sql
+       create nonclustered index s on student(sname desc);
+       ```
+   
+   - **唯一索引**
+   
+     - **被索引列不能有重复值，不能有两个NULL**
+   
+     - 在create table时使用**primary key**或**unique**约束时，会在表上**自动创建**一个**唯一索引**，**且无法删除**
+   
+     - 唯一性约束unique强制在指定列上创建一个唯一性索引；
+   
+     - **unique索引既可以采用聚集索引结构，也可以采用非聚集索引结构**，如果**不指明**采用的索引结构，则SQL Server系统**默认为采用非聚集索引结构**。
+   
+     - 语法
+   
+       ```sql
+       create unique index 索引名 on 表名（属性名 asc / desc)
+       -- 排序方式：adc (默认值)升序 desc降序
+       ```
+   
+     - 例子
+   
+       ```sql
+       create unique index s on student(sname desc);
+        --为Student表的sno列创建一个唯一性的聚集索引：
+        create unique clustered index idx_student_sno on student(sno)
+       ```
+   
+   - 复合索引
+   
+     - 复合索引：在两个以上的列上创建一个索引
+   
+     - 语法
+   
+       ```sql
+       create index 索引名 on 表名（属性名1 排序方式,属性名2 排序方式,...)
+       -- 排序方式：adc (默认值)升序 desc降序
+       ```
+   
+     - **每个属性都有自己的排序方式**
+   
+     - 例子
+   
+       ```sql
+       create index s on sc(sno,cno desc);
+       -- 在sc表中先按学生学号升序(asc)进行排序，如果有某个学号有对应多门课程号，则在该基础上在某个学号内部对课程号按降序(desc)进行排序
+       ```
+   
+   - 删除索引
+   
+     - 索引不可以更改，必须先删除再重新建立索引。
+   
+     - 语法
+   
+       ```sql
+       drop index 表名.<索引名>
+       drop index 索引名 on 表名
+       ```
+   
+     - 例子
+   
+       ```sql
+       -- 删除student表上的索引s
+       drop index student.s
+       drop index s on student
+       ```
+   
+2. 建立索引的情况
+
+   1. 考虑建索引的列
+      - 主键
+      - 连接中频繁使用的列
+      - 频繁搜索的列和按排序顺序频繁检索的列
+   2. 不考虑建索引的列
+      - 很少或从来不在查询中引用的列
+      - 只有两个或很少几个值的列
+      - 以bit,text,image数据类型定义的列数据行数很少的小表一般也没有建立索引的必要
 
 ### 存储过程
+
+- 存储过程的定义：是一组为了完成特定功能的SQL语句，**经编译后存储在数据库中**。
+
+- 存储过程的分类：系统存储过程、用户定义存储过程、扩展存储过程
 
 - 创建
 
@@ -1227,5 +1551,61 @@ WITH ENCRYPTION:对视图的定义进行加密。
   alter proc proc_t1  as select student.*,cno from student,sc where student.sno=sc.sno and cno='C02'
   ```
 
+### 函数
 
+- 函数的分类
 
+  - 根据函数返回值的类型，用户定义的函数分为：
+    - **标量函数**：返回一个标量值：
+    - **表值函数**：返回值为整个表，根据函数的主体方式分为：
+      - **内嵌表值函数**：返回一个table(表)
+      - **多语句表值函数**：返回一个table型**变量**，即**表变量**
+
+- 函数语法
+
+  - 函数的创建：
+
+    ```sql
+    create function
+    ```
+
+  - 函数的修改：
+
+    ```sql
+    alter function
+    ```
+
+  - 函数的删除：
+
+    ```sql
+    drop function
+    ```
+
+### 触发器
+
+- 触发器种类：
+
+  - DML触发器  DML:数据操纵语言 (insert update delete select)
+  - DDL触发器  DDL:数据定义语言(create alter drop)
+
+- 语法
+
+  - 创建触发器
+
+    ```sql
+    create trigger
+    ```
+
+  - 修改触发器
+
+    ```sql
+    alter trigger
+    ```
+
+  - 删除触发器
+
+    ```sql
+    drop trigger
+    ```
+
+    
