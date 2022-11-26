@@ -1,4 +1,4 @@
-# C语言
+C语言
 
 ## 第一章：C语言基础知识
 
@@ -731,39 +731,91 @@
 ##### 选择结构
 
 1. 选择结构：根据条件进行判断真假，执行不同的操作。
-   简单if语句的一般形式为<img src="img/image-20220912101414531.png" alt="image-20220912101414531" style="zoom: 80%;" />
+   简单if语句的一般形式为
 
+   ```
+   if(表达式)语句1;
+   [else 语句2;]
+   ```
+   
+   - if语句中的“表达式”**可以是关系表达式、逻辑表达式、甚至是数值表达式**。其中最直观、最容易理解的是关系表达式。
+   
+   - 在上面if语句的一般形式中，方括号内的部分（即else子句）为可选的，即可以有，也可以没有。
+   
    - 如果条件为真，语句执行一个语句或一组语句；
-
+   
    - 如果条件为假，则执行if语句后面(else)的语句（如果有)。
-
+   
    - if-else语句的一般形式为：
-
+   
      ```c
      if(<表达式){
      <语句块>
      }else{
-     <语句块>
+     <语句块> 
      }
      ```
-
-   - <img src="img/image-20220912101939915.png" alt="image-20220912101939915" style="zoom:67%;" /><img src="img/image-20220912102129235.png" alt="image-20220912102129235" style="zoom:66%;" /><img src="img/image-20220912102414812.png" alt="image-20220912102414812" style="zoom: 69%;" />
-
+   
+   - ```c
+     //编写程序，输入一个年份，判断是否为闰年
+     #include <stdio.h>
+     int main(){
+         int y;
+         scanf("%d",&y);
+         if((y%4==0&&y%100!=0)||y%400==0)
+            printf("闰年")
+         else printf("平年")
+     }
+     ```
+     
      **闰年判定**：年份能被4整除**但**(&&)不能100整除，**或者**(||)年份能被400整除
-
+   
 2. 嵌套if
 
    匹配规则 
 
-   - 有else必有if
-   - 匹配：else与它前面的、紧挨着的、未被匹配的相匹配。
+   - **有else必有if**
+
+   - 匹配：**else与它前面的、紧挨着的、未被匹配的相匹配**。
+
    - 例<img src="img/image-20220912105749483.png" alt="image-20220912105749483" style="zoom:50%;" />
-   - if下面没括号是1行其他行是正常语句
+
+   - **if下面没括号是1行其他行是正常语句**
+
+   - ```c
+     #include "stdio.h"
+     main(){
+     int a=1,b=2,c=3,d=4;
+     if(a=b)
+      b++;c+=2;//两条语句无法过编译
+     else
+      b+=2;C+=3;
+     d=a+b+c;
+     printf("%d,%d,%d,%d",a,b,c,d);
+     }
+     //无法执行
+     ```
+
+   - ```c
+     #include "stdio.h"
+     main(){
+     int a=1,b=2,c=3,d=4;
+     if(a=b)
+      {b++;c+=2;}
+     else
+      b+=2;c+=3;
+     d=a+b+c;
+     printf("%d,%d,%d,%d",a,b,c,d);
+     }
+     //答案  a=2 b=3 c=8 d=13
+     ```
+
+     
 
 3. 条件运算符和条件表达式
 
    - 条件表达式的一般形式为：
-     表达式1？表达式2：表达式3
+     表达式1？表达式2：表达式3 
 
    - 条件运算符的执行顺序：
 
@@ -813,7 +865,11 @@
    - (4)每个case语句后**都应该**有一个break语句；
    - (5)各case和default子句的先后顺序可以变动；
    - (6)default子句可以省 位置任意 **如果没有匹配的就执行default语句然   后退出**
-   - (7)break用于结束跳出本switch
+   - (7)**break用于结束跳出本switch**
+
+5. 括号内的“表达式”，**其值的类型应为整数类型（包括字符型)**。
+
+6. **多个case标号可以共用一组执行语句。**
 
 5. 注：没有break的时候，只要有一个case匹配，剩下的语句都执行，直至结束switch
 
@@ -828,6 +884,213 @@
    - 多重if结构用来实现两路、三路分支比较方便，而switch:结构实现三路以上分支比较方便。
    - 在使用switch结构时，应注意分支条件要求是简单数据类型(int、char)表达式，而且case语句后面**必须是常量表达式。**
    - 有些问题只能使用多重if结构来实现，例如要判断一个值是否处在某个**区间**的情况。
+   
+10. 例子
+
+   ```c
+   //【例5-3】给出一百分制成绩，要求输出成绩等级'A'、B'、'C'、D'、E'。90分以上为'A',80~89分为'B',70~79分为C',60~69分为'D',60分以下为E'。
+   #include <stdio.h
+   main(){
+       float score;
+   	char grade;
+   	scanf("%f",&score);
+       switch((int)(score/10)){
+   	case 10:
+   	case 9:grade='A';break;
+   	case 8:grade='B';break;
+   	case 7:grade-'C';break;
+   	case 6:grade='D';break;
+   	default:grade='E';
+       }
+   printf("成绩是%5.lf,相应的等级是%cn",score,grade);	
+   }
+   ```
+
+   ```c
+   //1.输入一个整数，判断是正数、负数还是零
+   #include "stdio.h"
+   main(){
+   int a;
+   scanf("%d",&a);
+       if(a>0)printf("正数");
+        else if(a==0) printf("0");
+       else printf("负数");
+   }
+   //2.输入一个正整数，判定是奇数还是偶数
+   #include <stdio.h>
+   int main(){
+   	int a;
+       sancf("%d",&a);
+       if(a%2==0){
+           printf("偶数")
+   	}else{
+           printf("奇数")
+   	}
+   }
+   //3.输入一个正整数，判断是否可以被3,5,7同时整除
+   #include <stdio.h>
+   int main(){
+   int a;
+   scanf("%d",&a);
+       if(a%3==0&&a%5==0&&a%7==0){
+   		printf("yes")
+       }else printf("no")
+   return 0;
+   }
+   //4.输入一个正整数，判断其是否为个位上的数为7，十位上为5，百位上为9并且能被3整除的数.
+   #include <stdio.h>
+   int main(){
+   	int a;
+       scanf("%d",&a);
+       if(a%10==7&&a/10%10==5&&a/100%10==9&&a%3==0)
+   		printf("yes")
+       else printf("no")
+   }
+   //5,输入一个三位正整数，判断是否为三位水仙花数 153==27+125+1
+   #include <stdio.h>
+   int main(){
+       int a,b;
+       scanf("%d",&a);
+       b=(a%10)*(a%10)*(a%10)+(a/10%10)*(a/10%10)*(a/10%10)+(a/100%10)*(a/100%10)*(a/100%10);
+       if(b==a) printf("yes")
+           else printf("no")
+   }
+   //6,编写程序，输入一个年份，判断是否为闰年
+   #include <stdio.h>
+   int main(){
+       int y;
+       scanf("%d",&y);
+       if((y%4==0&&y%100!=0)||y%400==0)
+          printf("闰年")
+       else printf("平年")
+   }
+   //7.输入两个整数，按从小到大的顺序输出
+   #include <stdio.h>
+   int main(){
+       int x,y,z;
+       sacnf("%d%d",&x,&y);
+       if(x>y){
+           z=y;
+           y=x;
+           x=z;
+       }
+        printf("%d,%d",x,y);
+   }
+   //8.编写程序，输入三个整数，按从小到大的顺序输出
+   #include <stdio.h>
+   int main(){
+       int a,b,c,d;
+       sacnf("%d%d%d",&a,&b,&c);
+       if(a>b){
+           d=a;
+           a=b;
+           b=d;
+       }else if(a>c){
+           d=a;
+           a=c;
+           c=d;
+       }else if(b>c){
+           d=b;
+           b=c;
+           c=d;
+   	}
+       printf("%d%d%d",a,b,c);
+   }
+   //1.编写程序，输入十个整数，求其中正数、负数以及零的个数
+   #include <stdio.h>
+   int main(){
+      	int a=0,b=0,c=0;
+       int n,i;
+       for(i=1;i<=10;i++){
+           scanf("%d",&n);
+           if(n>0) a++;
+           else if(n==0) b++;
+           else c++;
+   	}
+       printf("正数%d，零%d,负数%d",a,b,c);
+       return 0;
+   }
+   //2.编写程序，输入80个字符，判断其中数字字符、字母字符以及其它字符的个数。
+   #include <stdio.h>
+   int main(){
+       int i,a=0,b=0,c=0;
+      	char f;
+       for(i=0;i<80;i++){
+           scanf("%c",&f);
+           if(f>='0'&&f<='9') a++;
+           else if((f>='A'&&f<='Z')||(f>='a'&&f<='z')) b++;
+           else c++;
+       }
+       printf("数字字符%d，字母字符%d,其它字符%d",a,b,c);
+       return 0;
+   }
+   //3.编写程序，输出200到500之间所有以6结尾并且能被13和18同时整除的数以及这些数的和。
+   #include <stdio.h>
+   int main(){
+       int i,sum=0;
+       for(i=200;i<=500;i++){
+           if((i%10==6)&&(i%13==0)&&(i%18==0)){
+               printf("%d",i);
+               sum+=i;
+           }
+       }
+       printf("sum=%d",sum);
+       return 0; 
+   }
+   //4.编写程序，输出所有的三位水仙花数。
+   #include <stdio.h>
+   int main(){
+       int a,b,c,i;
+       for(i=100;i<=999;i++){
+           a=i%10;
+           b=i/10%10;
+           c=i/100%10;
+           if(i==a*a*a+b*b*b+c*c*c){
+               printf("%d\n",i);
+   		}
+       }
+   }
+   //5.编写程序，输出2000年到3000年之间所有的闰年。
+   #include <stdio.h>
+   int main(){
+       int i;
+       for(i=2000;i<=3000;i++){
+           if((i%4==0&&i%100!=0)||(i%400==0)){
+               printf("%d是闰年\n",i);
+           }
+       }
+   }
+   ```
+
+11. 例题
+
+    - ![image-20221124220720265](img/image-20221124220720265.png)
+
+      ```c
+      #include <stdio.h>
+      int main(){
+      	int x,y;
+          scanf("%d",&x);
+          if(x<0) y=-1;
+           else if(x==0) y=0;
+               else y=1;
+          printf("y=%d",y);
+      }
+      ```
+
+    - ![image-20221124221605549](img/image-20221124221605549.png)
+
+      ```c
+      #include <stdio.h>
+      int main(){
+          int x,y;
+          scanf("%d"&x);
+          if(x<1) y=x;
+              else if(x>=1&&x<10) y=2*x-1;
+          		else if(x>=10) y=3*x-11;
+          printf("y=%d",y);
+      }
+      ```
 
 ### 循环结构
 
@@ -852,8 +1115,23 @@
 3. 规则：
 
    - 1、循环中使用的变量 必须初始化
+   
    - 2、循环体中的语句必须实现修改循环条件的值，避免死循环。
+   
    - 例子![image-20220918143652208](img/image-20220918143652208.png)
+   
+   - 例题
+   
+     ```c
+     int a=0,b=1;
+     while(a++) b++;
+     printf("%d,%d",a,b);//1,1
+     
+     int a=2,b=1;
+     whi1e(a--)b++;//a=-1,b=3
+     printf("%d,%d",a,b);
+     //-1,3
+     ```
 
 ##### do while循环
 
@@ -868,7 +1146,7 @@
 
 2. 工作原理
 
-   - 它先执行循环体中的语句，然后再判断条件是否为真如果为真则继续循环；如果为假，则终止循环。
+   - 它**先执行循环体中的语句**，**然后再判断条件**是否为真如果**为真则继续循环；如果为假，则终止循环。**
    - ![image-20220918155152395](img/image-20220918155152395.png)
 
 3. 比较while和do-while循环
@@ -894,9 +1172,9 @@
 
 2. 规则
 
-   - 表达式1设置初始条件，只执行一次。可以为零个、一个或多个变量设置初值执行
-   - 表达式2循环条件表达式，用来判定是否继续循环。在每次执行循环体前先执行此表达式，决定是否继续执行循环 **为真执行循环体为假退出循环**
-   - 表达式3作为循环的调整器，例如使循环变量变化，它是在执行完循环体后才进行的。
+   - **表达式1设置初始条件**，**只执行一次。可以为零个、一个或多个变量设置初值执行**
+   - **表达式2循环条件表达式，用来判定是否继续循环**。在每次执行循环体前先执行此表达式，决定是否继续执行循环 **为真执行循环体为假退出循环**
+   - **表达式3作为循环的调整器**，例如使循环变量变化，它是在执行完循环体后才进行的。
 
 3. for语句的执行过程：
 
@@ -909,13 +1187,13 @@
 4. for循环的表达式
 
    ![image-20220919085707223](img/image-20220919085707223.png)for循环中有三个表达式
-   for语句中的各个表达式都可以省略
-   分号分隔符(；)不能省略
+   **for语句中的各个表达式都可以省略**
+   **分号分隔符(；)不能省略**
 
    - 省略表达式1:省去循环变量赋初值，应在for语句之前有给
      循环变量赋初值语句。![image-20220919085923090](img/image-20220919085923090.png)
 
-   - 省略表达式2:即不判断循环条件，表达式2恒真，**应在循环体**
+   - **省略表达式2**:即不判断循环条件，**表达式2恒真**，**应在循环体**
      **内设法结束循环（一般用if+break),**否则将成为死循环。
 
      ```c
@@ -970,6 +1248,100 @@
      ```
 
    - ![image-20220919101200749](img/image-20220919101200749.png)
+   
+   - 例题
+   
+     ```c
+     //1.分别使用whi1e,dowhi1e和for循环，求1到100数的和。
+     #include <stdio.h>
+     int main(){
+     	int i=1,sum=0;
+         while(i<=100){
+             sum+=i;
+             i++;
+         }
+         printf("sum=%d",sum);
+         return 0;
+     }
+     #include <stdio.h>
+     int main(){
+         int i=1,sum=0;
+         do{
+             sum+=i;
+             i++;
+         }while(i<=100);
+         printf("sum=%d",sum);
+         return 0;
+     }
+     #include <stdio.h>
+     int main(){
+         int i,sum=0;
+         for(i=1;i<=100;i++){
+     		sum+=i;
+         }
+         printf("sum=%d",sum);   
+         return 0;
+     }
+     //2.输入正整数n,求n!
+     #include <stdio.h>
+     int main(){
+         int n ;
+         long fac=1;
+         scanf("%d",&n);
+         for(;n>0;n--){
+     		fac*=fac*i;
+         }
+         printf("%ld",fac);
+         return 0;
+     }
+     //3.输入两个整数m和n(m<n),求m和n之间（包括m和n)所有整数的和
+     #include <stdio.h>
+     int main(){
+         int m,n,i=0;
+         scanf("%d%d",&m,&n);
+         for(;m<=n;m++){
+             i+=m;
+         }
+         printf("%d",i);
+         return 0;
+     }
+     //4.编写程序，输入整数n,计算 1+1/2+1/3+...+1/n
+     #include <stdio.h>
+     int main(){
+         int n,i;
+         float sum=0;
+         scanf("%d",&n);
+         for(i=1;i<=n;i++){
+          	sum+=1.0/(i);
+     	}
+         printf("%f",sum);
+         return 0;
+     }
+     //5.编写程序，计算：1+1/2+2/3+3/4+。。。+199/200
+     #include <stdio.h>
+     int main(){
+        	float sum=1.0,i;
+         for(i=1;i<200;i++){
+             sum+=i/(i+1.0);
+         }
+         printf("%f",sum);
+         return 0;
+     }
+     //6.编写程序，计算：1*2*3+2*3*4+3*4*5+...+98*99*100
+     #include <stdio.h>
+     int main(){
+         int i,sum=0;
+         for(i=1;i<=98;i++){
+             sum+=i*(i+1)*(i+2);
+         }
+         printf("%d",sum);
+         return 0;
+     }
+     ```
+   
+     
+   
+     
 
 ##### 改变循环执行的状态
 
@@ -2240,4 +2612,4 @@ enum COLOR { RED=1,YELLOW,GREEN = 5};
 
 - +、-、* 和 & 运算符记号不但可以当作一元运算符（unary operator，只需要一个操作数），也可以当作二元运算符（binary operator，需要两个操作数）。例如，* 只有一个操作数的时候，就是间接运算符（indirection operator），而有两个操作数的时候，就是乘号。
 
-- 在这些例子中，一元运算符比二元运算符具有更高的优先级。例如，表达式 *ptrl**ptr2 等同于表达式（*ptrl）*（*ptr2）。
+- 在这些例子中，一元运算符比二元运算符具有更高的优先级。例如，表达式 *ptrl**ptr2 等同于表达式（*ptrl）*（*ptr2）。 
