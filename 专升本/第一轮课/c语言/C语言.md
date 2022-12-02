@@ -1842,6 +1842,24 @@ enum COLOR { RED=1,YELLOW,GREEN = 5};
      . **前为一般的结构体变量** —> **前为结构体变量的指针**  . —> **级别最高**
 
    - 例子![image-20221023100947828](img/image-20221023100947828.png)
+   
+     ```c
+     #include <stdio.h>
+     struct student{
+       int num;
+       char name[20];
+       char sex;
+       int age;
+       float score;
+     };
+     int main(){
+         struct studnet stu;
+         scanf("%d,%s,%c,%d,%f",&stu.num,stu.name,&stu.sex,&stu.age,&stu.score);
+      printf("%d,%s,%c,%d,%f",stu.num,stu.name,stu.sex,stu.age,stu.score);
+     }
+     ```
+   
+     
 
 ### 结构体数组
 
@@ -1913,6 +1931,29 @@ enum COLOR { RED=1,YELLOW,GREEN = 5};
      	 }
       }
      ```
+     
+   - ```c
+     //定义一个结构体类型doctor,包括工号，姓名，部门，薪水输入10个医生的信息，求他们的平均薪水。
+     #include <stdio.h>
+     struct ysxx{
+       int num;
+       char name[10];
+       char bm[10];
+       float score;
+     };
+     int main(){
+         struct ysxx ys[10];
+         int i;
+         float sum=0;
+         for(i=0;i<10;i++){
+     		scanf("%d,%s,%s,%f",&ys[i].num,ys[i].name,ys[i].bm,&ys[i].score);
+             sum+=ys[i].score;
+         }
+     printf("%f",sum/10);
+     }
+     ```
+   
+     
 
 ### 结构和指针
 
@@ -1929,7 +1970,7 @@ enum COLOR { RED=1,YELLOW,GREEN = 5};
      struct student stu;//定义struct student类型的变量stu
      ps=&stu;
      //指针ps指向变量stu我们可以通过指针ps访问它所指向的变量su(具体的说是访问su的成员)，例如：
-     (*ps).numT引用学生变量的学号
+     (*ps).num 引用学生变量的学号
      (*ps).name引用学生变量的姓名
      ```
 
@@ -2080,7 +2121,7 @@ enum COLOR { RED=1,YELLOW,GREEN = 5};
      fwrite(buffer,size,count,fp);
      ```
 
-10. 判断文件结束函数
+10. 判断文件结束函数 
 
     - (1)文本文件：必需以EOF(或-1)作为文件结束标志
     - (2)二进制文件：当把数据以二进制形式存放到文件中时，就会有-1值的出现，此时不能采用EOF作为二进制文件的结束标志。为解决这一个问题，**提供一个feof函数用来判断文件是否结束。**
@@ -2098,3 +2139,4 @@ enum COLOR { RED=1,YELLOW,GREEN = 5};
 
 ![image-20221023152830338](img/image-20221023152830338.png)
 
+ 

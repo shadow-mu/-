@@ -1079,9 +1079,16 @@
      ```sql
      -- 利用左外连接查询每个学生及其选修课的情况。
      select s.*,c.cno ,c.degree from student s left join sc c on s.sno= c.sno
+     select * from student left join sc on student.sno=sc.sno 
      -- 右外连
      select student.*,cno from sc  right join student  on student.sno= sc.sno
      ```
+     
+   - 左外连接left join:将左侧的表格作为主表，不加任何限制；左侧作为从表
+   
+   - 右外连接right join:将右侧的表格作为主表，不加任何限制；左侧作为从表
+   
+   - 如果**两个表都有同一字段，用主表的**
    
 3. 嵌套查询-非相关子查询
 
