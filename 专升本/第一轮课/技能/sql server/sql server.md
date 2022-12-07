@@ -750,6 +750,7 @@
 
   1. 如果不指定条件，则会修改表中所有记录
   2. 如果要修改多列，则在SET语句后用”，”分割各修改子句
+  2. 表格四种操作：**增、删、改、（只能单表操作）查（可以多表）**
 
 - 例
 
@@ -764,6 +765,8 @@
   -- 将software系前两名学生的备注写无，
   update top(2) student set remark='无' where Sdept='software'
   -- 此格式中top(2) ()不能省略
+  -- 将计算机系所有选计算机文学课程的都加10分
+  update sc set grade=grade+10 where sno in(select sno from student sdept='计算机系') and cno in(select cno from course where cname='计算机文学')
   ```
 
 ### 删除
@@ -918,6 +921,8 @@
   注意：**聚合函数不去重**  **count(distinct 字段) 去重复值** 
   
   注意：**除了count(*)外其他函数计算当中会忽略null**
+  
+  注意：**聚合函数单独出现可以执行 如果有其他字段没有分组就会报错**
   
 - 例子
 
@@ -1080,13 +1085,16 @@
      -- 利用左外连接查询每个学生及其选修课的情况。
      select s.*,c.cno ,c.degree from student s left join sc c on s.sno= c.sno
      select * from student left join sc on student.sno=sc.sno 
+     -- 查询那些课程没人选，要求列出课程号和课程名
+     select course.cno,cname from  course left join sc where sc.cno=course.cno where sc.cno is null 
+     -- 主要选择主表时候要看表中数据哪个全面才能做主表
      -- 右外连
      select student.*,cno from sc  right join student  on student.sno= sc.sno
      ```
      
-   - 左外连接left join:将左侧的表格作为主表，不加任何限制；左侧作为从表
+   - 左外连接left join:**将左侧的表格作为主表**，不加任何限制；左侧作为从表
    
-   - 右外连接right join:将右侧的表格作为主表，不加任何限制；左侧作为从表
+   - 右外连接right join:**将右侧的表格作为主表**，不加任何限制；左侧作为从表
    
    - 如果**两个表都有同一字段，用主表的**
    
@@ -1096,7 +1104,7 @@
 
    - 非相关嵌套子查询的执行过程为：首先执行子查询，子查询得到的结果集不被显示出来，而是传给外部查询，作为外部查询的条件使用，然后执行外部查询，并显示查询结果。子查询可以多层嵌套。
 
-   - 子查询的限制  **不能使用ORDER BY子句**
+   - 子查询的限制  **不能使用ORDER BY子句除非是用了TOP、OFFSET、FOR XML语句**。
 
    - 语法
    
@@ -1137,6 +1145,7 @@
      select * from student where sdept in(select sdept from student where sname='刘晨')
      -- 统计选了“数据库”课程的学生的学号、选课门数和平均成绩
      select sno,count(*),avg(degree) from sc where sno in(select sno from sc where cno in(select cno from course where canme='数据库')) group by sno
+     select sname from student where sno in (select top 1 sno from sc group by sno having max(grade)) and sdept='计算机系'
      ```
    
    - 嵌套子查询一般也分为两种：子查询返回单个值和子查询返回一个值列表。
