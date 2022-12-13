@@ -31,16 +31,16 @@
 - 数据库管理系统
 
   - 什么是DBMS(数据库管理系统-数据库的核心)
-    - 位于用户与操作系统之间的一层数据管理软件。
-    - 是系统软件，是一个大型复杂的软件系统
+    - 位于用户与操作系统之间的一层**数据管理软件**。
+    - 是**系统软件**，是一个大型复杂的软件系统
 
-- DBMS的用途
+- DBMS的用途 
 
   - 科学地组织和存储数据、高效地获取和维护数据
 
 - 数据库系统(Database System,简称DBS)
 
-  - 定义：是指在计算机系统中引入数据库后的系统构成。常常把**数据库系统**简称为数据库。
+  - 定义：是指在计算机系统中引入数据库后的系统构成。常常把**数据库系统**简称为**数据库**。
   - 构成：由数据库、数据库管理系统（及其开发工具）、应用程序、数据库管理员（和用户)构成。
   - **注：DBS(数据库系统)=DB(数据库)+DBMS(数据库管理系统)**
   
@@ -59,9 +59,10 @@
     -  数据共享性差，冗余度大
     -  数据独立性差
   - **数据库系统阶段(60年代末-现在)**
-    - 数据共享性高，冗余度低且容易扩充
-    - 高度的物理独立性 和 一定的逻辑独立性
-    - 整体结构化
+    - **数据共享性高**，冗余度低且容易扩充
+    - 高度的**物理独立性** 和 一定的**逻辑独立性**
+    - 整体**结构化**
+    -  数据冗余度：**冗余度（重复性）低**
     -  数据独立性高
   
 - 数据库系统的三级模式
@@ -85,10 +86,17 @@
 
   - 4个系统数据库（安装完数据库后自动安装）
 
-    - master数据库：系统最重要的数据库，记录了所有系统信息。如所有的登录信息、系统设置信息、SQL Server的初始化信息和其它系统数据库及用户数据库的相关信息。
-    - model数据库：是模板数据库，为新建立的数据库提供模板和原型。
-    - tempdb数据库：是一个临时数据库，它为所有的临时表、临时存储过程及其它临时操作提供存储空间。
-    - msdb数据库：是代理服务数据库，为其警报、任务週度和记录操作员的操作提供存储空间。
+    - **master数据库**：系统最重要的数据库，记录了所有**系统信息**。如所有的登录信息、系统设置信息、SQL Server的初始化信息和其它系统数据库及用户数据库的相关信息。
+    - **model数据库**：是**模板数据库**，为新建立的数据库提供模板和原型。
+    - **tempdb数据库**：是一个**临时数据库**，它为所有的临时表、临时存储过程及其它临时操作提供存储空间。
+    - **msdb数据库**：是**代理服务数据库**，为其警报、任务週度和记录操作员的操作提供存储空间。
+    
+  - SQL Server数据库具有以下2种类型的文件
+  
+    - 数据文件：用来存放数据和数据库对象。
+      数据库对象：表table视图view、存储过程procedure,触发器trigger、函数function、索引index等。
+    - 日志文件：存放事务日志
+      最多可拥有32767个数据文件和32767个日志文件。
     
   - 数据库文件和日志
   
@@ -108,11 +116,11 @@
       主文件组包含**主数据文件(.mdf)、次数据库文件（如果没有为次数据文件分配其他的文件组)**和任何没有明确指派给其它文件组的其它文件。
     - 用户定义的文件组
       用户定义文件组是在create database或alter database语句中，使用FILEGROUP关键字指定的文件组。
-      **说明：日志文件不存在于任何文件组中。**
+    - **说明：日志文件不存在于任何文件组中。**
 
 ## 数据库操作
 
-- 创建数据库 语法
+- 创建数据库 语法 
 
   ```sql
   CREATE DATABASE 数据库名;
@@ -124,13 +132,13 @@
   maxsize= 20， -- 最大大小 
   filegrowth =unlimited -- 增长方式 百分比 绝对值 unlimited表示不限制
   )，
-  filegroup 文件组名字 ( -- 次数据文件 可以定义一个用户定义的文件组 
+  ( -- 次数据文件 可以定义一个用户定义的文件组 前面可以加 filegroup 文件组名字 
   name = mydb_sec,   -- 名字
   filename ='D:\data\mydb_sec.ndf',  -- 位置文件名
-  size=5,  -- 初始大小 
+  size=5,  -- 初始大小  
   maxsize= 20， -- 最大大小
   filegrowth =10% -- -- 增长方式 百分比 绝对值
-  ) -- 没有逗号
+  ) -- 没有逗号 
   log on    -- 日志文件 最少一个
   (
   name = mydb_log, -- 名字
@@ -155,8 +163,8 @@
 
   - 最简单的数据库语句，默认创建一个主数据文件一个日志文件
 
-    - 主数据文件默认名称为**数据库名.mdf**
-    - 日志文件默认名称为**数据库名_log.ldf**
+    - 主数据文件默认名称为 **数据库名** 如果带后缀**数据库名.mdf**
+    - 日志文件默认名称为 **数据库名_log** 如果带后缀 **数据库名 _log.ldf**
 
 - 例子
 
@@ -240,7 +248,7 @@
 
   ```sql
   alter database 数据库名 modify file(
-  name = mydb,   -- 名字 -- 自定义最少有名字
+  name = mydb,   -- 逻辑名不能更改
   filename ='D:\data\mydb.mdf',  -- 位置 文件名
   size=5,  -- 初始大小 
   maxsize= 20， -- 最大大小
@@ -252,7 +260,7 @@
 
   ```sql
   alter database mydb modify file(
-  name=mydb_data,
+  name=mydb_data,-- 逻辑名不能更改
   size=5MB
   )
   ```
@@ -292,6 +300,13 @@
   size=5
   )
   to filegroup FGroup -- to filegroup 把新添加的次要数据文件放到FGroup组
+  ```
+
+- 删除文件组
+
+  ```sql
+  alter database 数据库名 remove filegroup 文件组名
+  -- 说明：删除文件组必须先删除数据文件，且不能删除主文件组
   ```
 
 - 删除数据库 语法
@@ -481,26 +496,29 @@
 
 - 注：列级完整性约束条件如下：
 
-  1. primary key:指定该字段为主键（不为空且唯一） 
+  1. **primary key**：指定该字段为主键（不为空且唯一） 
 
-  2. null / not null:指定的字段允许/不允许为空，如果没有约束条件，则默认为NULL(列级约束)
+  2. **null / not null**：指定的字段允许/不允许为空，如果没有约束条件，则默认为NULL(列级约束)
 
-  3. unique :指定字段取值唯一，即每条记录的指定字段值不能重复 (允许列中有一个空值) 
+  3. **unique** :指定字段取值唯一，即每条记录的指定字段值不能重复 (允许列中有一个空值) 
 
-  4. default<默认值>：指定设置字段的默认值。（列级约束） 
+  4. **default<默认值>**：指定设置字段的默认值。（列级约束） 
 
-  5. check<条件表达式>：对输入值检验，拒绝接受不满足条件的值。只看非空约束 （不是null  的）
+  5. **check<条件表达式>**：对输入值检验，拒绝接受不满足条件的值。只看非空约束 （不是null  的）
 
-  6. identity(1,1)自增长（第一个值,步长）不能直接添加数据自动增长
+  6. **identity(1,1)**：自增长（第一个值,步长）**不能直接添加数据**系统自动增长
 
      如果想强制执行  set identity_insert 表名 on
 
-  7. foreign key 外键  注意字段类型必须一样
+  7. **foreign key** 外键  注意字段类型必须一样
 
      例子
 
-     ```
-     foreign key(字段) reference 表名(字段)
+     ```sql
+     foreign key(字段) references 表名(字段)
+     字段 字段类型 references 表名(字段)
+     字段 字段类型 foreign key(字段) references 表名(字段)
+     字段 字段类型 foreign key references 表名(字段)
      ```
 
   8. **null / not null和default只能是列级约束**    **其他**的**是列级约束和表级约束都可以** **列级约束是 只能针对当列约束**   **表级约束可以多列**
@@ -530,7 +548,7 @@
    grender char(2) null default '男' check(grender='女' or grender='男'),
    sbirth date,
    email char(30) unique, -- 唯一约束
-   major char(20),
+   major char(20) references 表名(major),
    chedit int check(chedit>=0 and chedit<120),
    remark varchar(500),
     primary key(sno,sanme),  --联合主键
@@ -544,19 +562,23 @@
   -- 增加字段
   alter table 表名 add 新字段名称 数据类型 列级完整性约束条件
   -- 修改字段的数据类型
-  alter table 表名 alter column 字段名称 新数据类型[写只能 not null]
+  alter table 表名 alter column 字段名称 新数据类型 [约束写只能 not null]
   -- 删除字段
-  alter table 表名 drop column 字段名称 
+  alter table 表名 drop column 字段名称  
   -- 添加约束
   alter table 表名 add constraint 约束名 约束条件 (字段名称)
-  -- 添加外键约束
-  alter table 表名 add constraint 约束名 foreign key(字段) references 另一个表名(字段)
+  -- 添加主键约束
+  alter table 表名 add constraint 约束名 primary key(字段)
+  -- 添加唯一约束
+  alter table 表名 add constraint 约束名 unique(字段)
   -- 添加检查约束
   alter table 表名 add constraint 约束名 check(检查的条件)
   -- 添加默认值约束
   alter table 表名 add constraint 约束名 default(默认值) for 字段名
   -- 添加非空约束 相当于修改字段
-  alter table表名 alter column 字段名称 数据类型 not null
+  alter table 表名 alter column 字段名称 数据类型 not null
+  -- 添加外键约束
+  alter table 表名 add constraint 约束名 foreign key(字段) references 另一个表名(字段)
   -- 修改约束
   alter table 表名 alter constraint 约束名 约束条件 (字段名称)
   -- 删除约束
@@ -572,16 +594,18 @@
   alter table student alter column sql char(20)
   -- 删除字段
   alter table student drop column sql 
-  -- 添加约束
-  alter table student add constraint uq_stu_sq unique (cno)
-  -- 添加外键约束
-  alter table student add constraint wjys foreign key cno references sc(cno)
+  -- 添加主键约束
+  alter table student add constraint zjys primary key(sno)
+  -- 添加取值唯一约束
+  alter table student add constraint qzwy unique(sno)
   -- 添加检查约束
   alter table student add constraint ch check(cno>0)
   -- 添加默认值约束
   alter table student add constraint de default(2) for cno
   -- 添加非空约束 相当于修改字段
   alter table student alter column sql char(20) not null
+  -- 添加外键约束
+  alter table student add constraint wjys foreign key cno references sc(cno)
   -- 修改约束
   alter table student alter constraint uq_stu_sq primary key (cname)
   -- 删除约束
@@ -613,7 +637,7 @@
 
   - 精确数值型
 
-    - decimal和numeric两种类型(等价)
+    - decimal和numeric两种类型(等价)该数值型数据由**整数部分**和**小数部分**组成
     - 格式：decimal(p,s)或者numeric(p,s)
       - p(有效位数，小数点（**左右两侧位数之和**)
       - s(小数位数)，s默认值为0,  0<=s<=p
@@ -621,7 +645,7 @@
 
   - 近似数值型
 
-    - 包括real和floati两种类型。
+    - 包括real和float两种类型。
     - real:精确到7位小数，数据范围：-3.40E^+38^~3.40E^+38^
     - float:可以精确到第15位小数，数据范围：-1.79E^+308^~1.79E^+308^。
 
@@ -629,11 +653,11 @@
 
     - 字符型包括char、varchar、nchar 和 nvarcharl四种类型。
     - char(n)
-      - 存放**固定长度**的个字符数据。若输入字符长度不足n时，则用**空格**补足。
+      - 存放**固定长度**的n个字符数据。若输入字符长度不足n时，则用**空格**补足。
         1≤n≤8000。
       - char(10),那么不论存储的数据是否达到了10个字节，都要占去10个字节的空间，不足的自动用空格填充。
     - varchar(n)
-      - 存放**可变长度**的n个字符数据。若输入字符长度不足n时，则按实际输入长度存储。1≤n≤8000
+      - 存放**可变长度**的n个字符数据。若输入字符长度不足n时，则**按实际输入长度存储**。1≤n≤8000
     - nchar[(n)]
       - 可存储1~4000个定长Unicode字符串，字符串长度在创建时指定；如未指定，默认为nchar(1)。**每个字符占用2bytes存储空间**。
     - nvarchar[(n)]
