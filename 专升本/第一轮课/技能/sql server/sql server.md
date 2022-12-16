@@ -523,6 +523,18 @@
 
   8. **null / not null和default只能是列级约束**    **其他**的**是列级约束和表级约束都可以** **列级约束是 只能针对当列约束**   **表级约束可以多列**
 
+  9. 级联更新
+
+     ```sql
+     字段 字段类型 on update cascade
+     ```
+
+  10. 级联删除
+
+      ```sql
+      字段 字段类型 on delete cascade
+      ```
+
 - 例子
 
   ```sql
@@ -1552,22 +1564,25 @@
 
 - 存储过程的分类：系统存储过程、用户定义存储过程、扩展存储过程
 
+- 存储过程定义语句可以是增删改查任何语句
+
 - 创建
 
   ```sql
-  create procedure 存储过程名字 as 查询语句
+  create procedure 存储过程名字 [@变量名 类型] as 语句
   ```
 
 - 使用存储过程
 
   ```sql
-  execute 存储过程名字
+  execute 存储过程名字 '参数值'
+  execute 存储过程名字 @变量='参数值'
   ```
 
 - 修改
 
   ```sql
-  alter procedure 存储过程名字 as 查询语句
+  alter procedure 存储过程名字 as 语句
   ```
 
 - 删除
@@ -1576,7 +1591,7 @@
   drop procedure 存储过程名字
   ```
 
-  注意 procedure可以缩写称 proc
+  注意 procedure 可以缩写称 proc    execute 可简写 exec
 
 - 例子
 
@@ -1619,19 +1634,19 @@
 
 - 函数语法
 
-  - 函数的创建：
+  - 函数的创建
 
     ```sql
     create function
     ```
 
-  - 函数的修改：
+  - 函数的修改
 
     ```sql
     alter function
     ```
 
-  - 函数的删除：
+  - 函数的删除
 
     ```sql
     drop function
