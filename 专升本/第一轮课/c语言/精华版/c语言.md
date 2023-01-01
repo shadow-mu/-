@@ -446,8 +446,8 @@
 
      ```c
      #include "c:\cpp\linclude\lmyfile.h"
-     #include <stdio.h> /根目录
-     #include "stdio.h" /用户目录
+     #include <stdio.h> //根目录
+     #include "stdio.h" //用户目录
      ```
 
 ###### printf()函数
@@ -1316,8 +1316,8 @@
    - ```c
      #define MX(x,y)x*y
      #define MY(x,y)(x)*(y)
-     #define NX(x,y)>(x)(y)?(x):(y)
-     #define NY(x,y)>((x)(y)?(x):(y))
+     #define NX(x,y)(x)>(y)?(x):(y)
+     #define NY(x,y)((x)>(y)?(x):(y))
      void main(){ 
      int val,a,b;
      scanf("%d%d",&a,&b);
@@ -1862,7 +1862,7 @@
 
    ```c
    1:char str[]={'s','t','i','n','l','\0'};
-   2 char str1[]={'s','t','i','n','\0'};
+   2:char str1[]={'s','t','i','n','\0'};
    3:char str2[10]={"string"};  //占数组长度是字符串长度加1
    4:char str3[10]="string";
    5:char str4[]="string";
@@ -1924,7 +1924,7 @@
 
    ```c
    char str1[5],str2[5],str3[5];
-   scanf("s%s%s",str1,str2,str3);
+   scanf("%s%s%s",str1,str2,str3);
    ```
 
    - 如果利用一个scanf函数输入多个字符串，则应在**输入时以空格分隔**
