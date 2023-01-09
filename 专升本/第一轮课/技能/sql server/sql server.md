@@ -72,6 +72,12 @@
   - **内模式**：也称存储模式，是数据在数据库内部的表示方式（只有一个：**存储过程**、**索引**等)
   - 外模式——>模式 逻辑独立性
   - 模式——>内模式 物理独立性
+  
+- SQL功能
+
+  - 数据定义 creater alter drop
+  - 数据操纵 insert into update delete
+  - 数据查询 select
 
 ### SQLServer2012简介
 
@@ -117,6 +123,13 @@
     - 用户定义的文件组
       用户定义文件组是在create database或alter database语句中，使用FILEGROUP关键字指定的文件组。
     - **说明：日志文件不存在于任何文件组中。**
+    
+  - 注释
+  
+    ```sql
+    -- 单行注释
+    /*..多行注释..*/
+    ```
 
 ## 数据库操作
 
@@ -385,7 +398,7 @@
     1. 创建备份设备
 
        ```sql
-       sp_addumpdevice 'disk','备份设备逻辑名称','备份设备物理路径'
+       sp_addumpdevice 'disk/tape','备份设备逻辑名称','备份设备物理路径'
        ```
 
        - 备份设备实际上就是磁盘文件，该文件的后缀为**.bak**
@@ -464,7 +477,7 @@
      on(
      	filename='C:\student.mdf')
      log on(
-     filename='C:\student log.ldf')
+     	filename='C:\student log.ldf')
      for attach
      ```
 
@@ -523,16 +536,18 @@
 
   8. **null / not null和default只能是列级约束**    **其他**的**是列级约束和表级约束都可以** **列级约束是 只能针对当列约束**   **表级约束可以多列**
 
-  9. 级联更新
+  9. 级联更新（修改数据会把外键数据一起修改）
 
      ```sql
      字段 字段类型 on update cascade
+     -- 外键在哪定义的，就写在哪（写在外键后面）
      ```
 
-  10. 级联删除
+  10. 级联删除（删除数据会把外键数据一起删除）
 
       ```sql
       字段 字段类型 on delete cascade
+      -- 外键在哪定义的，就写在哪（写在外键后面）
       ```
 
 - 例子
@@ -847,7 +862,7 @@
 - 说明
 
   1. all:表示输出所有记录，包括重复记录。默认值为all。
-  2. distinct:表示在查询结果中去掉重复值**作用范围是所有目标列**
+  2. distinct:表示在查询结果中去掉重复值**作用范围是所有目标列** **如果不是主键就考虑**
   3. top n:返回查询结果集中的前N行。（n必须取整数）
 
      - 加[**percent**]返回查询结果集中的前n%行。n的取值范围是0~100。注意：**如果1.2条数据的话取的是两条 向上取整**
@@ -873,7 +888,8 @@
   select top 10 * from student 
   -- 查询Student表中前10%学生信息。
   select top 10 percent * from student
-  
+  -- 查询年龄大于20岁学生的学号,姓名
+  select sno,sname from student where (2023-year(Birth))>20
   ```
 
 - 单表有条件查询
@@ -1023,8 +1039,12 @@
      select sno, count(*) from sc group by sno having count(*)>2
      -- 变式处理：查询被2个以上同学选过的课程号
      select cno ,count(*) from sc group by cno having count(*)>2
+     -- 查询至少选选修了四门课程的学号姓名及平时成绩
+     select学号，姓名，avg(成绩)from Student
+     group by 学号,姓名 -- 学号和姓名相同的为一组
+     having count(课程号)>=4
      ```
-
+     
      - **where子句**用于筛选**from子句中指定的表所产生的行数据做筛选**
      - group by子句用于对经where子句筛选后的结果数据进行分组
      - group by写在where子句之后
@@ -1570,7 +1590,9 @@
 
 - 存储过程定义语句可以是增删改查任何语句
 
-- 创建
+- 局部变量@  系统变量@@
+
+- 创建 
 
   ```sql
   create procedure 存储过程名字 [@变量名 类型] as 语句
@@ -1596,6 +1618,13 @@
   ```
 
   注意 procedure 可以缩写称 proc    execute 可简写 exec
+
+- 重新命名
+
+  ```sql
+  sp_rename '旧名称','新名称'
+  -- 以上格式可以重新命名：table、view、index、procedure存储过程、functioni函数、trigger触发器
+  ```
 
 - 例子
 
@@ -1628,15 +1657,37 @@
 
 ### 函数
 
-- 函数的分类
+1. 函数的分类
 
   - 根据函数返回值的类型，用户定义的函数分为：
-    - **标量函数**：返回一个标量值：
+    - **标量函数**：返回一个标量值
     - **表值函数**：返回值为整个表，根据函数的主体方式分为：
       - **内嵌表值函数**：返回一个table(表)
       - **多语句表值函数**：返回一个table型**变量**，即**表变量**
+    
+  - 系统函数
 
-- 函数语法
+    | 函数        | 说明                                                         | 示例                                                         |
+    | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+    | day(date)   | 返回指定日期中的日值                                         | SELECT DAY('2022-02-26');结果：26                            |
+    | month(date) | 返回指定日期中的月份                                         | SELECT MONTH('2022-02-26');结果：2                           |
+    | yera(date)  | 返回指定日期中的年份                                         | SELECT YEAR('2022-02-26');结果：2022                         |
+    | getdate()   | 返回当前的时间和日期                                         | SELECT GETDATEO<br/>结果：2022-02-1616：41：28.087           |
+    | Itrim()函数 | 去掉左边的空格字符                                           | SELECT LTRIM(' abc'):结果：abc                               |
+    | rtrim()函数 | 去掉右边的空格字符                                           | SELECT RTRIM('abc ');结果：abc                               |
+    | trim()函数  | 去掉左右两边的空格字符                                       | SELECT TRIM(' abc ');结果：abc                               |
+    | lower()函数 | 将大写字符转换为小写                                         | SELECT LOWER('ABabe')；结果：ababc                           |
+    | upper()函数 | 将小写字符转换为大写                                         | SELECT UPPER('ABabe');结果：ABABC                            |
+    | ceiling(x)  | 返回大于或等于X的最小整数                                    | SELECT CEILLING(9.230238);结果：10                           |
+    | floor(x)    | 返回小于或等于X的最大整数                                    | SELECT FLOOR(3.5899966);结果：3                              |
+    | round(x,y)  | 返回接近于参数X的数，其值保留到小数点后面Y位（四舍五入)，若Y为负值则将保留X值到小数点左边Y位（四舍五入），返回的数据类型与表达式相同 | SELECT ROUND(4.45,1)；结果：4.50<br>SELECT ROUND(14.45,-1)；结果：10.00 |
+    | abs(x)      | 返回X的绝对值，返回的数据类型与表达式相同                    | SELECT ABS(-29.3)；结果：29.3                                |
+    | sign(x)     | 返回X的符号，x的值为负、零或正时，返回结果依次为-1、0或1，返回的数据类型与表达式相同 | SELECT SIGN(3.3):结果：-1.0                                  |
+    | pi()        | 返回值为π                                                    | SELECT PI():结果：3.14159265358979                           |
+    | rand()      | 返回0-1之间的随机数，每次返回值不同                          | SELECT RAND();结果：0.1824589086136                          |
+    | rand(x)     | 以表示做种子，返回0-1之间的随机数，每次返回值相同            | SELECT RAND(10):结果：0.7137596899                           |
+
+2. 函数语法
 
   - 函数的创建
 
@@ -1658,12 +1709,20 @@
 
 ### 触发器
 
-- 触发器种类：
+1. 触发器种类：
 
   - DML触发器  DML:数据操纵语言 (insert update delete select)
   - DDL触发器  DDL:数据定义语言(create alter drop)
 
-- 语法
+2. 触发器执行时，系统将自动创建两个临时的表：inserted表和deleted表
+
+  - inserted表：存储新的值
+  - deleted表：存储旧的值
+    - insert into 时只有新的值，只涉及inserted表。
+    - delete from 时只有旧的值，只涉及deleted表。
+    - update 时有新的，也有旧的值，同时涉及inserted表和deleted表。
+
+3. 语法
 
   - 创建触发器
 
@@ -1683,4 +1742,105 @@
     drop trigger
     ```
 
-    
+
+### T-SQL基础
+
+1. T-SQL是SQL语言的一种版本，且只能在Microsoft的MS SOL-Server等数
+   据库中使用
+
+2. T-SQL是SQL的扩展加强版语言，除了提供标准的SQL命令外，T-SQL还对SQL做了许多补充，例如变量说明、流程控制、功能函数等
+
+3. T-SQL语言的构成
+
+   - 数据定义语言DDL
+     create，alter，drop
+   - 数据操纵语言DML
+     select，insert，update，delete
+   - 数据控制语言DCL
+     grant(授权)，revoke(收回权限)，deny(收回权限并禁止继承)
+
+4. T-SQL中的变量
+
+   - 变量用于临时存放数据，变量中的数据随着程序的执行而变化
+
+   - 变量有名称及数据类型两个属性
+
+   - 变量名必须是一个合法的标识符
+
+   - 标识符分类：
+
+     - 常规标识符：以ASCII字母、Unicode字母、下划线、@#开头，后续可跟一个或若干个ASCII字母、下划线、美元符号$、@或#，但不能全为下划线、@或#。
+     - 分隔标识符
+
+   - 声明局部变量
+
+     ```sql
+     declare @局部变量 数据类型
+     -- 例如
+     declare @cno char(8)
+     ```
+
+   - 局部变量赋值
+
+     ```sql
+     set @局部变量=表达式/常量值
+     -- 例如
+     set @cno='c01'
+     select @局部变量=表达式/常量值
+     -- 例如
+     select @cno='c01'
+     ```
+
+   - 声明局部变量并赋值
+
+     ```sql
+     declare @局部变量数据类型=表达式/常量值
+     -- 例如
+     declare @cno char(8)='c01'
+     ```
+
+   - 输出变量值
+
+     ```sql
+     print @变量名称
+     -- 例如
+     print @cno
+     select @变量名称
+     -- 例如
+     select @cno
+     ```
+
+   - 使用
+
+     ```sql
+     -- 1
+     DECLARE @Cno varchar (8),@Sno varchar(10)
+     SET @Cno='CO1'
+     SELECT sno FROM sc WHERE cno=@Cno
+     -- 2
+     DECLARE @Cno varchar (8),@Cname varchar (20)
+     SET @Cno='C01'
+     SET @Cname=(SELECT cname FROM course WHERE cno=@Cno)
+     -- 3
+     DECLARE @Cno varchar(8),@Credit smallint
+     SELECT @Cno='C01'
+     SELECT @Credit=(SELECT credit FROM course WHERE cno=@Cno)
+     PRINT @Cname
+     select @Cname
+     ```
+
+5. T-SQL中的运算符
+
+   - 算数运算符
+     - +、-、*、/、%
+   - 比较运算符
+     - <、>、>=、=
+     - !=(不等于)、<>（不等于）、!<（不小于）、!>（不大于）
+   - 逻辑运算符
+     - NOT(非)、AND(与)、OR(或)、ALL、ANY、BETWEEN、IN、LIKE
+   - 位运算符
+     - & (按位与)丨（按位或）∧（按位异或）
+
+6. 运算符的优先级
+
+   - ![image-20230109195210124](img/image-20230109195210124.png)
