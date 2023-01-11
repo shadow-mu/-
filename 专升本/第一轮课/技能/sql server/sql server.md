@@ -72,12 +72,6 @@
   - **内模式**：也称存储模式，是数据在数据库内部的表示方式（只有一个：**存储过程**、**索引**等)
   - 外模式——>模式 逻辑独立性
   - 模式——>内模式 物理独立性
-  
-- SQL功能
-
-  - 数据定义 creater alter drop
-  - 数据操纵 insert into update delete
-  - 数据查询 select
 
 ### SQLServer2012简介
 
