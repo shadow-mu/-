@@ -10,7 +10,9 @@ int main(){
 } 
 ```
 
-## 选择结构
+## 常考
+
+1、闰年
 
 ```c
 //1.编写程序，输入一个年份，判断是否为闰年
@@ -21,7 +23,174 @@ int main(){
     if((y%4==0&&y%100!=0)||y%400==0)
        printf("闰年")
     else printf("平年")
-}//闰年判定：年份能被4整除但(&&)不能100整除，或者(||)年份能被400整除、
+}//闰年判定：年份能被4整除但(&&)不能100整除，或者(||)年份能被400整除
+```
+
+2、素数 
+
+```c
+//1、编程找出100以内的素数
+#include <stdio.h>
+int main(){
+	int i,k,flag;
+	for(i=2;i<=100;i++){
+		flag=0;
+		for(k=2;k<i;k++){ 
+            //除了自己和1能除尽其他的数除尽了就不是素数
+            //素数又叫质数（prime number），有无限个。质数定义为在大于1的自然数中，除了1和它本身以外不再有其他因数。
+			if(i%k==0)
+			 flag=1;
+		}
+		if(flag==0){
+			printf("%d ",i);
+		}
+	}
+} 
+//2.写程序，输入一个大于2的正整数，判断是否为素数
+#include <stdio.h>
+int main(){
+   	int n,i,fla=0;
+    scanf("%d",&n);
+    for(i=2;i<n;i++){
+        if(n%i==0){
+            fal=1;
+        }
+    }
+    if(fla==1){
+        printf("不是素数");
+    }else{
+        printf("素数");
+    }
+    return 0;
+}
+#include <stdio.h>
+int main(){
+   	int n,i;
+    scanf("%d",&n);
+    for(i=2;i<n;i++){
+        if(n%i==0){
+           break;
+        }
+      }
+        if(i<n) printf("不是素数");
+        else printf("素数");
+    return 0;
+}
+//3.求200到300之间所有的素数
+#include <stdio.h>
+int main(){
+    int i,j;
+    for(i=200;i<300;i++){
+        for(j=2;j<i;j++){
+            if(i%j==0){
+                break;
+            }
+        }
+        if(j==i)
+        printf("%d ",i);
+    }
+}
+```
+
+3、最大公约数最小公倍数
+
+```c
+//1、最大公约数最小公倍数
+//两个数的乘积=两个数的最大公约数*两个数的最小公倍数
+//法1
+#include <stdio.h>
+int main(){
+    int m,n,k=1,i;
+    scanf("%d%d",&m,&n);
+    for(i=2;i<=m;i++){
+        if(m%i==0&&n%i==0) k=i; //此处不能break 直接跳出循环得到的是最小
+    }
+    printf("%d和%d最大公约数%d,最小公倍数%d",m,n,k,m*n/k);
+}
+//法2 辗转相除法
+ #include <stdio.h>
+int main(){
+    int m,n,a,b,t;
+    scanf("%d,%d",&m,&n);
+    if(m<n){
+        t=m;
+        m=n;
+        n=t;
+    }
+    a=m;
+    b=n;
+    while(b!=0){
+        t=a%b;
+        a=b;
+        b=t
+    }
+    printf("%d%d的最大公约数为%d,最小公倍数为%d",m,n,a,m*n/a);
+}
+```
+
+4、斐波那契数列
+
+5、阶乘、阶乘的和
+
+```c
+//1.编写程序，输入整数i，求1!+2!+3!+...+n!
+#include <stdio.h>
+int main(){
+    int i,j,n;
+    long fac,sum=0;
+    scanf("%d",&n); 
+    for(i=1;i<=n;i++){
+        for(j=1,fac=1;j<=i;j++){
+        fac*=j;
+    	}
+       sum+=fac;
+	}
+    printf("%d",sum);
+}
+#include "stdio.h"
+int main() {
+	int i,n;
+	long fac,sum=0;
+	scanf("%d",&n);//5
+	for(fac=1,i=1; i<=n; i++){
+		fac=fac*i;
+		sum=sum+fac;	
+	}
+	printf("sum=%1d",sum);
+}
+//2.编写程序，输入整数i，求1!+2!+3!+...+20!
+#include "stdio.h"
+int main() {
+	int i,n;
+	long fac,sum=0;
+	for(fac=1,i=1; i<=20; i++){
+		fac=fac*i; //求i的阶乘
+		sum=sum+fac; //求阶乘的和
+	}
+	printf("sum=%1d",sum);
+}
+//3.输入正整数n,求n!
+#include <stdio.h>
+int main(){
+    int n ;
+    long fac=1;
+    scanf("%d",&n);
+    for(;n>0;n--){
+		fac*=fac*i;
+    }
+    printf("%ld",fac);
+    return 0;
+}
+```
+
+6、排序（有小到大）
+
+7、最值（最大值、最小值）
+
+## 选择结构
+
+```c
+
 //2.给出一百分制成绩，要求输出成绩等级'A'、B'、'C'、D'、E'。90分以上为'A',80~89分为'B',70~79分为C',60~69分为'D',60分以下为E'。
 #include <stdio.h
 main(){
@@ -225,24 +394,7 @@ int main(){
 ## 循环
 
 ```c
-//1.编程找出100以内的素数
-#include <stdio.h>
-int main(){
-	int i,k,flag;
-	for(i=2;i<=100;i++){
-		flag=0;
-		for(k=2;k<i;k++){ 
-            //除了自己和1能除尽其他的数除尽了就不是素数
-            //素数又叫质数（prime number），有无限个。质数定义为在大于1的自然数中，除了1和它本身以外不再有其他因数。
-			if(i%k==0)
-			 flag=1;
-		}
-		if(flag==0){
-			printf("%d ",i);
-		}
-	}
-} 
-//2.分别使用whi1e,dowhile和for循环，求1到100数的和。
+//1.分别使用while,dowhile和for循环，求1到100数的和。
 #include <stdio.h>
 int main(){
 	int i=1,sum=0;
@@ -272,19 +424,7 @@ int main(){
     printf("sum=%d",sum);   
     return 0;
 }
-//3.输入正整数n,求n!
-#include <stdio.h>
-int main(){
-    int n ;
-    long fac=1;
-    scanf("%d",&n);
-    for(;n>0;n--){
-		fac*=fac*i;
-    }
-    printf("%ld",fac);
-    return 0;
-}
-//4.输入两个整数m和n(m<n),求m和n之间（包括m和n)所有整数的和
+//2.输入两个整数m和n(m<n),求m和n之间（包括m和n)所有整数的和
 #include <stdio.h>
 int main(){
     int m,n,i=0;
@@ -295,7 +435,7 @@ int main(){
     printf("%d",i);
     return 0;
 }
-//5.编写程序，输入整数n,计算 1+1/2+1/3+...+1/n
+//3.编写程序，输入整数n,计算 1+1/2+1/3+...+1/n
 //任何大于1的自然数n阶乘表示方法：n!=1×2×3×……×n 
 #include <stdio.h>
 int main(){
@@ -308,7 +448,7 @@ int main(){
     printf("%f",sum);
     return 0;
 }
-//6.编写程序，计算：1+1/2+2/3+3/4+。。。+199/200
+//4.编写程序，计算：1+1/2+2/3+3/4+。。。+199/200
 #include <stdio.h>
 int main(){
    	float sum=1.0,i;
@@ -318,7 +458,7 @@ int main(){
     printf("%f",sum);
     return 0;
 }
-//7.编写程序，计算：1*2*3+2*3*4+3*4*5+...+98*99*100
+//5.编写程序，计算：1*2*3+2*3*4+3*4*5+...+98*99*100
 #include <stdio.h>
 int main(){
     int i,sum=0;
@@ -328,7 +468,7 @@ int main(){
     printf("%d",sum);
     return 0;
 }
-//8.编写程序，用循环输出以下内容
+//6编写程序，用循环输出以下内容
 1
 1 2
 1 2 3
@@ -345,7 +485,7 @@ int main(){
         printf("\n");
     }
 }
-//9.编写程序，输入整数i，求1!+2!+3!+...+n!
+//7.写程序，输入整数i，求1!+2!+3!+...+n!
 #include <stdio.h>
 int main(){
     int i,j,n;
@@ -370,51 +510,8 @@ int main() {
 	}
 	printf("sum=%1d",sum);
 }
-//10.编写程序，输入一个大于2的正整数，判断是否为素数
-#include <stdio.h>
-int main(){
-   	int n,i,fla=0;
-    scanf("%d",&n);
-    for(i=2;i<n;i++){
-        if(n%i==0){
-            fal=1;
-        }
-    }
-    if(fla==1){
-        printf("不是素数");
-    }else{
-        printf("素数");
-    }
-    return 0;
-}
-#include <stdio.h>
-int main(){
-   	int n,i;
-    scanf("%d",&n);
-    for(i=2;i<n;i++){
-        if(n%i==0){
-           break;
-        }
-      }
-        if(i<n) printf("不是素数");
-        else printf("素数");
-    return 0;
-}
-//11.求200到300之间所有的素数
-#include <stdio.h>
-int main(){
-    int i,j;
-    for(i=200;i<300;i++){
-        for(j=2;j<i;j++){
-            if(i%j==0){
-                break;
-            }
-        }
-        if(j==i)
-        printf("%d ",i);
-    }
-}
-//12.有一口井深h米，一只青蛙每天早上向上爬上爬m米，晚上睡觉滑下来n米(h>m>n),问多少天可以爬出井
+
+//8.一口井深h米，一只青蛙每天早上向上爬上爬m米，晚上睡觉滑下来n米(h>m>n),问多少天可以爬出井
 #include <stdio.h>
 int main(){
     int h,m,n,i=0,s=0;//i天数 s小青蛙爬的高度
@@ -427,7 +524,7 @@ int main(){
     }
     printf("%d",i);
 }
-//13.输入1个正整数，判断是几位数，并计算各个位上数的和
+//9.输入1个正整数，判断是几位数，并计算各个位上数的和
 5872
 /10 587
 /10 58
@@ -460,7 +557,7 @@ int main(){
     printf("ws%d he%d",i,sum);
     return 0;
 }
-//14.有一个分数数列 2/1,3/2,5/2,8/5,13/8,21/13...求出该数列前20项的和（结果用小数表示，保留10位小数）。
+//10.有一个分数数列 2/1,3/2,5/2,8/5,13/8,21/13...求出该数列前20项的和（结果用小数表示，保留10位小数）。
 #include <stdio.h>
 int main(){
     int i;
@@ -472,7 +569,7 @@ int main(){
     }
     printf("%.10f",sum);
 }
-//15.编写程序，求1-1/2+1/3-1/4+....-1/100；
+//11.编写程序，求1-1/2+1/3-1/4+....-1/100；
 #include <stdio.h>
 int main(){
 	int i;
@@ -496,17 +593,6 @@ int main(){
         sign=-sign;//通过加符号的方式
     }
 	printf("sum=%f",sum);
-}
-//16.从键盘输入两个正整数，求其最大公约数和最小公倍数。
-//两个数的乘积=两个数的最大公约数*两个数的最小公倍数
-#include <stdio.h>
-int main(){
-    int m,n,k=1,i;
-    scanf("%d%d",&m,&n);
-    for(i=2;i<=m;i++){
-        if(m%i==0&&n%i==0) k=i;
-    }
-    printf("%d和%d最大公约数%d,最小公倍数%d",m,n,k,m*n/k);
 }
 ```
 
@@ -950,6 +1036,168 @@ int main(){
     }
     while(i>=0){
         printf("%c",a[i--]);
+    }
+    return 0;
+}
+//52.40读入10个整数存入数组，找出其中最大值最小值
+#include <stdio.h>
+int main(){
+    int a[10],i,x=0,d=0;
+    for(i=0;i<10;i++){
+        scanf("%d",&a[i]);
+        if(a[d]<a[i]) d=i;//最大
+        if(a[x]>a[j]) x=i;//最小
+    }
+    printf("最大值%d,最小值%d",a[d],a[x]);
+    return 0;
+}
+//52.41通过赋初值按行顺序给2x3的二维数组赋予2，4，6等偶数，然后按列的顺序输出该数组
+#include <stdio.h>
+int main(){
+    int a[2][3],i,j,s=2;
+    for(i=0;i<2;i++){
+		 for(j=0;j<3;j++){
+			a[i][j]=s;
+             s+=2;
+         }
+    }
+    for(j=0;j<3;j++){
+         for(i=0;i<2;i++){
+          printf("%d ",a[i][j]);   
+         }
+    }
+    return 0;
+}
+//53.42输入数组，最大的与第一个元素交换，最小的与最后一个元素交换，输出数组
+#include <stdio.h>
+#define n 10
+int main(){
+	int a[n],i,j,d,x,max,min,maxj,minj;
+	for(i=0; i<n; i++) {
+		scanf("%d",&a[i]);
+	}
+	max=min=a[0];
+	for(i=0; i<n/2; i++) {
+		d=i;
+		x=i;
+		for(j=i; j<n-i; j++) {
+			if(a[d]<a[j]) {
+				d=j;//最大
+				max=a[d];
+			}
+			if(a[x]>a[j]) {
+				x=j;//最小
+				min=a[x];
+			}
+		}
+		maxj=a[i]; //存储交换位置的值
+		minj=a[n-i-1]; //存储交换位置的值
+		a[i]=max; //最大值交换到前面
+		a[d]=maxj;//交换位置的值换到最大值位置
+		a[n-i-1]=min; //最小值交换到后面
+		a[x]=minj; //交换位置的值换到最小值位置
+		max=min=a[i+1]; //i+1 如果是i就会把当前最大值存入
+	}
+	for(i=0; i<n; i++) {
+		printf("%d ",a[i]);
+	}
+	return 0;
+}
+//调试
+#include <stdio.h>
+#define n 10
+int main() {
+	int a[n]= {1,2,3,4,5,6,7,8,9,10},i,j,d,x,max,min,maxj,minj;
+//	for(i=0; i<n; i++) {
+//		scanf("%d",&a[i]);
+//	}
+	max=min=a[0];
+	for(i=0; i<n/2; i++) {
+		d=i;
+		x=i;
+		for(j=i; j<n-i; j++) {
+			if(a[d]<a[j]) {
+				d=j;//最大
+				max=a[d];
+			}
+			if(a[x]>a[j]) {
+				x=j;//最小
+				min=a[x];
+			}
+		}
+		maxj=a[i]; //存储交换位置的值
+		minj=a[n-i-1]; //存储交换位置的值
+		a[i]=max; //最大值交换到前面
+		a[d]=maxj;//交换位置的值换到最大值位置
+		a[n-i-1]=min; //最小值交换到后面
+		a[x]=minj; //交换位置的值换到最小值位置
+		max=min=a[i+1];
+	}
+	for(i=0; i<n; i++) {
+		printf("%d ",a[i]);
+	}
+	return 0;
+}
+//53.43用数组实现以下功能，输入5个学生成绩，而后求出这些成绩的平均值并显示出来
+#include <stdio.h>
+int main(){
+	int a[5],i,sum=0;
+    for(i=0;i<5;i++){
+        scanf("%d",&a[i]);
+        sum+=a[i];
+    }
+    printf("5个学生平均成绩为%.2f",sum/5.0);
+}
+//54.44求一个3x3的整型矩阵对角线元素之和
+//对角线的行值等于列值 次对角线等于 矩阵长度(3)-1=列值+行值
+#include <stdio.h>
+int main(){
+	int a[3][3],i,j,sum=0;
+    for(i=0;i<3;i++){
+		for(j=0;j<3;j++){
+            scanf("%d",&a[i][j]);
+            if(i==j||i+j==2){
+				sum+=a[i][j];
+            }
+        }
+    }
+    printf("sum=%d",sum);
+}
+//54.45求数组输入8个数的最大值
+#include <stdio.h>
+int main(){
+	int a[8],i,max=0;
+    for(i=0;i<8;i++){
+        scanf("%d",&a[i]);
+        if(a[max]<a[i]) max=i;//最大
+    }
+    printf("最大值为%d",a[max]);
+    return 0;
+}
+//55.46编程实现将两个字符串连接起来（要求不能使用scrcat函数，实现相同功能）
+#include <stdio.h>
+int main(){
+    char a[80],b[30];
+    char *p=a,*d=b;
+    int i=0;
+    gets(a);
+    gets(b);
+    while(*p) p++; //注意不要写*p++ 因为指向\0之后又++指向\0后面了
+    while(*d){
+		*p++=*d++;
+    }
+    *p='\0';
+    puts(a);
+}
+//55.47键盘输入10个数倒序输出
+#include <stdio.h>
+int main(){
+	int a[10],i;
+    for(i=0;i<10;i++){
+        scanf("%d",&a[i]);
+    }
+    for(i=9;i>-1;i--){
+        printf("%d ",a[i]);
     }
     return 0;
 }
