@@ -102,7 +102,7 @@ int main(){
 int main(){
     int m,n,k=1,i;
     scanf("%d%d",&m,&n);
-    for(i=2;i<=m;i++){
+    for(i=2;i<=m;i++){ //注意i<=m 必须小于等于
         if(m%i==0&&n%i==0) k=i; //此处不能break 直接跳出循环得到的是最小
     }
     printf("%d和%d最大公约数%d,最小公倍数%d",m,n,k,m*n/k);
@@ -666,6 +666,140 @@ int main(){
     max=max(a,max(b,c));
     printf("%d",max);
     return 0;
+}
+//63.27编写一个程序分别求两个整数的最大公约数和最小公倍数
+#include <stdio.h>
+int zdgys(int a,int b){
+    int i,t;
+	for(i=2;i<=a;i++){
+		if(a%i==0&&b%i==0){
+            t=i;
+        }
+    }
+    return t;
+}
+int zxgbs(int a,int b){
+	return a*b/zdgys(a,b);
+}
+int main(){
+    int a,b;
+    scanf("%d%d",&a,&b);
+    printf("最大公因数为%d",zdgys(a,b));
+    printf("最小公倍数为%d",zxgbs(a,b));
+    return 0;
+}
+//64.29 请编写一个函数fun，它的功能是：计算门课程的哦平均分，计算结果为函数的返回值
+#include <stdio.h>
+#define n 10
+float fun(float *a){
+	float sum=0;
+    int i;
+    for(i=0;i<n;i++){
+        sum+=a[i];
+    }
+    return sum/n;
+}
+int main(){
+    float a[n],avg;
+    int i;
+    for(i=0;i<n;i++){
+		scanf("%f",&a[i]);
+    }
+    printf("avg=%f",fun(a));
+    return 0;
+}
+//64.30编写函数实现字符串函数strlen()功能，不能使用字符串函数
+#include <stdio.h>
+int len(char *a){
+    int count=0;
+	while(*a++) count++;
+    return count;
+}
+int main (){
+    char a[100];
+    gets(a);
+	printf("字符串的长度为%d",len(a));
+    return 0;
+}
+//65.31简单计算器的实现，分别用函数实现两个整数m和n的加，减，乘，整除，求余，以及阶乘m!的计算
+#include <stdio.h>
+int jf(int a,int b) {
+	return a+b;
+}
+int jaf(int a,int b) {
+	return a-b;
+}
+int cf(int a,int b) {
+	return a*b;
+}
+int cuf(int a,int b) {
+	return a/b;
+}
+int jc(int a) {
+	int i,fac=1;
+	for(i=2; i<=a; i++) {
+		fac*=i;
+	}
+	return fac;
+}
+int main() {
+	int m,n;
+	scanf("%d%d",&m,&n);
+	printf("%d+%d=%d\n",m,n,jf(m,n));
+	printf("%d-%d=%d\n",m,n,jaf(m,n));
+	printf("%d*%d=%d\n",m,n,cf(m,n));
+	if(n==0) {
+		printf("除数不能为0");
+	} else {
+		printf("%d/%d=%d\n",m,n,cuf(m,n));
+	}
+	printf("!%d=%d\n",m,jc(m));
+	return 0;
+}
+//65.32编写一个判断素数的函数，用返回值0或1分别表示素数或非素数的状态
+#include <stdio.h>
+int pime(int a){
+    int i,f=0;
+    for(i=2;i<a;i++){
+		if(a%i==0){
+            f=1;
+        }
+    }
+    return f;
+}
+int main(){
+    int a;
+    printf("请输入一个大于1的整数");
+    scanf("%d",&a);
+   if(pime(a)){
+       printf("%d不是素数",a);
+   }else {
+       printf("%d是素数",a);
+   }
+    return 0;
+}
+//66.33编写实现对100-200之间所有数是否素数的判别
+#include <stdio.h>
+int pime(int a){
+    int i,f=0;
+    for(i=2;i<a;i++){
+		if(a%i==0){
+			f=1;
+        }
+    }
+    return f;
+}
+int main(){
+	int a,i;
+    printf("100-200之间是否是素数")
+    for(i=100;i<200;i++){
+        if(pime(i)){
+			printf("%dno\t",i);
+        }else {
+            printf("%dyes\t",i);
+        }
+    }
+    return 0; 
 }
 ```
 
