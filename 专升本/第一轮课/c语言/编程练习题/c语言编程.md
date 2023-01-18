@@ -8,6 +8,37 @@ int main(){
 	printf("Hello World\n"); 
 	return 0;
 } 
+#include <stdio.h>
+int main(){
+    printf("we start c again!");
+	return 0;
+}
+//5.1输入整数a,b两个值，输出两个整数之差
+#include <stdio.h>
+int main(){
+    int a,b;
+    scanf("%d%d",&a,&b);
+    printf("%d",a-b);
+	return 0;
+}
+//6.2.编写一个C程序，输入a、b、c三个值，输出其中最小者。
+#include <stdio.h>
+int main(){
+    int a,b,c,d;
+    scanf("%d%d%d",&a,&b,&c);
+    d=a>b?b:a;
+    printf("%d",c>d?d:c);
+	return 0;
+}
+//6.3.请编写程序，将两个两位的正整数a,b合并成一个整数放在c中：将a的十位和个位数一次放在c的千位和十位上，b的十位和个位数一次放在c的百位和个位上，例如：输入a=45,b=12使c=4152。
+#include <stdio.h>
+int main(){
+    int a,b,c;
+    scanf("%d%d",&a,&b);
+    c=a/10*1000+a%10*10+b/10*100+b%10;
+    printf("%d",c);
+	return 0;
+}
 ```
 
 ## 常考
@@ -1376,7 +1407,55 @@ int main(){
 	printf("%s",a);
 	return 0;
 } 
-
+//用指针编写求字符串长度的函数strlen()
+#include <stdio.h>
+int strlen(char a[]){
+	char *p=a;
+    int count=0;
+    while(*p++) count++;
+    return count;
+}
+int main(){
+    char a[100];
+    gets(a);
+    printf("strlen=%d",strlen(a));
+}
+//74.2利用函数和指针编写一个程序，在main函数中输入10个整数并存入数组中，定义一个名称为DeleteDup的函数，将此数组中后面出现的重复元素删除，最后把剩下的元素全部显示出来，要求对数组操作用指针实现
+#include <stdio.h>
+void DeleteDup(int *a){
+	int i;
+    for(i=0;i<10;i++){
+		
+	}
+}
+int main(){
+    int a[10],i;
+    for(i=0;i<10;i++){
+		scanf("%d",&a[i]);
+    }
+    DeleteDup(a);
+    for(i=0;i<10;i++){
+        printf("%d",a[i]);
+    }
+    return 0;
+}
+//75.3编写函数实现字符串strcat()功能
+#include <stdio.h>
+void strcat(char *a,char *b){
+	while(*a) a++; //注意不要写成*a++会指向\0后面
+    while(*b) *a++=*b++;
+    *a='\0';
+}
+int main(){
+	char a[100],b[50];
+    gets(a);
+    gets(b);
+    strcat(a,b);
+    printf("%s",a);
+    return 0;
+}
+//75.4编写一个程序，输入15个整数，存入一维数组，在按逆序重新存放后输出
+//76.5编写函数实现strcmp(),比较a和b所指字符串的大小
 ```
 
 ## 结构体
