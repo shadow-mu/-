@@ -1,6 +1,6 @@
 # c语言编程练习题
 
-## C语言的基本结构
+## 顺序结构
 
 ```c
 #include <stdio.h> 
@@ -38,6 +38,53 @@ int main(){
     c=a/10*1000+a%10*10+b/10*100+b%10;
     printf("%d",c);
 	return 0;
+}
+//1.编写程序，输入直角三角形的两条直角边，求该三角形的面积
+#include <stdio.h>
+int mian(){
+    int a,b;
+    float c; //面积必须是float
+    scanf("%d%d",&a,&b);
+    c=a*b/2.0; //注意面积必须是2.0 要不整数除整数与结果不相符
+    printf("%f",c);
+    return 0;
+}
+//2.编写程序，输入梯形的上下底和高（整数），求梯形的面积
+#include <stdio.h>
+int mian(){
+    int a,b,c;
+    float d; //面积必须是float
+    scanf("%d%d%d",&a,&b,&c);
+    d=(a+b)c/2.0; //注意面积必须是2.0 要不整数除整数与结果不相符
+    printf("%f",c);
+    return 0;
+}
+//3.输入半径r求圆的周长，面积，球的体积和表面积
+//圆的周长=2pi*r 圆的面积=pi*r^2 球的体积=4/3*pi*r^3 球的表面积=4*pi*r^2
+#include <stdio.h>
+#define PI 3.141592
+int main(){
+    int r;
+    float zc,mj,tj,bmj;
+    scanf("%d",&r);
+    zc=2*PI*r;
+    mj=PI*r*r;
+    tj=4/3*PI*r*r*r;
+    bmj=4*PI*r*r;
+    printf("%f%f%f%f",zc,mj,tj,bmj);
+}
+//4.编写程序，输入三角形的三条边（假定可以组成三角形，整型），求该三角形的面积
+// #include "math.h"  平方根公式sqrt(4)
+//使用海伦公式
+#include <stdio.h>
+#include <math.h>
+int main(){
+	int a,b,c;
+    float s,p;
+    scanf("%d%d%d",&a,&b,&c);
+    p=(a+b+c)/2.0;
+    s=sqrt(p*(p-a)*(p-b)*(p-c));
+    printf("%f",s);
 }
 ```
 
