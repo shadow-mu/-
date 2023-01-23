@@ -1454,12 +1454,11 @@ int main(){
 	printf("%s",a);
 	return 0;
 } 
-//用指针编写求字符串长度的函数strlen()
+//74.1用指针编写求字符串长度的函数strlen()
 #include <stdio.h>
-int strlen(char a[]){
-	char *p=a;
+int strlen(char *a){
     int count=0;
-    while(*p++) count++;
+    while(*a++) count++;
     return count;
 }
 int main(){
@@ -1469,22 +1468,27 @@ int main(){
 }
 //74.2利用函数和指针编写一个程序，在main函数中输入10个整数并存入数组中，定义一个名称为DeleteDup的函数，将此数组中后面出现的重复元素删除，最后把剩下的元素全部显示出来，要求对数组操作用指针实现
 #include <stdio.h>
-void DeleteDup(int *a){
-	int i;
-    for(i=0;i<10;i++){
-		
-	}
+void DeleteDup(char *a) {
+	int i,j,k,q=10;
+	for(i=0;i<q;i++){
+		for(j=i+1;j<q;j++){
+            if(a[i]==a[j]){
+                for(k=j;k<q;k++){
+					a[k]=a[k+1];
+                }
+                q--;
+                j--;
+            }
+        }
+    }
+    a[q]='\0';
 }
-int main(){
-    int a[10],i;
-    for(i=0;i<10;i++){
-		scanf("%d",&a[i]);
-    }
-    DeleteDup(a);
-    for(i=0;i<10;i++){
-        printf("%d",a[i]);
-    }
-    return 0;
+int main() {
+	char a[10],i;
+	gets(a);
+	DeleteDup(a);
+	puts(a);
+	return 0;
 }
 //75.3编写函数实现字符串strcat()功能
 #include <stdio.h>
@@ -1502,7 +1506,41 @@ int main(){
     return 0;
 }
 //75.4编写一个程序，输入15个整数，存入一维数组，在按逆序重新存放后输出
+#include <stdio.h>
+int main(){
+    int a[15],i,*p=a,*q=a+14,t;
+    for(i=0;i<15;i++){
+		scanf("%d",&a[i]);
+    }
+  	while(p<q){
+		t=*p;
+        *p++=*q;
+        *q--=t;
+    }
+    for(i=0;i<15;i++){
+		printf("%d ",a[i]);
+    }
+    return 0;
+}
 //76.5编写函数实现strcmp(),比较a和b所指字符串的大小
+#include <stdio.h>
+int strcmp(char *a,char *b){
+    int k;
+    while((*a==*b)&&(*a++!='\0')&&(*b++!='\0'));
+    return k=*a-*b;
+}
+int main(){
+    char a[100],b[100];
+    gets(a);
+    gets(b);
+    int k=strcmp(a,b);
+    if(k>0){
+		printf("a>b");
+    }else if(k<0){
+        printf("a<b");
+    }else printf("a=b");
+    return 0; 
+}
 ```
 
 ## 结构体
@@ -1546,3 +1584,67 @@ int main(){
 	 }
  }
 ```
+
+![image-20230119193734823](img/image-20230119193734823.png)
+
+```c
+//结构体.1输入一个正整数n(3<=n<=10),在输入n个雇员的信息（如下表所示），输出每人的姓名和实发工资（基本工资+浮动工资-支出）
+#include <stdio.h>
+struct yangong{
+	char name[10];
+    float jbgz;
+    float fdgz;
+    float zc;
+};
+int main(){
+    struct yangong a[10];
+    int n,i;
+    printf("请输入员工个数");
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        scanf("%s%f%f%f",a[i].name,&a[i].jbgz,&a[i].fdgz,&a[i].zc);
+    }
+    for(i=0;i<n;i++){
+		printf("name=%s,sfgz=%f",a[i].name,a[i].jbgz+a[i].fdgz-a[i].zc);
+    }
+    return 0;
+}
+//结构体.2一个学生有学号，姓名，性别，3门功课的成绩等属性，现有5个学生，请输入相应的信息，分别用函数实现5个学生基本信息的输入，每个学生平均成绩的计算，总分，最高分数所对应学生信息的输出
+#include <stdio.h>
+struct student{
+  int sno;
+  char name[10];
+  char age;
+  float grade[3];
+  float avg;
+};
+int input(struct student *p){
+    int i;
+    for(i=0;i<5;i++){
+        scanf("%d%s%c",&p[i].sno,p[i].name,&p[i].age);
+        for(j=0;j<3;j++){
+         scanf("%f", &p[i].grade[j]);
+        }
+    }
+}
+int average(struct student *p){
+    int i,ave;
+    for(i=0;i<5;i++){
+        p[i].avg=p[i].grade[0]+p[i].grade[1]+p[i].grade[2]/3;
+    }
+}
+int output(struct student *p){
+    float sum;
+    float max;
+    
+}
+int main(){
+    struct student stu[5],*p=stu;
+    input(p);
+    average(p);
+    output(p);
+    return 0;
+}
+//结构体.3
+```
+

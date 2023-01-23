@@ -1683,58 +1683,61 @@
 
 2. 函数语法
 
-  - 函数的创建
+   - 函数的创建
 
-    ```sql
-    create function
-    ```
+     ```sql
+     create function
+     ```
 
-  - 函数的修改
+     - 函数的修改
 
-    ```sql
-    alter function
-    ```
+       ```sql
+       alter function
+       ```
 
-  - 函数的删除
+     - 函数的删除
 
-    ```sql
-    drop function
-    ```
+       ```sql
+       drop function
+       ```
 
 ### 触发器
 
 1. 触发器种类：
 
-  - DML触发器  DML:数据操纵语言 (insert update delete select)
-  - DDL触发器  DDL:数据定义语言(create alter drop)
+   - DML触发器  DML:数据操纵语言 (insert update delete select)
+     - DDL触发器  DDL:数据定义语言(create alter drop)
 
 2. 触发器执行时，系统将自动创建两个临时的表：inserted表和deleted表
 
-  - inserted表：存储新的值
-  - deleted表：存储旧的值
-    - insert into 时只有新的值，只涉及inserted表。
-    - delete from 时只有旧的值，只涉及deleted表。
-    - update 时有新的，也有旧的值，同时涉及inserted表和deleted表。
+   - inserted表：存储新的值
+     - deleted表：存储旧的值
+       - insert into 时只有新的值，只涉及inserted表。
+       - delete from 时只有旧的值，只涉及deleted表。
+       - update 时有新的，也有旧的值，同时涉及inserted表和deleted表。
 
 3. 语法
 
-  - 创建触发器
+     - 创建触发器
 
-    ```sql
-    create trigger
-    ```
+       ```sql
+       create trigger
+       ```
 
-  - 修改触发器
 
-    ```sql
-    alter trigger
-    ```
+     - 修改触发器
 
-  - 删除触发器
+       ```sql
+       alter trigger
+       ```
 
-    ```sql
-    drop trigger
-    ```
+
+     - 删除触发器
+
+       ```sql
+       drop trigger
+       ```
+
 
 
 ### T-SQL基础
