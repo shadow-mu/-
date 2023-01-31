@@ -1263,6 +1263,22 @@ int main(){
     printf("最大值%d,最小值%d",a[d],a[x]);
     return 0;
 }
+#include<stdio.h>
+int main() {
+	int a[10],i,max,min;
+	for(i=0; i<10; i++) {
+		scanf("%d",&a[i]);
+	}
+	max=min=a[0];
+	for(i=1; i<10; i++) {
+		if(max<a[i])
+			max=a[i];
+		if(min>a[i])
+			min=a[i];
+	}
+	printf("最大值为：%d,最小值为：%d\n",max,min);
+	return 0;
+}
 //52.41通过赋初值按行顺序给2x3的二维数组赋予2，4，6等偶数，然后按列的顺序输出该数组
 #include <stdio.h>
 int main(){
@@ -1350,6 +1366,39 @@ int main() {
 	}
 	return 0;
 }
+//题意直接的代码
+#include <stdio.h>
+#define N 10
+int main(){
+	int a[N],max,min,m,n,i;
+    for(i=0;i<N;i++){
+        scanf("%d",&a[i]);
+    }
+    max=min=a[0];
+    m=n=0;
+    for(i=1;i<n;i++){
+		if(max<a[i]){
+			max=a[i];
+            	m=i;
+        }
+        if(min>a[i]){
+			min=a[i];
+            	n=i;
+        }
+    }
+    if(m!=0){ //第一个元素不是最大值交换
+        a[m]=a[0];
+        a[0]=max;
+    }
+    if(n!=N-1){ //最后一个元素不是最小值交换
+        a[n]=a[N-1];
+        a[N-1]=min;
+    }
+    for(i=0; i<n; i++) {
+		printf("%d ",a[i]);
+	}
+    return 0;
+}
 //53.43用数组实现以下功能，输入5个学生成绩，而后求出这些成绩的平均值并显示出来
 #include <stdio.h>
 int main(){
@@ -1358,7 +1407,7 @@ int main(){
         scanf("%d",&a[i]);
         sum+=a[i];
     }
-    printf("5个学生平均成绩为%.2f",sum/5.0);
+    printf("5个学生平均成绩为%.2f",sum/5.0);//平均成绩不允许为整型
 }
 //54.44求一个3x3的整型矩阵对角线元素之和
 //对角线的行值等于列值 次对角线等于 矩阵长度(3)-1=列值+行值
@@ -1375,15 +1424,29 @@ int main(){
     }
     printf("sum=%d",sum);
 }
-//54.45求数组输入8个数的最大值
+//法2 //行==列  列=m-1-行
 #include <stdio.h>
 int main(){
-	int a[8],i,max=0;
+	int a[3][3],i,j,sum1=0，sum2=0;
+    for(i=0;i<3;i++){
+		for(j=0;j<3;j++){
+            scanf("%d",&a[i][j]);
+        }
+        sum1+=a[i][i];
+        sum2+=a[i][3-1-i];
+    }
+    printf("sum=%d",sum1+sum2);
+}
+//54.45求数组输入8个数的最大值最小值
+#include <stdio.h>
+int main(){
+	int a[8],i,max=0,min=0;
     for(i=0;i<8;i++){
         scanf("%d",&a[i]);
         if(a[max]<a[i]) max=i;//最大
+        if(a[min]>a[i]) min=i;//最小
     }
-    printf("最大值为%d",a[max]);
+    printf("最大值为%d,最小值%d",a[max],a[min]);
     return 0;
 }
 //55.46编程实现将两个字符串连接起来（要求不能使用scrcat函数，实现相同功能）
@@ -1398,7 +1461,20 @@ int main(){
     while(*d){
 		*p++=*d++;
     }
-    *p='\0';
+    *p='\0'; //注意字符串\0结尾
+    puts(a);
+}
+//法2
+#include <stdio.h>
+int main(){
+	char a[100],b[60],i=0,j;
+    gets(a);
+    gets(b);
+    while(a[i]!='\0') i++;
+    for(j=0;b[j]!='\0';j++){
+		a[i++]=b[j];
+    }
+    a[i]='\0';
     puts(a);
 }
 //55.47键盘输入10个数倒序输出
@@ -1590,6 +1666,7 @@ int main(){
 ```c
 //结构体.1输入一个正整数n(3<=n<=10),在输入n个雇员的信息（如下表所示），输出每人的姓名和实发工资（基本工资+浮动工资-支出）
 #include <stdio.h>
+#define N 10 
 struct yangong{
 	char name[10];
     float jbgz;
@@ -1597,7 +1674,7 @@ struct yangong{
     float zc;
 };
 int main(){
-    struct yangong a[10];
+    struct yangong a[N];
     int n,i;
     printf("请输入员工个数");
     scanf("%d",&n);
@@ -1611,39 +1688,45 @@ int main(){
 }
 //结构体.2一个学生有学号，姓名，性别，3门功课的成绩等属性，现有5个学生，请输入相应的信息，分别用函数实现5个学生基本信息的输入，每个学生平均成绩的计算，总分，最高分数所对应学生信息的输出
 #include <stdio.h>
-struct student{
-  int sno;
-  char name[10];
-  char age;
-  float grade[3];
-  float avg;
+struct student {
+	int sno;
+	char name[10];
+	char age;
+	float grade[3];
+	float avg;
+	float sum;
 };
-int input(struct student *p){
-    int i;
-    for(i=0;i<5;i++){
-        scanf("%d%s%c",&p[i].sno,p[i].name,&p[i].age);
-        for(j=0;j<3;j++){
-         scanf("%f", &p[i].grade[j]);
-        }
-    }
+int input(struct student p[]) {
+	int i;
+	for(i=0; i<5; i++) {
+	printf("%d",i);
+        scanf("%d,%s,%c,%f,%f,%f",&p[i].sno,p[i].name,&p[i].age,&p[i].grade[0],&p[i].grade[1],&p[i].grade[2]);
+	}
 }
-int average(struct student *p){
-    int i,ave;
-    for(i=0;i<5;i++){
-        p[i].avg=p[i].grade[0]+p[i].grade[1]+p[i].grade[2]/3;
-    }
+int average(struct student p[]) {
+	int i,ave;
+	for(i=0; i<5; i++) {
+		p[i].avg=p[i].grade[0]+p[i].grade[1]+p[i].grade[2]/3;
+	}
 }
-int output(struct student *p){
-    float sum;
-    float max;
-    
+int output(struct student p[]) {
+	int i,max=0;
+	float sum;
+	for(i=0; i<5; i++) {
+		p[i].sum=p[i].grade[0]+p[i].grade[1]+p[i].grade[2];
+		if(p[max].sum<p[i].sum) {
+			max=i;
+		}
+	}
+	printf("max student is  ");
+	printf("sno:%d,name:%s,age:%c,grade=%.2f %.2f %.2f,avg=%.2f,sum=%.2f",p[max].sno,p[max].name,p[max].age,p[max].grade[0],p[max].grade[1],p[max].grade[2],p[max].avg,p[max].sum);
 }
-int main(){
-    struct student stu[5],*p=stu;
-    input(p);
-    average(p);
-    output(p);
-    return 0;
+int main() {
+	struct student stu[5],*p=stu;
+	input(p);
+	average(p);
+	output(p);
+	return 0;
 }
 //结构体.3
 ```
