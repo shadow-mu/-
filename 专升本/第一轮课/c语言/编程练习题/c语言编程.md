@@ -185,7 +185,8 @@ int main(){
     }
     printf("%d和%d最大公约数%d,最小公倍数%d",m,n,k,m*n/k);
 }
-//法2 辗转相除法
+//法2 辗转相除法：1.大数除小数求余数 2.然后小数在除第一步余数求余数3.然后在将第1步余数和第2步求出的余数求余数一直循环直到余数为0
+//两个数的乘积=两个数的最大公约数*两个数的最小公倍数
  #include <stdio.h>
 int main(){
     int m,n,a,b,t;
@@ -762,6 +763,32 @@ int zxgbs(int a,int b){
 int main(){
     int a,b;
     scanf("%d%d",&a,&b);
+    printf("最大公因数为%d",zdgys(a,b));
+    printf("最小公倍数为%d",zxgbs(a,b));
+    return 0;
+}
+//法2
+#include <stdio.h>
+int zdgys(int a,int b){
+    int c;
+    while(b){
+        c=a%b;
+        a=b;
+        b=c;
+    }
+    return a;
+}
+int zxgbs(int a,int b){
+	return a*b/zdgys(a,b);
+}
+int main(){
+    int a,b,c;
+    scanf("%d%d",&a,&b);
+    if(a<b){
+        c=a;
+        a=b;
+        b=c;
+    }
     printf("最大公因数为%d",zdgys(a,b));
     printf("最小公倍数为%d",zxgbs(a,b));
     return 0;
