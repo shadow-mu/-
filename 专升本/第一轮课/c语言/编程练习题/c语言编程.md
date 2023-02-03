@@ -222,7 +222,7 @@ int main(){
         for(j=1,fac=1;j<=i;j++){
         fac*=j;
     	}
-       sum+=fac;
+       sum+=fac; //注意求和初始值为0
 	}
     printf("%d",sum);
 }
@@ -840,8 +840,12 @@ int cf(int a,int b) {
 int cuf(int a,int b) {
 	return a/b;
 }
-int jc(int a) {
-	int i,fac=1;
+int qy(int a,int b){
+    return a%b;
+}
+long jc(int a) {//阶乘建议定义数据类型为long长整型
+	int i;
+    long fac=1;
 	for(i=2; i<=a; i++) {
 		fac*=i;
 	}
@@ -858,7 +862,8 @@ int main() {
 	} else {
 		printf("%d/%d=%d\n",m,n,cuf(m,n));
 	}
-	printf("!%d=%d\n",m,jc(m));
+    printf("%d%%d=%d\n",m,n,qy(m,n));
+	printf("!%d=%ld\n",m,jc(m));
 	return 0;
 }
 //65.32编写一个判断素数的函数，用返回值0或1分别表示素数或非素数的状态
@@ -883,6 +888,35 @@ int main(){
    }
     return 0;
 }
+//法2
+#include <stdio.h>
+#include <math.h>
+int pime(int a){
+    int i,k;
+    k=sqrt(a);
+    for(i=2;i<=k;i++){//减少循环次数
+		if(a%i==0){
+			break;
+        }
+    }
+    if(i<=m){
+        return 1; 
+    }else return 0;
+    return f;
+}
+int main(){
+	int a,i;
+    printf("100-200之间是否是素数\n");
+    for(i=100;i<200;i++){
+        if(pime(i)){
+			printf("%dno\t",i);
+        }else {
+            printf("%dyes\t",i);
+        }
+    }
+    return 0; 
+}
+
 //66.33编写实现对100-200之间所有数是否素数的判别
 #include <stdio.h>
 int pime(int a){
@@ -896,7 +930,7 @@ int pime(int a){
 }
 int main(){
 	int a,i;
-    printf("100-200之间是否是素数")
+    printf("100-200之间是否是素数\n");
     for(i=100;i<200;i++){
         if(pime(i)){
 			printf("%dno\t",i);
