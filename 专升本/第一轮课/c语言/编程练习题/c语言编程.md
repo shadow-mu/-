@@ -1621,11 +1621,35 @@ void DeleteDup(char *a) {
     a[q]='\0';
 }
 int main() {
-	char a[10],i;
+	char a[10];
 	gets(a);
 	DeleteDup(a);
 	puts(a);
 	return 0;
+}
+//法2
+#include <stdio.h>
+#include <string.h>
+void DeleteDup(char *a,int len,int j) {
+    for(;j<len;j++){
+		*(a+j)=*(p+j+1);
+    }
+}
+int main(){
+    char a[10];
+    int i,j,len;
+	gets(a);
+	int i,j,len
+    len=strlen(a)
+    for(i=0;i<len-1;i++){
+		for(j=i+1;j<len-1;i++){
+            if(a[i]==a[j]){
+                DeleteDup(a,len,j);
+            }
+        }
+    }
+	puts(a);
+    return 0;
 }
 //75.3编写函数实现字符串strcat()功能
 #include <stdio.h>
@@ -1659,12 +1683,27 @@ int main(){
     }
     return 0;
 }
+#include <stdio.h>
+int main(){
+    int a[15],i,*p=a,*q=a+14,t;
+    for(i=0;i<15;i++){
+		scanf("%d",&a[i]);
+    }
+  	for(p=a;p<q;p++,q--){
+        t=*p;
+        *p=*q;
+        *q=t;
+    }
+    for(i=0;i<15;i++){
+		printf("%d ",a[i]);
+    }
+    return 0;
+}
 //76.5编写函数实现strcmp(),比较a和b所指字符串的大小
 #include <stdio.h>
 int strcmp(char *a,char *b){
-    int k;
     while((*a==*b)&&(*a++!='\0')&&(*b++!='\0'));
-    return k=*a-*b;
+    return *a-*b;
 }
 int main(){
     char a[100],b[100];
@@ -1674,6 +1713,23 @@ int main(){
     if(k>0){
 		printf("a>b");
     }else if(k<0){
+        printf("a<b");
+    }else printf("a=b");
+    return 0; 
+}
+//
+#include <stdio.h>
+int strcmp(char *a,char *b){
+    while((*a==*b)&&*a++&&*b++);
+    return *a-*b;
+}
+int main(){
+    char a[100],b[100];
+    gets(a);
+    gets(b);
+    if(strcmp(a,b)>0){
+		printf("a>b");
+    }else if(strcmp(a,b)<0){
         printf("a<b");
     }else printf("a=b");
     return 0; 
