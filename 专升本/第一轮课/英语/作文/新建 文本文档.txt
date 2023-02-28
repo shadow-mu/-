@@ -1,0 +1,213 @@
+# 信件
+
+1. 格式（书信类）![image-20230228111141734](img/image-20230228111141734.png)
+
+2. 日期格式：月日，年    日月，年
+
+   - 日：用阿拉伯数字(1,2 3 4 5)
+
+   - 月：必须用英文
+
+     (**Jan**uary,February,March,April,May,June,July,August,**Sept**ember,October,November,December)    **缩写前3个字母 必须带.**   **Sept**embe前4个字母
+
+   - 年份：用阿拉伯数字
+
+   - 例如：Jan.13,2023
+
+3. 署名：题一般都会给（坚决不能用自己真实名字）
+
+4. 具体要求
+
+   - 第一段：（呼应来信）+写信目的
+
+   - 第二段：总一分（写出题目要求，套用2--3个高级句型，必须用连词）
+
+     ```
+     1.First of all,第一点. Besides,第二点. Finally,最后一点.
+     2.To begin with,第一点. Moreover,第二点. Last but not least,最后一点.
+     3.On the one hand,第一点 On the other hand,第二点.       What's more,第三点.
+     4.As far as I am concerned,个人观点.
+     ```
+
+   - 第三段：结合主题总结+期待来信
+
+5. 模板
+
+   ```
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am delighted to write these few lines of words to share my practical advice.--第一段这些就行
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	Thank you for your time and consideration.I am looking forward to your reply
+   											  Yourssincerely,
+   													 Li Hua
+   													 
+   --投诉信
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am sorry（此处换） to write these few lines of words to share my practical advice.--第一段这些就行
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	I would appreciate it if you could solve my problem.I am looking forward to your reply.
+   											Yours sincerely,
+   													Li Hua
+   --推荐信
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am honored to write these few lines of words to recommend推荐Tom/myself to you.
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	I would appreciate it if you could accept him/her(give him a chance).I am looking forward to your reply.
+   												Yours sincerely,
+   														Li Hua
+   --邀请信
+   Dear Tom,--不能忘记逗号
+   	I'm honored to write this letter (on behalf of my school)to invite you to participate in this activity
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	I would appreciate it if you could accept my invitation.I am looking forward to your reply.
+   												Yours sincerely,
+   														Li Hua
+   --道歉信
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am sorry to write these few lines of words to extend my apology.
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	I would appreciate it if you could accept my apology.I am looking forward to your reply.
+   												Yours sincerely,
+   														Li Hua
+   --慰问信
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am sorry to write these few lines of words to extend my deepest condolences慰问.
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	I would appreciate it if you could cheer up.I am looking forward to your reply.
+   											Yours sincerely,
+   													Li Hua
+   ```
+
+# 书面通知模板
+
+1. 模板---2022刚考过
+
+   ```
+   							Notice
+   	I am sincerely writing these few lines of words to inform you that+句子
+   	First it is all the students that are welcome to this activity/lecture/competition ,which will be held+(on the fifth floor of the
+   teaching building 十 时间(at 5:00pm on Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/.Sunday.第二点+第三点
+   (结合题目)
+   	Looking forward to your coming.	
+   													The Student Union
+   口头通知
+   口头通知第一段前加Attention please!
+   ```
+
+# 招聘广告
+
+1. ```
+   
+   ```
+
+# 简历
+
+1. ```
+   						Resume
+   Name:Liu Ke				Birth date出生日期：Aug.5th,1983
+   Sex性别：Male男/Female女	 Marriage婚姻状况：single单身的/married己婚
+   的/divorced离婚的		
+   Nationality民族：Hui     Health健康:Excellent良好
+   Tel.No:电话              Hobbies爱好：Football and music
+   Address地址:Graduating Class,Hotel Management Specialty,College of
+   management,Shanxi University,Shanxi 030010
+   To obtain获得 a position求职意向：an assistant of Marketing Manager
+   Personalities性格：Hardworking,open and creative
+   Courses课程Included: Marketing Management,Public Relationships,etc.
+   Educational Records教育经历：
+   From May2000 to present现在 Shenyang university
+   From May 1990 to May 2000  Shenyang No 10 senior high
+   Working Experience工作经历：Worked at Marketing Department,.Lixin Hotel,
+   2002
+   Proficiency专业技能：A mastery精通of computer basic skills
+   					CET 4
+   					Good at business communication
+   ```
+
+   
+
+# 欢迎词
+
+1. ```
+   Boys and girls /Ladies and gentlemen.
+   	Welcome to___(表示欢迎).I'm honored to speak on behalf of___(代表某人或组织).My name is____(自我介绍)
+   	First,I want to___.Second,___Last___.(分别陈述自己的观点或提出具体的要求和希望）
+   I hope you can enjoy your stay here.Thank you for your listening.
+   ```
+
+# 备忘录
+
+1. ```
+   To:Mr.Gates(收信人)
+   From:Li Ming(写信人)
+   Date:August 12,2004(日期)
+   Subject:Microscope(主题)
+   (书信类模板)
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am delighted to write these few lines of words to share my practical advice.--第一段这些就行
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	Thank you for your time and consideration.I am looking forward to your reply
+   ```
+
+   
+
+# 招领启示
+
+1. ```
+                                            日期：Sep.6,2012(写在右上角)    I happened to find a Chinese dictionary in our school this afternoon,inside which there are some cards and other things.Loser is expected to call me by 223--4567to claim it.                                                    							Sonia(写在右下方)(今天下午在学校捡到一本汉语词典，内有几张卡片。请失者给我拨打电话223-4567认领为盼。)
+   ```
+
+# 寻物启事
+
+1. ```
+   										日期：Sep.6,2012(写在右上角)
+   	正文：I was careless粗心的and lost my student's identity card身份证when
+   studying+地点+时间in the reading room yesterday.
+   	第二段：简单的描述丢失的东西
+   	第三段：The finder发现者can ring/call me up by/at520-2268 to fetch拿it
+   back.
+   										署名：Loser Mike(写在右下方)
+   ```
+
+   
+
+# 电子邮件模板
+
+1. ```
+   To:收件人
+   From:发件人
+   Date:日期
+   Subject:主题
+   Dear Tom,--不能忘记逗号
+   	For the time being,I am delighted to write these few lines of words to share my practical advice.--第一段这些就行
+   	--第二段
+   	There are a couple of parts to be mentioned as the following.
+   	--第三段
+   	Thank you for your time and consideration.I am looking forward to your reply
+   											Yours sincerely,
+   													Li Hua
+   ```
+
+# 日记模板
+
+1. ![image-20230228111811408](img/image-20230228111811408.png)
+
+   
+
+# 演讲稿模板
+
+1. ![image-20230228111830699](img/image-20230228111830699.png)
