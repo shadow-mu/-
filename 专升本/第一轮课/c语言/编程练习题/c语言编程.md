@@ -470,6 +470,48 @@ int main(){
 }
 ```
 
+```c
+//模拟卷3
+//1.
+#include <stdio.h>
+int main(){
+    float y,x;
+    scanf("%f",&x);
+    if(x>0){
+        y=5/x;
+    }else if(x==0){
+		y=0;
+    }else{
+        y=1/(3*x);
+    }
+    printf("y=%f",y);
+    return 0;
+}
+//2.编写一个函数将整型数组a中的六个整数逆序
+#include <stdio.h>
+void nx(int a[]){
+	int i,j;
+    for(i=0;i<3;i++){
+        j=a[i];
+        a[i]=a[5-i];
+        a[5-i]=j;
+    }
+}
+int main(){
+    int a[6],i=0;
+    for(;i<6;i++){
+        scanf("%d",&a[i]);
+    }
+    nx(a);
+    for(i=0;i<6;i++){
+ 		printf("%d",a[i]);	
+    }
+   return 0;
+}
+```
+
+
+
 ## 循环
 
 ```c
