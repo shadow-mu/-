@@ -100,7 +100,7 @@ fs模块是Nod.js官方提供的、用来操作文件的模块。它提供了一
 1.fs.readFile()的语法格式
 使用fs.readFile()方法，可以读取指定文件中的内容，语法格式如下：
 
-```
+```js
 1 fs.readFile(path[,options].callback)
 ```
 
