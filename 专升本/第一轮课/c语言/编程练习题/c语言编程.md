@@ -508,6 +508,30 @@ int main(){
     }
    return 0;
 }
+//模拟6
+//输入三个整数，按从小到大排序输出
+#include <stdio.h>
+int main(){
+    int a,b,c,t;
+    scanf("%d %d %d",&a,&b,&c);
+    if(a>b){
+        t=a;
+        a=b;
+        a=t;
+    }
+    if(b>c){
+        t=c;
+        c=b;
+        b=t;
+    }
+    if(a>c){
+        t=a;
+        a=c;
+        c=t;
+    }
+   printf("%d,%d,%d",a,b,c);
+    return 0;
+}
 ```
 
 
