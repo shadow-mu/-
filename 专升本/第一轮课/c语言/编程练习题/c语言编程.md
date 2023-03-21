@@ -264,6 +264,51 @@ int main(){
 
 6、排序（有小到大）
 
+```c
+//输入三个整数，按从小到大排序输出
+#include <stdio.h>
+int main(){
+    int a,b,c,t;
+    scanf("%d %d %d",&a,&b,&c);
+    if(a>b){
+        t=a;
+        a=b;
+        a=t;
+    }
+     if(a>c){
+        t=a;
+        a=c;
+        c=t;
+    }
+    if(b>c){
+        t=c;
+        c=b;
+        b=t;
+    }
+   printf("%d,%d,%d",a,b,c);
+    return 0;
+}
+//法2
+#include <stdio.h>
+void dx(int *a,int *b){
+    int t;
+    if(*a>*b){
+        t=*a;
+        *a=*b;
+        *b=t;
+    }
+}
+int main(){
+    int a,b,c;
+    scanf("%d %d %d",&a,&b,&c);
+    dx(&a,&b);
+    dx(&a,&c);
+    dx(&b,&c);
+    printf("%d,%d,%d",a,b,c);
+    return 0;
+}
+```
+
 7、最值（最大值、最小值）
 
 ## 选择结构
@@ -519,17 +564,48 @@ int main(){
         a=b;
         a=t;
     }
+     if(a>c){
+        t=a;
+        a=c;
+        c=t;
+    }
     if(b>c){
         t=c;
         c=b;
         b=t;
     }
-    if(a>c){
-        t=a;
-        a=c;
-        c=t;
-    }
    printf("%d,%d,%d",a,b,c);
+    return 0;
+}
+//法2
+#include <stdio.h>
+void dx(int *a,int *b){
+    int t;
+    if(*a>*b){
+        t=*a;
+        *a=*b;
+        *b=t;
+    }
+}
+int main(){
+    int a,b,c;
+    scanf("%d %d %d",&a,&b,&c);
+    dx(&a,&b);
+    dx(&a,&c);
+    dx(&b,&c);
+    printf("%d,%d,%d",a,b,c);
+    return 0;
+}
+//模拟8 输入一个字符串，对该字符串进行逆序，输入逆序后的字符串
+//模拟9从键盘上读取一个5位数字的整数，并判断是否为回文数
+#include <stdio.h>
+int main(){
+    int x,y;
+	scanf("%d",&x);
+     y=x/10000%10+x/1000%10*10+x/100%10*100+x/10%10*1000+x%10*10000;
+    if(x==y){
+        printf("yes");
+    }else prinf("no");
     return 0;
 }
 ```
