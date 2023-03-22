@@ -553,6 +553,19 @@ int main(){
     }
    return 0;
 }
+//模拟5 输入一个字符串将其中的*字符改成#然后输出该字符串
+#include <stdio.h>
+int main(){
+    char a[100],*p=a;
+    gets(a);
+    int i;
+    while(*p){
+        if(*p=='*') *p='#';
+        p++;
+    }
+    puts(a);
+    return 0;
+}
 //模拟6
 //输入三个整数，按从小到大排序输出
 #include <stdio.h>
@@ -596,7 +609,34 @@ int main(){
     printf("%d,%d,%d",a,b,c);
     return 0;
 }
+//模拟6 输入一个字符串，输出其中的数字字符
+#include <stdio.h>
+int main(){
+    char a[100],*p=a;
+    int i;
+    gets(a);
+    while(*p){
+        if(*p>='0'&&*p<='9')
+			printf("%c",*p);
+        p++;
+    }
+    return 0;
+}
 //模拟8 输入一个字符串，对该字符串进行逆序，输入逆序后的字符串
+#include <stdio.h>
+int main(){
+    char a[100],*p=a,b[100];
+    int i=0;
+    gets(a);
+    while(*p) p++;
+    p--;
+  	while(p>=a){
+       b[i++]=*p--;
+    }
+    b[i]='\0';
+    puts(b);
+	return 0;
+}
 //模拟9从键盘上读取一个5位数字的整数，并判断是否为回文数
 #include <stdio.h>
 int main(){
