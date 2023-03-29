@@ -622,7 +622,7 @@ int main(){
     }
     return 0;
 }
-//模拟8 输入一个字符串，对该字符串进行逆序，输入逆序后的字符串
+//模拟8 输入一个字符串，对该字符串进行逆序，输出逆序后的字符串
 #include <stdio.h>
 int main(){
     char a[100],*p=a,b[100];
@@ -636,6 +636,17 @@ int main(){
     b[i]='\0';
     puts(b);
 	return 0;
+}
+#include <stdio.h>
+#include <string.h>
+int main(){
+    char a[100];
+    int n,i;
+    gets(a);
+    n=strlen(a);
+    for(i=n-1;i>=0;i--)
+        putchar(a[i]);
+    return 0;
 }
 //模拟9从键盘上读取一个5位数字的整数，并判断是否为回文数
 #include <stdio.h>
