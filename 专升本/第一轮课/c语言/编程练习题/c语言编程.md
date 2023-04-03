@@ -649,6 +649,7 @@ int main(){
     return 0;
 }
 //模拟9从键盘上读取一个5位数字的整数，并判断是否为回文数
+//法1
 #include <stdio.h>
 int main(){
     int x,y;
@@ -658,6 +659,69 @@ int main(){
         printf("yes");
     }else prinf("no");
     return 0;
+}
+//法2
+#include <stdio.h>
+int main(){
+    int n,a,b,c,d;
+    scanf("%d",&n);
+    a=n/10000;
+    b=n/1000%10;
+    c=n/10%10;
+    d=n%10;
+    if(a==d&&b==c){
+        printf("yes");
+    }else{
+        prinf("no");
+    }
+    return 0;
+}
+//模拟9编写程序，统计并输出某给定字符在给定字符串中出现的次数
+#include <stdio.h>
+int main(){
+    char a[100],*p=a,x;
+    int i=0;
+    gets(a);
+    x=getchar();
+    while(*p){
+        if(*p==x) i++;
+        p++;
+    }
+    printf("%d",i);
+    return 0;
+}
+#include <stdio.h>
+int main(){
+    char a[100],*p=a,x;
+    int i,n=0;
+    gets(a);
+    x=getchar();
+   	for(i=0;a[i]!='\0';i++){
+        if(a[i]==x){
+            n++;
+        }
+    }
+    printf("%d",n);
+    return 0;
+}
+//编写函数求n!
+long fun(int n){
+    int i;
+    long c=1;
+    for(i=2;i<=n;i++){
+        c*=i;
+    }
+    return c;
+}
+////编写函数求1!+2!..+n!
+long fun(int n){
+    int i;
+    long c=1,sum=0;
+    for(i=1;i<=n;i++){ 
+        c*=i;
+        sum+=c;
+    }
+    return sum;
 }
 ```
 
