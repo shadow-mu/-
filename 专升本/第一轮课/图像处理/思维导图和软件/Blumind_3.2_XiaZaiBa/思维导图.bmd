@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<document type="BLUMIND" editor_version="3.2.902.24361" document_version="3.0.0.0">
+  <!--Create by Blumind, you can download it free from http://www.blumind.org-->
+  <information>
+    <author>Administrator</author>
+    <company>
+    </company>
+    <version>3.0</version>
+    <description>
+    </description>
+  </information>
+  <attributes>
+    <item name="editor_show_sidebar">False</item>
+  </attributes>
+  <charts active_chart="0">
+    <chart name="新页面 1" type="MindMap">
+      <remark>
+      </remark>
+      <layout>MIND_MAP</layout>
+      <style>
+        <back_color>White</back_color>
+        <fore_color>Black</fore_color>
+        <line_color>Black</line_color>
+        <border_color>#A28D68</border_color>
+        <node_back_color>#D5CCBB</node_back_color>
+        <node_fore_color>Black</node_fore_color>
+        <select_color>Teal</select_color>
+        <hover_color>Teal</hover_color>
+        <link_line_color>Teal</link_line_color>
+        <widget_margin>1</widget_margin>
+        <picture_thumb_size>100, 100</picture_thumb_size>
+      </style>
+      <nodes>
+        <node id="1" text="图形与图像处理" x="1089" y="464" width="138" height="45" text_b="12, 12, 114, 21">
+          <style>
+            <back_color>Teal</back_color>
+            <fore_color>White</fore_color>
+            <border_color>#84BDAA</border_color>
+            <padding>12</padding>
+          </style>
+          <nodes>
+            <node id="822" text="第一章 基础知识" x="887" y="20" width="122" height="25" folded="True" text_b="2, 2, 118, 21" fold_btn_b="873, 26, 13, 13">
+              <style>
+                <back_color>#C0C0FF</back_color>
+              </style>
+              <nodes>
+                <node id="817" text="图像处理相关概念" x="28430" y="12949" width="133" height="25" text_b="2, 2, 129, 21" fold_btn_b="28416, 12955, 13, 13">
+                  <style>
+                    <back_color>#FFC0C0</back_color>
+                  </style>
+                  <nodes>
+                    <node id="23" text="图像" x="28310" y="12879" width="40" height="25" text_b="2, 2, 36, 21" fold_btn_b="28296, 12885, 13, 13">
+                      <style>
+                        <back_color>#80FF80</back_color>
+                      </style>
+                      <nodes>
+                        <node id="861" text="PS软件" x="28171" y="12546" width="59" height="25" folded="True" text_b="2, 2, 55, 21" fold_btn_b="28157, 12552, 13, 13">
+                          <nodes>
+                            <node id="1" text="PS" x="50673" y="42270" width="130" height="66" folded="True" text_b="104, 15, 24, 36">
+                              <widgets>
+                                <widget type="PICTURE" x="3" y="3" width="100" height="60" align="Left" hyperlink="" display_index="0" padding="0" image_url="C:\Users\Administrator\Desktop\1.webp.jpg" size_type="Thumb" original_size="931, 558" embed_in="False">
+                                  <text>1.webp</text>
+                                  <thumb><![CDATA[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]]></thumb>
+                                </widget>
+                              </widgets>
+                            </node>
+                          </nodes>
+                          <lines />
+                        </node>
+                        <node id="24" text="像素（栅格）" x="28128" y="12581" width="102" height="25" folded="True" text_b="2, 2, 98, 21" fold_btn_b="28114, 12587, 13, 13">
+                          <style>
+                            <back_color>#C0FFC0</back_color>
+                          </style>
+                          <nodes>
+                            <node id="849" text="图像最小单元" x="50658" y="42346" width="102" height="25" folded="True" text_b="2, 2, 98, 21">
+                              <style>
+                                <back_color>#C0C0FF</back_color>
+                              </style>
+                            </node>
+                            <node id="850" text="放大能看见" x="50673" y="42381" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                              <style>
+                                <back_color>#C0C0FF</back_color>
+                              </style>
+                            </node>
+                            <node id="851" text="数量影响图像质量" x="50627" y="42416" width="133" height="25" folded="True" text_b="2, 2, 129, 21" fold_btn_b="50613, 42422, 13, 13">
+                              <style>
+                                <back_color>#C0C0FF</back_color>
+                              </style>
+                              <nodes>
+                                <node id="852" text="越多越清晰" x="50460" y="42416" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                                  <style>
+                                    <back_color>White</back_color>
+                                  </style>
+                                </node>
+                              </nodes>
+                              <lines>
+                                <line target="852" begin_side="Left" end_side="Right" begin_rect="50614, 42416, 146, 25" end_rect="50456, 42412, 95, 33" />
+                              </lines>
+                            </node>
+                          </nodes>
+                          <lines />
+                        </node>
+                        <node id="25" text="分辨率" x="28174" y="12616" width="56" height="25" folded="True" text_b="2, 2, 52, 21" fold_btn_b="28160, 12622, 13, 13">
+                          <style>
+                            <back_color>#C0FFC0</back_color>
+                          </style>
+                          <nodes>
+                            <node id="853" text="概念" x="50766" y="42486" width="40" height="25" folded="True" text_b="2, 2, 36, 21" fold_btn_b="50752, 42492, 13, 13">
+                              <style>
+                                <back_color>#C0C0FF</back_color>
+                              </style>
+                              <nodes>
+                                <node id="854" text="单位长度内的像素数量" x="50522" y="42469" width="164" height="25" folded="True" text_b="2, 2, 160, 21" fold_btn_b="50508, 42475, 13, 13">
+                                  <style>
+                                    <back_color>#FFC0FF</back_color>
+                                  </style>
+                                  <nodes>
+                                    <node id="847" text="像素每厘米" x="50355" y="42451" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                                      <style>
+                                        <back_color>#C0FFC0</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="848" text="像素每英寸（PPI）" x="50301" y="42486" width="141" height="25" folded="True" text_b="2, 2, 137, 21">
+                                      <style>
+                                        <back_color>#C0FFC0</back_color>
+                                      </style>
+                                    </node>
+                                  </nodes>
+                                  <lines>
+                                    <line target="847" begin_side="Left" end_side="Right" begin_rect="50509, 42469, 177, 25" end_rect="50351, 42447, 95, 33" />
+                                    <line target="848" begin_side="Left" end_side="Right" begin_rect="50509, 42469, 177, 25" end_rect="50297, 42482, 149, 33" />
+                                  </lines>
+                                </node>
+                                <node id="1" text="单位长度内的点数量（输出设备）" x="50445" y="42521" width="241" height="25" folded="True" text_b="2, 2, 237, 21" fold_btn_b="50431, 42527, 13, 13">
+                                  <style>
+                                    <back_color>#FFFFC0</back_color>
+                                  </style>
+                                  <nodes>
+                                    <node id="2" text="点数每英寸DPI" x="50253" y="42521" width="112" height="25" folded="True" text_b="2, 2, 108, 21" />
+                                  </nodes>
+                                  <lines>
+                                    <line target="2" begin_side="Left" end_side="Right" begin_rect="50432, 42521, 254, 25" end_rect="50249, 42517, 120, 33" />
+                                  </lines>
+                                </node>
+                              </nodes>
+                              <lines>
+                                <line target="854" begin_side="Left" end_side="Right" begin_rect="50753, 42486, 53, 25" end_rect="50518, 42465, 172, 33" />
+                                <line target="1" begin_side="Left" end_side="Right" begin_rect="50753, 42486, 53, 25" end_rect="50441, 42517, 249, 33" />
+                              </lines>
+                            </node>
+                            <node id="855" text="和图像质量的关系" x="50673" y="42556" width="133" height="25" folded="True" text_b="2, 2, 129, 21" fold_btn_b="50659, 42562, 13, 13">
+                              <style>
+                                <back_color>#C0C0FF</back_color>
+                              </style>
+                              <nodes>
+                                <node id="856" text="成正比" x="50537" y="42556" width="56" height="25" folded="True" text_b="2, 2, 52, 21">
+                                  <style>
+                                    <back_color>#FFC0FF</back_color>
+                                  </style>
+                                </node>
+                              </nodes>
+                              <lines>
+                                <line target="856" begin_side="Left" end_side="Right" begin_rect="50660, 42556, 146, 25" end_rect="50533, 42552, 64, 33" />
+                              </lines>
+                            </node>
+                          </nodes>
+                          <lines />
+                        </node>
+                        <node id="26" text="颜色深度" x="28159" y="12704" width="71" height="25" text_b="2, 2, 67, 21" fold_btn_b="28145, 12710, 13, 13">
+                          <style>
+                            <back_color>#C0FFC0</back_color>
+                          </style>
+                          <nodes>
+                            <node id="857" text="颜色的数量" x="27992" y="12651" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                              <style>
+                                <back_color>White</back_color>
+                              </style>
+                            </node>
+                            <node id="858" text="也称位深度" x="27992" y="12686" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                              <style>
+                                <back_color>White</back_color>
+                              </style>
+                            </node>
+                            <node id="859" text="计算：2的几次幂  如8位的图  256种颜色" x="27790" y="12721" width="289" height="25" folded="True" text_b="2, 2, 285, 21">
+                              <style>
+                                <back_color>White</back_color>
+                              </style>
+                            </node>
+                            <node id="860" text="颜色越多、图像质量越好" x="27900" y="12756" width="179" height="25" folded="True" text_b="2, 2, 175, 21">
+                              <style>
+                                <back_color>White</back_color>
+                              </style>
+                            </node>
+                          </nodes>
+                          <lines>
+                            <line target="857" begin_side="Left" end_side="Right" begin_rect="28146, 12704, 84, 25" end_rect="27988, 12647, 95, 33" />
+                            <line target="858" begin_side="Left" end_side="Right" begin_rect="28146, 12704, 84, 25" end_rect="27988, 12682, 95, 33" />
+                            <line target="859" begin_side="Left" end_side="Right" begin_rect="28146, 12704, 84, 25" end_rect="27786, 12717, 297, 33" />
+                            <line target="860" begin_side="Left" end_side="Right" begin_rect="28146, 12704, 84, 25" end_rect="27896, 12752, 187, 33" />
+                          </lines>
+                        </node>
+                        <node id="27" text="颜色模型" x="28159" y="12966" width="71" height="25" text_b="2, 2, 67, 21" fold_btn_b="28145, 12972, 13, 13">
+                          <style>
+                            <back_color>LightPink</back_color>
+                          </style>
+                          <nodes>
+                            <node id="5" text="概念" x="28039" y="12791" width="40" height="25" text_b="2, 2, 36, 21" fold_btn_b="28025, 12797, 13, 13">
+                              <style>
+                                <back_color>#FFFFC0</back_color>
+                              </style>
+                              <nodes>
+                                <node id="6" text="表示颜色的数学算法" x="27810" y="12791" width="149" height="25" folded="True" text_b="2, 2, 145, 21" />
+                              </nodes>
+                              <lines>
+                                <line target="6" begin_side="Left" end_side="Right" begin_rect="28026, 12791, 53, 25" end_rect="27806, 12787, 157, 33" />
+                              </lines>
+                            </node>
+                            <node id="7" text="类型" x="28039" y="12984" width="40" height="25" text_b="2, 2, 36, 21" fold_btn_b="28025, 12990, 13, 13">
+                              <style>
+                                <back_color>#FFFFC0</back_color>
+                              </style>
+                              <nodes>
+                                <node id="3" text="HSB" x="27919" y="12861" width="40" height="25" text_b="2, 2, 36, 21" fold_btn_b="27905, 12867, 13, 13">
+                                  <style>
+                                    <back_color>#C0FFFF</back_color>
+                                  </style>
+                                  <nodes>
+                                    <node id="193" text="H 色相0-360度" x="27724" y="12826" width="115" height="25" folded="True" text_b="2, 2, 111, 21" fold_btn_b="27710, 12832, 13, 13">
+                                      <style>
+                                        <back_color>LightCyan</back_color>
+                                      </style>
+                                      <nodes>
+                                        <node id="1" text="颜色的基本特征" x="50238" y="42766" width="118" height="25" folded="True" text_b="2, 2, 114, 21">
+                                          <style>
+                                            <back_color>White</back_color>
+                                          </style>
+                                        </node>
+                                      </nodes>
+                                      <lines />
+                                    </node>
+                                    <node id="194" text="S 饱和度0%-100%" x="27699" y="12861" width="140" height="25" folded="True" text_b="2, 2, 136, 21" fold_btn_b="27685, 12867, 13, 13">
+                                      <style>
+                                        <back_color>LightCyan</back_color>
+                                      </style>
+                                      <nodes>
+                                        <node id="2" text="颜色的强度或者纯度" x="50182" y="42801" width="149" height="25" folded="True" text_b="2, 2, 145, 21">
+                                          <style>
+                                            <back_color>White</back_color>
+                                          </style>
+                                        </node>
+                                      </nodes>
+                                      <lines />
+                                    </node>
+                                    <node id="195" text="B 亮度（明度）0%-100%" x="27652" y="12896" width="187" height="25" folded="True" text_b="2, 2, 183, 21" fold_btn_b="27638, 12902, 13, 13">
+                                      <style>
+                                        <back_color>LightCyan</back_color>
+                                      </style>
+                                      <nodes>
+                                        <node id="3" text="颜色的明暗" x="50199" y="42836" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                                          <style>
+                                            <back_color>White</back_color>
+                                          </style>
+                                        </node>
+                                      </nodes>
+                                      <lines />
+                                    </node>
+                                  </nodes>
+                                  <lines>
+                                    <line target="193" begin_side="Left" end_side="Right" begin_rect="27906, 12861, 53, 25" end_rect="27720, 12822, 123, 33" />
+                                    <line target="194" begin_side="Left" end_side="Right" begin_rect="27906, 12861, 53, 25" end_rect="27695, 12857, 148, 33" />
+                                    <line target="195" begin_side="Left" end_side="Right" begin_rect="27906, 12861, 53, 25" end_rect="27648, 12892, 195, 33" />
+                                  </lines>
+                                </node>
+                                <node id="4" text="RGB(红绿蓝)" x="27862" y="13001" width="97" height="25" text_b="2, 2, 93, 21" fold_btn_b="27848, 13007, 13, 13">
+                                  <style>
+                                    <back_color>PeachPuff</back_color>
+                                  </style>
+                                  <nodes>
+                                    <node id="196" text="取值范围0-255" x="27668" y="12931" width="114" height="25" folded="True" text_b="2, 2, 110, 21">
+                                      <style>
+                                        <back_color>#FFC080</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="197" text="都是0  黑色" x="27693" y="12966" width="89" height="25" folded="True" text_b="2, 2, 85, 21">
+                                      <style>
+                                        <back_color>#FFC080</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="198" text="都是255 白色" x="27679" y="13001" width="103" height="25" folded="True" text_b="2, 2, 99, 21">
+                                      <style>
+                                        <back_color>#FFC080</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="199" text="数值都一样 灰色" x="27660" y="13036" width="122" height="25" folded="True" text_b="2, 2, 118, 21">
+                                      <style>
+                                        <back_color>#FFC080</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="200" text="色光加色法" x="27695" y="13071" width="87" height="25" folded="True" text_b="2, 2, 83, 21">
+                                      <style>
+                                        <back_color>#FFC080</back_color>
+                                      </style>
+                                    </node>
+                                  </nodes>
+                                  <lines>
+                                    <line target="196" begin_side="Left" end_side="Right" begin_rect="27849, 13001, 110, 25" end_rect="27664, 12927, 122, 33" />
+                                    <line target="197" begin_side="Left" end_side="Right" begin_rect="27849, 13001, 110, 25" end_rect="27689, 12962, 97, 33" />
+                                    <line target="198" begin_side="Left" end_side="Right" begin_rect="27849, 13001, 110, 25" end_rect="27675, 12997, 111, 33" />
+                                    <line target="199" begin_side="Left" end_side="Right" begin_rect="27849, 13001, 110, 25" end_rect="27656, 13032, 130, 33" />
+                                    <line target="200" begin_side="Left" end_side="Right" begin_rect="27849, 13001, 110, 25" end_rect="27691, 13067, 95, 33" />
+                                  </lines>
+                                </node>
+                                <node id="1" text="CMYK（青、洋红、黄、黑）" x="27750" y="13106" width="209" height="25" folded="True" text_b="2, 2, 205, 21" fold_btn_b="27736, 13112, 13, 13">
+                                  <style>
+                                    <back_color>#80FF80</back_color>
+                                  </style>
+                                  <nodes>
+                                    <node id="201" text="印刷色" x="50326" y="43046" width="56" height="25" folded="True" text_b="2, 2, 52, 21">
+                                      <style>
+                                        <back_color>White</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="202" text="CMY与RGB互为相反" x="50229" y="43081" width="153" height="25" folded="True" text_b="2, 2, 149, 21">
+                                      <style>
+                                        <back_color>White</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="203" text="色域较窄" x="50311" y="43116" width="71" height="25" folded="True" text_b="2, 2, 67, 21">
+                                      <style>
+                                        <back_color>White</back_color>
+                                      </style>
+                                    </node>
+                                    <node id="204" text="减色法" x="50326" y="43151" width="56" height="25" folded="True" text_b="2, 2, 52, 21">
+                                      <style>
+                                        <back_color>White</back_color>
+                                      </style>
+                                    </node>
+                                  </nodes>
+                                  <lines />
+                                </node>
+                                <node id="2" text="LAB" x="27921" y="13141" width="38" height="25" folded="True" text_b="2, 2, 34, 21" fold_btn_b="27907, 13147, 13, 13">
+                                  <style>
+                                    <back_color>#FFC0FF</back_color>
+                                  </style>
+                                  <nodes>
+                                    <node id="205" text="L亮度分量" x="50474" y="43186" width="79" height="25" folded="True" text_b="2, 2, 75, 21" fold_btn_b="50460, 43192, 13, 13">
+                                      <style>
+                                        <back_color>#FFFFC0</back_color>
+                                      </style>
+                                      <nodes>
+                                        <node id="206" text="灰度信息" x="50323" y="43186" width="71" height="25" folded="True" text_b="2, 2, 67, 21">
+                                          <style>
+                                            <back_color>#FFC0C0</back_color>
+                                          </style>
+                                        </node>
+                                      </nodes>
+                                      <lines>
+                                        <line target="206" begin_side="Left" end_side="Right" begin_rect="50461, 43186, 92, 25" end_rect="50319, 43182, 79, 33" />
+                                      </lines>
+                                    </node>
+                                    <node id="207" text="A分量" x="50502" y="43221" width="51" height="25" 

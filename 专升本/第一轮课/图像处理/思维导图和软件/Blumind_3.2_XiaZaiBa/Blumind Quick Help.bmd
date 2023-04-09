@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<document type="BLUMIND" editor_version="3.2.902.24361" document_version="3.0.0.0">
+  <!--Create by Blumind, you can download it free from http://www.blumind.org-->
+  <information>
+    <author>
+    </author>
+    <company>
+    </company>
+    <version>1.0</version>
+    <description>
+    </description>
+  </information>
+  <attributes>
+    <item name="editor_show_sidebar">True</item>
+  </attributes>
+  <charts active_chart="0">
+    <chart name="Blumind Quick Help" type="MindMap">
+      <remark>
+      </remark>
+      <layout>MIND_MAP</layout>
+      <style>
+        <back_color>White</back_color>
+        <fore_color>Black</fore_color>
+        <line_color>LightSlateGray</line_color>
+        <border_color>SlateGray</border_color>
+        <node_back_color>LightGray</node_back_color>
+        <node_fore_color>Black</node_fore_color>
+        <select_color>RoyalBlue</select_color>
+        <hover_color>MediumSlateBlue</hover_color>
+        <link_line_color>Green</link_line_color>
+        <widget_margin>1</widget_margin>
+        <picture_thumb_size>100, 100</picture_thumb_size>
+      </style>
+      <nodes>
+        <node id="1" text="Blumind&#xD;&#xA;Quick Help" x="515" y="366" width="137" height="64" text_b="38, 12, 87, 40">
+          <style>
+            <back_color>Silver</back_color>
+            <fore_color>Black</fore_color>
+            <border_color>Black</border_color>
+            <padding>12</padding>
+          </style>
+          <widgets>
+            <widget type="PICTURE" x="13" y="20" width="24" height="24" align="Left" hyperlink="" display_index="0" padding="0" image_url="" size_type="Thumb" original_size="24, 24" embed_in="False">
+              <thumb><![CDATA[iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAQxSURBVEhLvZVxSJx1GMef141TjxFcjfWHTEi6iMShOM7WUbA5rCDt5HKbgszN5gyx4Vhda3PXMXUQ/VNLU/aHUbcD1xoTZdiaHbjE+cfaRrFYJpQ5XeKZ6M3dCO/X7/P6XuzmbP1TDzzw3PN8v5/fvb/3fX+v/G/xpV/WdR2Rcp2+Lr+8Rx3yy4ZTfsk8+Y44ztVLqt8vKSQ1PWZoTN+Sx0cNy8IuhQn3y5tdjbJJm9aQ1GfelkPhV40Pv3/aCI48Zpz+Nc3oJanpMUNzvw9W0iK6UcHA+mnGTZHnb9psbdMbNw7c8fl+i7a1zU+GQoskNT1maNBaNjOsRSqsn7qhL43VqcPh8OpgMOju7+8PxPz+6cWODhU/dkzFGxtV3OdbSmrdY4YGLR68MMwr0UxqM9i/xAKdnZ3uoaGh49FodF7piNXXq3GvV13fvFldKSgwk5oeMwItHrwwzAU0k9oM8ybpyxoTeaGnpyeQgE9MTKi+vr6F7qysSNBuH+lISblKUtNjhiaxCF4Y5hZppoUX4Uk4rW/WLzZb+9z+/dPxeNyEd3d3R1wu11EtKWoTyf9YZA1JTY8ZGrR48MKABdOEE/qSMi94jI/GcnIGY3p/79TVmf+8sLCwyW6351qyZcEMDVo8eGHAgmnJRHimh58yQpPl5eN39+1Tv+/cqcK5uZHs7OwiS7JioEGLBy8MWDAtiQgvzncOo3umtjZ6V/+T8aoq1etwjHxgt7MV/xho0OLBCwMWTEsiwtt5Od04/+O2bYux2lo1vnevOmuzXT2l99uSrBho0OLBCwMWTEuytMBQunHhusezuFBTo241NKje1NRr/3YBtHjwwoCVtACXM/Co0TuxY8ft29XVKqJfpoH160dOrF370C1CgxYPXhiwkraIG3LeaXxxY8uWyeiuXWruwAF1o6RkxuPxPPQmo0GLBy8MWEk3mUfqbIm0XszIuDxTWanm9+xRs7OzC83NzU1lZWUrPqbM0KDFgxcGrKTH1DyW35LDZ1atOvmD2z07OjqqpqameDsjLS0tR71eb9E3+uUK6/0mqekxQ4MWD14YsJJetMRR8bl+O/Pz8wPDw8PziUX4d2OVlTOXnM6fL6alXSOp6TFLwPHghbHsqLj3sNPhLi0tPa4PL3ORud27VSwQUH+2t6vFYNBManrM0KDFgxcArPsPu7+Pax0cue68vLzAoMsVveXxqD+2b39gMkODFo/lfeBxnfjgGDp5fle/IVLcahg9IYfjp6+dzplLLldscOvWOElNjxkatHgsr2Fu0b0fnMQn018lzxU8IY87MyWr+iUpPlEnzR0vyqefZMpXrY/It20pcoWkpscMzesvyyt4NmTJOhiwVvouV4QOy8HgIWn67F2per9GNjW8JjnFz8qTz2RJZnq6ZJDU9JihQYsndEQOwlgG/+9C5C/Tlfrnap3w3wAAAABJRU5ErkJggg==]]></thumb>
+            </widget>
+          </widgets>
+          <nodes>
+            <node id="2" text="Create a map" x="327" y="264" width="108" height="25" folded="True" text_b="2, 2, 104, 21" fold_btn_b="313, 270, 13, 13">
+              <nodes>
+                <node id="3" text="Choose a layout" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="4" text="(Sidebar, Objects) NewDocument" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="5" text="(Property, Layout) Layout Type" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="6" text="Add a topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="7" text="Enter" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="8" text="Add a sub topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="9" text="Click the Parent Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="10" text="Tab" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="11" text="Edit the topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="12" text="Click the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="13" text="Space" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+              </nodes>
+              <lines />
+            </node>
+            <node id="14" text="Customize the topics" x="270" y="345" width="165" height="25" folded="True" text_b="2, 2, 161, 21" fold_btn_b="256, 351, 13, 13">
+              <nodes>
+                <node id="15" text="Change the color" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <style>
+                    <back_color>YellowGreen</back_color>
+                  </style>
+                  <nodes>
+                    <node id="16" text="Click the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="17" text="(Sidebar, Property) Color" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="18" text="Change the font" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <style>
+                    <font font_family="Microsoft Sans Serif" size="18" style="Bold, Italic, Underline" />
+                  </style>
+                  <nodes>
+                    <node id="19" text="Click the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="20" text="(Sidebar, Property, Appareance) Font" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="21" text="Add an icon" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <widgets>
+                    <widget type="PICTURE" x="0" y="0" width="0" height="0" align="Left" hyperlink="" display_index="0" padding="0" image_url="" size_type="Thumb" original_size="16, 16" embed_in="False">
+                      <thumb><![CDATA[iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAF2SURBVDhPrZKxSsNQFIZ/ujkUN0dXIaOTz6BPoRAfQBCpgkLQQRQRdKigk13SgnYRKihFBQctaUGxWgkKFiIt1KGCDsLx/skxoAZB6IGfHs75vpsbUvS8Gi4sPw/Hd+GZXwkT9Q53iiXXvQv7bq8/aHvj8tZ2RcQPw54z7sgo/r1ucrAfDobktZkV+aglhjsyZFWL6noXVj2XDrqPKyLv5T9Dhiwd1YHqNpzm6ZhItxBmaxJxnzQjS0d14DILr9uYEulshqnkR+M+aUaWjurA+YY5/XnuX6GjOnCyZg54mgivyc/GPincha9iejqqA0fL8F4uRmIgPwM5W9f/gAl7zr4eQJaO6kBpCU7dHRC5HY7Aivn8P4oz7siQpaM6UFyAVVpMBa1jc8jVYHyI34kSy2ZHhiwd1aMqzsMur6akddgnUk3/egXOuCNDVrXvVcjA3p9FUNuBtEtGqkRhzxl3ZBRPLjcDy1zXcafh8dqM9g53ivWqgE9dpt8UaAbpmgAAAABJRU5ErkJggg==]]></thumb>
+                    </widget>
+                  </widgets>
+                  <nodes>
+                    <node id="22" text="Right Click on the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="23" text="Add/Icon" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="24" text="Add a note" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <widgets>
+                    <widget type="NOTES" x="0" y="0" width="0" height="0" align="Right" hyperlink="" display_index="0" padding="0">
+                      <text>this is a test</text>
+                    </widget>
+                  </widgets>
+                  <nodes>
+                    <node id="25" text="Right Click on the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="26" text="Add/Notes" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="27" text="Add a progress bar" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <widgets>
+                    <widget type="PROGRESSBAR" x="0" y="0" width="0" height="0" align="Bottom" hyperlink="" display_index="0" padding="0" max="100" min="0" value="50" show_text="False" auto_calculation="False" color="Green" back_color="White" fore_color="Black" />
+                  </widgets>
+                  <nodes>
+                    <node id="28" text="Right Click on the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="29" text="Add/Progresss Bar" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="30" text="Add a hyperlink" x="583" y="398" width="0" height="0" hyperlink="http://www.blumind.org/fr/" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="31" text="Click the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="32" text="(Sidebar, Property) Data\Hyperlink" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="33" text="Add link between two topics" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="34" text="Click the First Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <links>
+                        <link x="0" y="0" width="3" height="0" target="dc8d4604-1955-4e41-8b6c-4083aa67613f" cp1_length="105" cp1_angle="151" cp2_length="71" cp2_angle="0" line_style="Dot" start_cap="None" end_cap="Arrow" text="" hyperlink="" />
+                      </links>
+                      <nodes>
+                        <node id="35" text="Add Link" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                          <nodes>
+                            <node id="dc8d4604-1955-4e41-8b6c-4083aa67613f" text="Click the Second Topic" x="583" y="398" width="0" height="0" folded="True" />
+                          </nodes>
+                          <lines />
+                        </node>
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="36" text="Delete object (e.g. Icon, Note ...)" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="37" text="Select Object" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="38" text="Press &quot;Delete&quot; Key" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                    <node id="39" text="Right click on object" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="40" text="Delete" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="41" text="Change layout" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="42" text="Click blank area in chart to select chart" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="43" text="(Property, Layout) Layout Type" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+              </nodes>
+              <lines />
+            </node>
+            <node id="44" text="Organize your map" x="283" y="426" width="152" height="25" folded="True" text_b="2, 2, 148, 21" fold_btn_b="269, 432, 13, 13">
+              <nodes>
+                <node id="45" text="Move a topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="46" text="Select Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="47" text="Ctrl+Up/Down" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                    <node id="48" text="Right Click on the Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="49" text="Move Up" x="583" y="398" width="0" height="0" folded="True" />
+                        <node id="50" text="Move Down" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                    <node id="51" text="Right click on the Parent Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="52" text="Custom Sort" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="53" text="Delete a topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="54" text="Right Click ont the topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="55" text="Delete" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+              </nodes>
+              <lines />
+            </node>
+            <node id="56" text="View your map" x="315" y="507" width="120" height="25" folded="True" text_b="2, 2, 116, 21" fold_btn_b="301, 513, 13, 13">
+              <nodes>
+                <node id="57" text="Hide/show subtopics" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="58" text="- (Collapse)" x="583" y="398" width="0" height="0" folded="True" />
+                    <node id="59" text="+ (Expand)" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="60" text="Change the view" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="61" text="Full Screen (F11)" x="583" y="398" width="0" height="0" folded="True" />
+                    <node id="62" text="Scroll Mode" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+              </nodes>
+              <lines />
+            </node>
+            <node id="63" text="Save your map" x="732" y="296" width="121" height="25" folded="True" text_b="4, 2, 115, 21" fold_btn_b="854, 302, 13, 13">
+              <widgets>
+                <widget type="PICTURE" x="3" y="12" width="0" height="0" align="Left" hyperlink="" display_index="0" padding="0" image_url="" size_type="Thumb" original_size="0, 0" embed_in="False" />
+              </widgets>
+              <nodes>
+                <node id="64" text="Menu/Save" x="583" y="398" width="0" height="0" folded="True" />
+                <node id="65" text="Menu/Export" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="66" text="PNG, JPEG, BMP, GIF, TIFF" x="583" y="398" width="0" height="0" folded="True" />
+                    <node id="67" text="SVG, Freemind" x="583" y="398" width="0" height="0" folded="True" />
+                    <node id="68" text="Text" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+              </nodes>
+              <lines />
+            </node>
+            <node id="69" text="Print your map" x="732" y="386" width="120" height="25" folded="True" text_b="2, 2, 116, 21" fold_btn_b="853, 392, 13, 13">
+              <nodes>
+                <node id="70" text="Menu/Print Preview" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="71" text="Print Setup" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="72" text="Menu/Print" x="583" y="398" width="0" height="0" folded="True" />
+              </nodes>
+              <lines />
+            </node>
+            <node id="73" text="More..." x="732" y="476" width="60" height="25" folded="True" text_b="2, 2, 56, 21" fold_btn_b="793, 482, 13, 13">
+              <nodes>
+                <node id="74" text="Save time" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="75" text="Help/Accelerator Keys Table" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="76" text="Set a theme" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="77" text="Themes/Themes Manage/Preview/Apply Theme" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="78" text="Dowload icons from the Internet" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <widgets>
+                    <widget type="PICTURE" x="0" y="0" width="0" height="0" align="Left" hyperlink="" display_index="0" padding="0" image_url="" size_type="Thumb" original_size="0, 0" embed_in="False" />
+                  </widgets>
+                  <nodes>
+                    <node id="79" text="Add/Icon/From Internet" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="80" text="Create your themes" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="81" text="Themes" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="82" text="Themes Manage/New" x="583" y="398" width="0" height="0" folded="True" />
+                        <node id="83" text="Save Current Theme" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="84" text="Clear/Reset Property" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="85" text="(Property)Right click property" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                      <nodes>
+                        <node id="86" text="&quot;Reset&quot;" x="583" y="398" width="0" height="0" folded="True" />
+                      </nodes>
+                      <lines />
+                    </node>
+                  </nodes>
+                  <lines />
+                </node>
+                <node id="87" text="Multi-Line text in Topic" x="583" y="398" width="0" height="0" folded="True" fold_btn_b="583, 398, 0, 0">
+                  <nodes>
+                    <node id="88" text="Press &quot;Ctrl+Enter&quot; to start a new line" x="583" y="398" width="0" height="0" folded="True" />
+                  </nodes>
+                  <lines />
+                </node>
+              </nodes>
+              <lines />
+            </node>
+          </nodes>
+          <lines>
+            <line target="2" begin_side="Left" end_side="Right" begin_rect="515, 366, 137, 64" end_rect="323, 260, 116, 33" />
+            <line target="14" begin_side="Left" end_side="Right" begin_rect="515, 366, 137, 64" end_rect="266, 341, 173, 33" />
+            <line target="44" begin_side="Left" end_side="Right" begin_rect="515, 366, 137, 64" end_rect="279, 422, 160, 33" />
+            <line target="56" begin_side="Left" end_side="Right" begin_rect="515, 366, 137, 64" end_rect="311, 503, 128, 33" />
+            <line target="63" begin_side="Right" end_side="Left" begin_rect="515, 366, 137, 64" end_rect="728, 292, 129, 33" />
+            <line target="69" begin_side="Right" end_side="Left" begin_rect="515, 366, 137, 64" end_rect="728, 382, 128, 33" />
+            <line target="73" begin_side="Right" end_side="Left" begin_rect="515, 366, 137, 64" end_rect="728, 472, 68, 33" />
+          </lines>
+        </node>
+      </nodes>
+    </chart>
+  </charts>
+</document>
